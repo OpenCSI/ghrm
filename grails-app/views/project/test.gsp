@@ -22,7 +22,7 @@
                   id:projectId,
                   year: monthInfos['previousYear'],
                   month: monthInfos['previousMonth']
-                 ]">&lt;- ${default.paginate.prev}</g:link>
+                 ]">&lt;- Previous</g:link>
         </span>
         <span class="nextMonth">
           <g:link action="test" params="[
