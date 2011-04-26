@@ -14,20 +14,6 @@ class ProjectController {
         redirect(action: "report", params:["id":"1"])
     }
 
-    def report = {
-        def project = Project.get(params.id)
-        def tasks = UserTask.findAllByProject(project)
-
-        if (!project) {
-            flash.message = "${message(code: 'default.not.found.message', args: [message(code: 'Project.label', default: 'Project'), params.id])}"
-            redirect(action: "list")
-        }
-        else {
-            flash.message = "Test"
-            [project: project, tasks: tasks]
-        }
-    }
-
     def create = { }
     
     def list = {
@@ -42,8 +28,7 @@ class ProjectController {
     }
     def save = { }
 
-    def test = {
-        // Current time
+    def report = {
         def id = params.id
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
@@ -61,7 +46,8 @@ class ProjectController {
                 calendarData[reportDay] = []
             }
             def color = calendarData[reportDay].size % 4
-            calendarData[reportDay].push('<div class="color' + color + '">' + report.task.user.initials + ': ' + report.hours +  '</div>' )
+            calendarData[reportDay].push('<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >'
+                + report.task.user.initials + ': ' + report.hours +  '</div>' )
         }
         
         [projectId: id, monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth), calendarData: calendarData]

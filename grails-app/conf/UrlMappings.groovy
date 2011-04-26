@@ -7,8 +7,7 @@ class UrlMappings {
 				// apply constraints here
 			}
 		}
-                "/project/test/$id/$year?/$month?"( controller: 'project', action: 'test' )
-                "/titi"(view:"/index")
+                "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
 		"/"(view:"/index")
 		"500"(view:'/error')
 	}

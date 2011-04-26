@@ -18,6 +18,9 @@ class BootStrap {
 
         new Project(name:"Test",
             customer: Customer.findByName("Compagnie"),
+            code: "COM001",
+            description: "Assistance technique",
+            label: "AT00",
             updateat: new Date(),
             createat: new Date()
         ).save(failOnError:true)

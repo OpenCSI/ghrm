@@ -6,6 +6,9 @@ class Project {
     Date createat
     Date updateat
     Customer customer
+    String description
+    String code
+    String label
     
     static constraints = {
         name(blank:false)

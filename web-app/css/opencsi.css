@@ -4,7 +4,7 @@ html * {
 }
 div#header {
     background-color: #F1F1F1;
-    /* border-bottom: black solid 1px; */
+    border-bottom: black solid 1px;
 }
 
 img#logoImage {
@@ -12,13 +12,23 @@ img#logoImage {
 }
 
 div#firstPanel {
-    width: 400px;
+    float: left;
+    width: 200px;
+    margin: 10px 0 0 10px;
 }
 div#secondPanel {
     float: left;
     max-width: 800px;
+    margin: 10px 0 0 0;
 }
 
+div#menu li a {
+    font-size: 12px;
+}
+
+div#menu li li a {
+    font-size: 10px;
+}
 /* GENERAL */
 
 .spinner {
@@ -258,16 +268,12 @@ th.desc a {
     height: 80px;
     width: 110px;
     padding: 0;
-    margin: 0;
-    border-spacing: 0;
 }
 
 .calendar .numberOfDay {
     text-align: center;
     background-color: #F4F4F4;
     border: 1px solid #E0E0E0;
-    border-spacing: 0;
-
 }
 
 .calendar .color0 {
@@ -287,3 +293,4 @@ th.desc a {
 .nextMonth {
     float: right;
 }
+
