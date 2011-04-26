@@ -1,4 +1,5 @@
 import com.opencsi.ghrm.domain.*
+import org.apache.shiro.crypto.hash.*
 
 class BootStrap {
 
@@ -52,6 +53,10 @@ class BootStrap {
             updateat: new Date(),
             createat: new Date()
         ).save(failOnError:true)
+
+        def admin = new ShiroUser(username: 'bbonfils', passwordHash: new Sha256Hash("secret").toHex())
+        admin.addToPermissions("*:*")
+        admin.save(failOnError:true)
     }
     
     def destroy = {
