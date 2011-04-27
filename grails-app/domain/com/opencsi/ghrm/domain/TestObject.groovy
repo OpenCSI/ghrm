@@ -7,6 +7,7 @@ class TestObject {
     Date updateat
 
     static constraints = {
+        name(blank:false)
     }
 
     def beforeInsert = {

@@ -10,6 +10,7 @@ class TestObjectController {
     }
 
     def list = {
+        flash.message = "toto"
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [testObjectInstanceList: TestObject.list(params), testObjectInstanceTotal: TestObject.count()]
     }

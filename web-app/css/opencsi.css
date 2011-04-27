@@ -131,6 +131,7 @@ table {
     border: 1px solid #ccc;
     width: 100%
 }
+
 tr {
     border: 0;
 }
@@ -148,6 +149,7 @@ th {
     font-weight: bold;
     line-height: 17px;
     padding: 2px 6px;
+    margin: 0;
 }
 th a:link, th a:visited, th a:hover {
     color: #333;
@@ -265,7 +267,7 @@ th.desc a {
 }
 
 .calendar td {
-    height: 80px;
+    height: 30px;
     width: 110px;
     padding: 0;
 }

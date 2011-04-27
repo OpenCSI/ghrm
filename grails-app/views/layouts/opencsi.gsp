@@ -15,11 +15,15 @@
     <div id="header">
       <img id="logoImage" src="${resource(dir:'images', file:'logo.png')}" alt="logo" />
     </div>
-    <div id="firstPanel">
-      <div id="menu">
-        <ul>
+  <g:if test="${flash.message}">
+    <div class="message">${flash.message}</div>
+  </g:if>
+
+  <div id="firstPanel">
+    <div id="menu">
+      <ul>
         <li class="current">
-          <a href="#a">Home</a>
+          <a href="${createLink(url:'/')}">Home</a>
         </li>
         <li>
           <a href="#">Projects</a>
@@ -31,15 +35,15 @@
         <li>
           <a href="#">Customers</a>
           <ul>
-            <li><a href="#">New</a></li>
+            <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
             <li><a href="#">Search</a></li>
           </ul>
         </li>
       </ul>
-      </div>
     </div>
-    <div id="secondPanel">
-      <g:layoutBody />
-    </div>
-  </body>
+  </div>
+  <div id="secondPanel">
+    <g:layoutBody />
+  </div>
+</body>
 </html>

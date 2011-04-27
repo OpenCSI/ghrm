@@ -46,8 +46,10 @@ class ProjectController {
                 calendarData[reportDay] = []
             }
             def color = calendarData[reportDay].size % 4
-            calendarData[reportDay].push('<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >'
-                + report.task.user.initials + ': ' + report.hours +  '</div>' )
+            calendarData[reportDay].push(
+                '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' +
+                '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours
+                + '</span></div>' )
         }
         
         [projectId: id, monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth), calendarData: calendarData]
