@@ -8,6 +8,7 @@ class UrlMappings {
 			}
 		}
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
+                "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
 		"/"(view:"/index")
 		"500"(view:'/error')
 	}

@@ -1,3 +1,5 @@
+import com.opencsi.ghrm.domain.User
+
 class ShiroUser {
     String username
     String passwordHash
@@ -7,4 +9,6 @@ class ShiroUser {
     static constraints = {
         username(nullable: false, blank: false)
     }
+
+
 }

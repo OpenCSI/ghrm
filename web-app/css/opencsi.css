@@ -22,12 +22,16 @@ div#secondPanel {
     margin: 10px 0 0 0;
 }
 
-div#menu li a {
+div#header li a {
     font-size: 12px;
 }
 
-div#menu li li a {
+div#header li li a {
     font-size: 10px;
+}
+
+div#extrainfo {
+    margin: 10px 0 0 0;
 }
 /* GENERAL */
 
@@ -288,11 +292,11 @@ th.desc a {
     background-color: green;
 }
 
-.previousMonth {
+.previousDate {
     float: left;
 }
 
-.nextMonth {
+.nextDate {
     float: right;
 }
 

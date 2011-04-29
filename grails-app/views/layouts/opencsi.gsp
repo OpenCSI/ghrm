@@ -15,35 +15,45 @@
     <div id="header">
       <img id="logoImage" src="${resource(dir:'images', file:'logo.png')}" alt="logo" />
     </div>
-  <g:if test="${flash.message}">
-    <div class="message">${flash.message}</div>
-  </g:if>
 
-  <div id="firstPanel">
-    <div id="menu">
-      <ul>
-        <li class="current">
-          <a href="${createLink(url:'/')}">Home</a>
-        </li>
-        <li>
-          <a href="#">Projects</a>
-          <ul>
-            <li><a href="#">New</a></li>
-            <li><a href="#">Search</a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Customers</a>
-          <ul>
-            <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
-            <li><a href="#">Search</a></li>
-          </ul>
-        </li>
-      </ul>
+    <div id="firstPanel">
+      <div id="menu">
+        <ul>
+          <li class="current">
+            <a href="${createLink(url:'/')}">Home</a>
+          </li>
+          <li>
+            <a href="#">Reports</a>
+            <ul>
+              <li><a href="${createLink(controller: 'report', action: 'week')}">Current week</a></li>
+              <li><a href="${createLink(controller: 'report', action: 'create')}">Create report</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Projects</a>
+            <ul>
+              <li><a href="#">New</a></li>
+              <li><a href="#">Search</a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Customers</a>
+            <ul>
+              <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
+              <li><a href="#">Search</a></li>
+            </ul>
+          </li>
+        </ul>
+      </div>
+      <div id="extrainfo">
+        <g:render template="/common/extraInfo" />
+      </div>
     </div>
-  </div>
-  <div id="secondPanel">
-    <g:layoutBody />
-  </div>
-</body>
+    <div id="secondPanel">
+      <g:if test="${flash.message}">
+        <div class="message">${flash.message}</div>
+      </g:if>
+      <g:layoutBody />
+    </div>
+  </body>
 </html>

@@ -9,9 +9,15 @@ class Project {
     String description
     String code
     String label
+    Integer status = PROJECT_STATUS_OPEN
+
+    static final Integer PROJECT_STATUS_OPEN = 0
+    static final Integer PROJECT_STATUS_CLOSE = 64
     
     static constraints = {
         name(blank:false)
+        updateat(blank: true)
+        createat(blank: true)
     }
 
     def beforeInsert = {
@@ -21,4 +27,5 @@ class Project {
     def beforeUpdate = {
         updateat = new Date()
     }
+
 }

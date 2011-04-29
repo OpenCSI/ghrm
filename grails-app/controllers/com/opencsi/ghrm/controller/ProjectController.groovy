@@ -34,10 +34,11 @@ class ProjectController {
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
 
         /* Fetch all reports related to the selected project */
-        def reports = reportService.findAllReportsByProject(Project.get(id), selectedYear, selectedMonth)
+        def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
 
         /* Create data to display */
         def calendarData = [:]
+
         reports.each { report ->
             def reportDay = report.date.format('dd').toInteger() - 1
             
@@ -51,7 +52,13 @@ class ProjectController {
                 '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours
                 + '</span></div>' )
         }
+
+        def projectInfo = "<ul><li><A href=''></a></li></ul>"
         
-        [projectId: id, monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth), calendarData: calendarData]
+        [projectId: id, 
+            monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
+            calendarData: calendarData,
+            extraInfo: projectInfo
+        ]
     }
 }
