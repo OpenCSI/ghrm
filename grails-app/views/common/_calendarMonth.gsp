@@ -5,14 +5,14 @@
               id:projectId,
               year: monthInfos['previousYear'],
               month: monthInfos['previousMonth']
-              ]">&lt;- Previous</g:link>
+              ]">&lt;- <g:message code="default.paginate.prev" /></g:link>
     </span>
     <span class="nextDate">
       <g:link action="report" params="[
               id:projectId,
               year: monthInfos['nextYear'],
               month: monthInfos['nextMonth']
-              ]">Next -&gt;</g:link>
+              ]"><g:message code="default.paginate.next" /> -&gt;</g:link>
     </span>
   </div>
   <table class="calendarTable">

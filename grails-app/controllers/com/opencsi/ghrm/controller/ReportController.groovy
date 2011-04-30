@@ -9,6 +9,18 @@ class ReportController {
     UserService userService
     ReportService reportService
 
+    def create = {
+        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+        def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
+        def calendarData = [:]
+        def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
+
+
+        [weekInfos: weekInfos]
+       
+    }
+
     def week = {
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()

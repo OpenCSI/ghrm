@@ -8,14 +8,14 @@
               year: weekInfos[0]['year'],
               month: weekInfos[0]['month'],
               day: weekInfos[0]['day']
-              ]">&lt;- Previous</g:link>
+              ]">&lt;- <g:message code="default.paginate.prev" /></g:link>
     </span>
     <span class="nextDate">
       <g:link controller="report"  action="week" params="[
               year: weekInfos[8]['year'],
               month: weekInfos[8]['month'],
               day: weekInfos[8]['day']
-              ]">Next -&gt;</g:link>
+              ]"> <g:message code="default.paginate.next" /> -&gt;</g:link>
     </span>
 
   </div>
@@ -24,19 +24,10 @@
       <tr>
     <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
     <g:each in="${1..7}" var="i">
-      <th>${nameOfDays[i]}</th>
+      <th>${nameOfDays[i]} ${weekInfos[i]['day']} ${weekInfos[i]['month']}</th>
     </g:each>
     </tr>
     </thead>
-          <tr>
-    <g:each var="currentDay" in="${1..7}">
-      <td>
-${weekInfos[currentDay]['year']} - ${weekInfos[currentDay]['month']} - ${weekInfos[currentDay]['day']}
-      </td>
-    </g:each>
-    </tr>
-
-
     <tbody>
       <tr>
     <g:each var="dayOfWeek" in="${1..7}">
