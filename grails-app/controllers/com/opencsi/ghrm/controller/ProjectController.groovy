@@ -1,6 +1,6 @@
 package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Project
-import com.opencsi.ghrm.domain.UserTask
+import com.opencsi.ghrm.domain.TaskInstance
 import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.services.*
 import org.joda.time.DateTime

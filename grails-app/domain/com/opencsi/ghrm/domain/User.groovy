@@ -1,4 +1,5 @@
 package com.opencsi.ghrm.domain
+import com.opencsi.ghrm.domain.Project
 
 class User {
 
@@ -6,15 +7,15 @@ class User {
     String firstname
     String lastname
     String email
-    String password
     String name
     String initials
 
     String toString() { "$uid"}
 
+    static hasMany = [ projectsManaged: Project]
+
     static constraints = {
         email(email:true)
-        password(blank:false, password:true)
     }
 
     public String getName() {

@@ -313,3 +313,7 @@ table.reportTable tbody tr td input {
     width: 40px;
     text-align: center;
 }
+
+table.calendarTable tbody tr {
+    height: 40px;
+}

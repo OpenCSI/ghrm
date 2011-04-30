@@ -18,7 +18,6 @@ class ReportController {
 
 
         [weekInfos: weekInfos]
-       
     }
 
     def week = {

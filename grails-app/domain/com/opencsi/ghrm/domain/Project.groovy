@@ -11,13 +11,18 @@ class Project {
     String label
     Integer status = PROJECT_STATUS_OPEN
 
+    static belongsTo = User
+    static hasMany = [managers: User]
     static final Integer PROJECT_STATUS_OPEN = 0
     static final Integer PROJECT_STATUS_CLOSE = 64
     
     static constraints = {
         name(blank:false)
-        updateat(blank: true)
-        createat(blank: true)
+        updateat(blank: true, nullable: true)
+        createat(blank: true, nullable: true)
+//        label(nullable: false)
+        code(nullable: true)
+        description(nullable: true)
     }
 
     def beforeInsert = {

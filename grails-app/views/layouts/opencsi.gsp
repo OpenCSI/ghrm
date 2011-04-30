@@ -32,7 +32,7 @@
           <li>
             <a href="#">Projects</a>
             <ul>
-              <li><a href="#">New</a></li>
+              <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
               <li><a href="#">Search</a></li>
             </ul>
           </li>
