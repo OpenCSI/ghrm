@@ -22,7 +22,7 @@ class CustomerController {
         def CustomerInstance = new Customer(params)
         if (CustomerInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'Customer.label', default: 'Customer'), CustomerInstance.id])}"
-            redirect(action: "show", id: CustomerInstance.id)
+            redirect(action: "list", id: CustomerInstance.id)
         }
         else {
             flash.message = "Error " + CustomerInstance.errors.allErrors.join(',')
@@ -32,6 +32,7 @@ class CustomerController {
     }
 
     def list = {
-        
+        params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count()]
     }
 }

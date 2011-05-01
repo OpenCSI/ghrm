@@ -9,9 +9,6 @@
     <body>
       <h2><g:message code="global.project.list" /></h2>
       <div class="body">
-        <g:if test="${flash.message}">
-          <div class="message">${flash.message}</div>
-        </g:if>
         <div class="list">
           <table>
             <thead>

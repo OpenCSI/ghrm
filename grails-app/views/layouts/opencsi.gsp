@@ -37,7 +37,7 @@
             <a href="#">Customers</a>
             <ul>
               <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
-              <li><a href="#">Search</a></li>
+              <li><a href="${createLink(action:"list", controller:"customer")}">List</a></li>
             </ul>
           </li>
           <li>Admin
