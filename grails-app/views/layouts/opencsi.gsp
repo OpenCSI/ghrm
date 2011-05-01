@@ -44,6 +44,7 @@
               <li><a href="#">Search</a></li>
             </ul>
           </li>
+          <li><a href="${createLink(action:'signOut', controller:'auth')}">Logout</a></li>
         </ul>
       </div>
       <div id="extrainfo">

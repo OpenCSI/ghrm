@@ -47,7 +47,9 @@ class ProjectController {
                 calendarData[reportDay] = []
             }
             def color = (calendarData[reportDay]['htmldata']).size() % 4
-            calendarData[reportDay].push(['htmldata':'<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours + '</span></div>'])
+            calendarData[reportDay].push(['htmldata':'<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours + '</span></div>',
+                    'tooltipdata': 'toto'
+                ])
         }
 
         def projectInfo = "<ul><li><A href=''></a></li></ul>"
