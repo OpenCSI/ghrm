@@ -7,9 +7,10 @@ class UrlMappings {
 				// apply constraints here
 			}
 		}
+                "/task/show/$id"(controller: 'task', action: 'show')
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
-		"/"(view:"/index")
+		"/"(controller: 'report', action: 'create')
 		"500"(view:'/error')
 	}
 }

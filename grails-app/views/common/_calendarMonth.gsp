@@ -29,7 +29,7 @@
     <g:each var="currentDay" in="${0..< monthInfos['numberOfDays']}">
       <td>
         <div class="numberOfDay">${currentDay + 1}</div>
-        <div class="calendarData">
+        <div class="calendarData" onmouseover="tooltip.show('toto ${currentDay}')" onmouseout="tooltip.hide()">
           <g:if test="${calendarData.containsKey(currentDay)}">
             <g:each var="entry" in="${calendarData[currentDay]}">
 <%=entry['htmldata']%>

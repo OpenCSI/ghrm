@@ -4,11 +4,6 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="${resource(dir:'css',file:'opencsi.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'superfish.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'superfish-vertical.css')}" />
-    <script type="text/javascript" src="${resource(dir:'js',file:'jquery/jquery-1.5.2.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js',file:'jquery/jquery.hoverIntent.js')}"></script>
-    <script type="text/javascript" src="${resource(dir:'js',file:'superfish.js')}"></script>
     <tooltip:resources/>
     <title>OpenCSI: Ressources humaines</title>
   </head>
@@ -34,7 +29,7 @@
             <a href="#">Projects</a>
             <ul>
               <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
-              <li><a href="#">Search</a></li>
+              <li><a href="${createLink(controller: 'project', action: 'create')}">Report</a></li>
             </ul>
           </li>
           <li>
@@ -42,6 +37,12 @@
             <ul>
               <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
               <li><a href="#">Search</a></li>
+            </ul>
+          </li>
+          <li>Admin
+            <ul>
+              <li><a href="${createLink(controller:"task", action:"create")}">Create task</a></li>
+              <li><a href="${createLink(controller:"user", action:"create")}">Create user</a></li>
             </ul>
           </li>
           <li><a href="${createLink(action:'signOut', controller:'auth')}">Logout</a></li>
