@@ -9,12 +9,12 @@ class Project {
     String description
     String code
     String label
-    Integer status = PROJECT_STATUS_OPEN
+    Integer status = STATUS_OPEN
 
     static belongsTo = User
     static hasMany = [managers: User]
-    static final Integer PROJECT_STATUS_OPEN = 0
-    static final Integer PROJECT_STATUS_CLOSE = 64
+    static final Integer STATUS_OPEN = 0
+    static final Integer STATUS_CLOSE = 1
     
     static constraints = {
         name(blank:false)

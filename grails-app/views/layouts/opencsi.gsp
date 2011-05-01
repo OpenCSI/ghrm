@@ -30,6 +30,7 @@
             <ul>
               <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
               <li><a href="${createLink(controller: 'project', action: 'create')}">Create</a></li>
+              <li><a href="${createLink(controller: 'project', action: 'list')}">List</a></li>
             </ul>
           </li>
           <li>

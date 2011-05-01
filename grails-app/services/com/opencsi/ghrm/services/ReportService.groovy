@@ -17,10 +17,17 @@ class ReportService {
         def firstDay = new DateTime(year, month, 1, 0, 0, 0, 0)
         /* By chance, I work on this project the April, 30th, which show me a bug on lastDay */
         def lastDay = (firstDay.plusMonths(1)).minusSeconds(1)
+
+        /* Prevent a SQL error if there is no tasks associated for the current project */
+        def taskInstances = TaskInstance.findAllByProject(project)
+        if (taskInstances.size == 0) {
+            return null
+        }
+
         return criteria.list {
             'between'("date", firstDay.toDate(),
                 lastDay.toDate())
-            'in'("taskInstance",TaskInstance.findAllByProject(project))
+            'in'("taskInstance", taskInstances)
             'gt'("hours", 0)
         }
     }
@@ -36,7 +43,7 @@ class ReportService {
         /* Prevent a SQL error if there is no tasks associated for the current user */
         def tasks = TaskInstance.findAllByUser(user)
         if (tasks.size == 0)
-            return null
+        return null
 
         def firstDayOfWeek = new DateTime(weekInfos[1]['year'],weekInfos[1]['month'], weekInfos[1]['day'], 0, 0, 0, 0)
         def lastDayOfWeek = new DateTime(weekInfos[7]['year'],weekInfos[7]['month'], weekInfos[7]['day'], 0, 0, 0, 0)

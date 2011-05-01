@@ -2,6 +2,7 @@ package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.TaskInstance
 import com.opencsi.ghrm.domain.TaskReport
+import com.opencsi.ghrm.domain.Customer
 import com.opencsi.ghrm.services.*
 import org.joda.time.DateTime
 
@@ -10,11 +11,23 @@ class ProjectController {
     ReportService reportService
     CalendarService calendarService
     
-    def index = {
-        redirect(action: "report", params:["id":"1"])
+    def create = {
     }
+    
+    def save = {
+        def project = new Project()
+        project.name = params.name
+        project.label = params.label
+        project.status = Project.STATUS_OPEN
+        project.description = params.description
+        project.customer = Customer.get(params.customer.toInteger())
 
-    def create = { }
+        if(project.save(onFailError: true, flush:true)) {
+            redirect(action: 'list')
+        } else {
+            render(view:'create', model: [projectInstance: project])
+        }
+    }
     
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
@@ -22,11 +35,11 @@ class ProjectController {
     }
     
     def edit = { }
+    
     def show = { 
         Project projectInstance = Project.findById(params.id)
         [projectInstance: projectInstance]
     }
-    def save = { }
 
     def report = {
         def id = params.id

@@ -22,6 +22,9 @@ div#secondPanel {
     margin: 10px 0 0 0;
 }
 
+div#secondPanel h2 {
+    margin-bottom: 10px;
+}
 div#header li a {
     font-size: 12px;
 }
