@@ -317,3 +317,7 @@ table.reportTable tbody tr td input {
 table.calendarTable tbody tr {
     height: 40px;
 }
+
+div#loginForm {
+   margin: 50px 50px 0 0;
+}

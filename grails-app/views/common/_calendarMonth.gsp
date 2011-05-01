@@ -32,7 +32,7 @@
         <div class="calendarData">
           <g:if test="${calendarData.containsKey(currentDay)}">
             <g:each var="entry" in="${calendarData[currentDay]}">
-<%=entry%>
+<%=entry['htmldata']%>
             </g:each>
           </g:if>
         </div>

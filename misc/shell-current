@@ -1,0 +1,9 @@
+calendarData = [:]
+reports.each { report ->
+    reportDay = report.date.format('dd').toInteger() - 1
+    if (!calendarData.containsKey(reportDay)) {
+        calendarData[reportDay] = [:]
+    }
+    color = 1
+    calendarData[reportDay]['htmldata'] = '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours + '</span></div>' 
+}

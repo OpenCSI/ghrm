@@ -9,6 +9,7 @@
     <script type="text/javascript" src="${resource(dir:'js',file:'jquery/jquery-1.5.2.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js',file:'jquery/jquery.hoverIntent.js')}"></script>
     <script type="text/javascript" src="${resource(dir:'js',file:'superfish.js')}"></script>
+    <tooltip:resources/>
     <title>OpenCSI: Ressources humaines</title>
   </head>
   <body>

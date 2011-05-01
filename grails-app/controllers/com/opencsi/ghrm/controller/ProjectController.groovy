@@ -46,11 +46,8 @@ class ProjectController {
             if (!calendarData.containsKey(reportDay)) {
                 calendarData[reportDay] = []
             }
-            def color = calendarData[reportDay].size % 4
-            calendarData[reportDay].push(
-                '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' +
-                '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours
-                + '</span></div>' )
+            def color = (calendarData[reportDay]['htmldata']).size() % 4
+            calendarData[reportDay].push(['htmldata':'<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours + '</span></div>'])
         }
 
         def projectInfo = "<ul><li><A href=''></a></li></ul>"
