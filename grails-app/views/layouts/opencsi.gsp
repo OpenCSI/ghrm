@@ -29,7 +29,7 @@
             <a href="#">Projects</a>
             <ul>
               <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
-              <li><a href="${createLink(controller: 'project', action: 'create')}">Report</a></li>
+              <li><a href="${createLink(controller: 'project', action: 'create')}">Create</a></li>
             </ul>
           </li>
           <li>

@@ -42,13 +42,13 @@ class BootStrap {
 
         def today = new DateTime()
 
-        new TaskReport(task: TaskInstance.get(1), date: today.toDate(), hours: 4).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(2), date: today.toDate(), hours: 4).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(1), date: today.plusDays(1).toDate(), hours: 4).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(1), date: today.minusDays(7).toDate(), hours: 4).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(3), date: today.minusMonths(1).toDate(), hours: 8).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(3), date: (today.minusMonths(1)).plusDays(1).toDate(), hours: 4).save(failOnError:true)
-        new TaskReport(task: TaskInstance.get(2), date: today.plusDays(3).toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(1), date: today.toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(2), date: today.toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(1), date: today.plusDays(1).toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(1), date: today.minusDays(7).toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(3), date: today.minusMonths(1).toDate(), hours: 8).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(3), date: (today.minusMonths(1)).plusDays(1).toDate(), hours: 4).save(failOnError:true)
+        new TaskReport(taskInstance: TaskInstance.get(2), date: today.plusDays(3).toDate(), hours: 4).save(failOnError:true)
 
         new TestObject(name: "toto",
         updateat: new Date(),

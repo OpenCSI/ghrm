@@ -21,21 +21,22 @@
     </thead>
 
     <tbody>
-    <tr>
-      <!-- Add emptys entries for previous month -->
+      <tr>
+        <!-- Add emptys entries for previous month -->
     <g:each var="currentDay" in="${0..< monthInfos['firstDayOfWeek'] - 1}">
       <td></td>
     </g:each>
     <g:each var="currentDay" in="${0..< monthInfos['numberOfDays']}">
       <td>
         <div class="numberOfDay">${currentDay + 1}</div>
-        <div class="calendarData" onmouseover="tooltip.show('toto ${currentDay}')" onmouseout="tooltip.hide()">
-          <g:if test="${calendarData.containsKey(currentDay)}">
-            <g:each var="entry" in="${calendarData[currentDay]}">
+      <g:if test="${calendarData.containsKey(currentDay)}">
+        <g:each var="entry" in="${calendarData[currentDay]}">
+          <g:set var="tooltip" value="${entry['tooltipdata']}" />
+          <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
 <%=entry['htmldata']%>
-            </g:each>
-          </g:if>
-        </div>
+          </div>
+        </g:each>
+      </g:if>
       </td>
       <g:if test="${((currentDay + monthInfos['firstDayOfWeek'])) % 7 == 0}">
       </tr><tr>

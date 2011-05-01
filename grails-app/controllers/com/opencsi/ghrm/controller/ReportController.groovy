@@ -8,16 +8,22 @@ class ReportController {
     CalendarService calendarService
     UserService userService
     ReportService reportService
+    TaskInstanceService taskInstanceService
 
     def create = {
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
         def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
-        def calendarData = [:]
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
 
+        def taskLists = taskInstanceService.findAllOpenByUser(User.findByUid(userService.getAuthenticatedUserName()))
+        def taskSelectOptions = []
 
-        [weekInfos: weekInfos]
+        taskLists.each { taskInstance ->
+            taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
+        }
+
+        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos]
     }
 
     def week = {
@@ -42,12 +48,27 @@ class ReportController {
             }
             
             def color = calendarData[dayOfWeek].size % 4
-            calendarData[dayOfWeek].push(
-                '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' +
-                '<span class="entry" style="width:100%">' + report.task.user.initials + ': ' + report.hours
-                + '</span></div>' )
+            calendarData[dayOfWeek].push([
+                'htmldata': '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.hours + '</span></div>',
+                'tooltipdata': 'Project: ' + report.taskInstance.project.name + '<br/>Task: ' + report.taskInstance.task.name
+                ])
 
         }
         [calendarData: calendarData, weekInfos: weekInfos]
+    }
+
+    def save = {
+        def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
+        params.days.each { day, value ->
+            if(value.toInteger() > 0) {
+                new TaskReport(
+                    taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
+                    date: firstDay.plusDays(day.toInteger()).toDate(),
+                    hours: value.toInteger()
+                ).save(failOnError: true)
+            }
+        }
+
+        redirect(controller:'report', action:'week')
     }
 }

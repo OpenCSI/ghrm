@@ -22,6 +22,7 @@ class TestObjectController {
     }
 
     def save = {
+
         def testObjectInstance = new TestObject(params)
         if (testObjectInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'testObject.label', default: 'TestObject'), testObjectInstance.id])}"

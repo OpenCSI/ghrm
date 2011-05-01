@@ -22,7 +22,6 @@
   <table class="reportTable">
     <thead>
       <tr>
-        <th style="background-color: white;"/>
     <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
     <g:each in="${1..7}" var="i">
       <th>${nameOfDays[i]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/></th>
@@ -36,7 +35,10 @@
       <td>
       <g:if test="${calendarData.containsKey(dayOfWeek)}">
         <g:each var="entry" in="${calendarData[dayOfWeek]}">
-${entry}
+          <g:set var="tooltip" value="${entry['tooltipdata']}" />
+          <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
+${entry['htmldata']}
+          </div>
         </g:each>
       </g:if>        
       </td>

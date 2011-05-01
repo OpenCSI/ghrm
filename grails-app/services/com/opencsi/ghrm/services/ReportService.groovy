@@ -20,7 +20,8 @@ class ReportService {
         return criteria.list {
             'between'("date", firstDay.toDate(),
                 lastDay.toDate())
-            'in'("task",TaskInstance.findAllByProject(project))
+            'in'("taskInstance",TaskInstance.findAllByProject(project))
+            'gt'("hours", 0)
         }
     }
 
@@ -41,7 +42,7 @@ class ReportService {
         def lastDayOfWeek = new DateTime(weekInfos[7]['year'],weekInfos[7]['month'], weekInfos[7]['day'], 0, 0, 0, 0)
         return criteria.list {
             'between'("date", firstDayOfWeek.toDate(), lastDayOfWeek.toDate())
-            'in'("task", TaskInstance.findAllByUser(user))
+            'in'("taskInstance", TaskInstance.findAllByUser(user))
         }
     }
 }
