@@ -14,11 +14,9 @@ class CustomerController {
     }
     
     def create = {
-        flash.message = "Customer.create"
     }
 
     def save = {
-        flash.message = "Customer.save"
         def CustomerInstance = new Customer(params)
         if (CustomerInstance.save(flush: true)) {
             flash.message = "${message(code: 'default.created.message', args: [message(code: 'Customer.label', default: 'Customer'), CustomerInstance.id])}"

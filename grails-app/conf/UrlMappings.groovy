@@ -9,6 +9,7 @@ class UrlMappings {
 		}
                 "/task/show/$id"(controller: 'task', action: 'show')
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
+                "/project/show/$id"(controller: 'project', action: 'show')
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
 		"/"(controller: 'report', action: 'create')
 		"500"(view:'/error')

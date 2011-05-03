@@ -10,7 +10,8 @@ class ProjectController {
 
     ReportService reportService
     CalendarService calendarService
-    
+    TaskService taskService
+
     def create = {
     }
     
@@ -28,19 +29,19 @@ class ProjectController {
             render(view:'create', model: [projectInstance: project])
         }
     }
+
+    def show = {
+        def project = Project.get(params.id)
+        def tasks = TaskInstance.findAllByProject(project)
+
+        [project: project, projectTasks: tasks]
+    }
     
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count()]
     }
-    
-    def edit = { }
-    
-    def show = { 
-        Project projectInstance = Project.findById(params.id)
-        [projectInstance: projectInstance]
-    }
-
+        
     def report = {
         def id = params.id
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()

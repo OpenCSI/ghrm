@@ -21,23 +21,23 @@
           <li>
             <a href="#">Reports</a>
             <ul>
-              <li><a href="${createLink(controller: 'report', action: 'week')}">Current week</a></li>
-              <li><a href="${createLink(controller: 'report', action: 'create')}">Create report</a></li>
+              <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
+              <li><a href="${createLink(controller: 'report', action: 'create')}"><g:message code="global.report.new"/></a></li>
             </ul>
           </li>
           <li>
             <a href="#">Projects</a>
             <ul>
               <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
-              <li><a href="${createLink(controller: 'project', action: 'create')}">Create</a></li>
-              <li><a href="${createLink(controller: 'project', action: 'list')}">List</a></li>
+              <li><a href="${createLink(controller: 'project', action: 'create')}"><g:message code="global.new" /></a></li>
+              <li><a href="${createLink(controller: 'project', action: 'list')}"><g:message code="global.list" /></a></li>
             </ul>
           </li>
           <li>
             <a href="#">Customers</a>
             <ul>
-              <li><a href="${createLink(action:"create", controller:"customer")}">New</a></li>
-              <li><a href="${createLink(action:"list", controller:"customer")}">List</a></li>
+              <li><a href="${createLink(action:"create", controller:"customer")}"><g:message code="global.new"/></a></li>
+              <li><a href="${createLink(action:"list", controller:"customer")}"><g:message code="global.list"/></a></li>
             </ul>
           </li>
           <li>Admin
