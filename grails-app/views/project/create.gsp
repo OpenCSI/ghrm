@@ -35,6 +35,11 @@
       <g:textField name="label" value="${projectInstance?.label}"/></td>
       </tr>
       <tr>
+        <th><g:message code="global.code"/></th>
+      <td class="value ${hasErrors(bean: projectInstance, field: 'code', 'errors')}">
+      <g:textField name="code" value="${projectInstance?.code}"/></td>
+      </tr>
+      <tr>
         <th><g:message code="global.description"/></th>
       <td class="value ${hasErrors(bean: projectInstance, field: 'description', 'errors')}">
       <g:textField name="description" value="${projectInstance?.description}" /></td>

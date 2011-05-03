@@ -18,10 +18,10 @@ class Project {
     
     static constraints = {
         name(blank:false)
-        label(nullable:false, blank: false)
+        label(nullable:false, blank: false, unique: true)
         updateat(blank: true, nullable: true)
         createat(blank: true, nullable: true)
-        code(nullable: true)
+        code(nullable: true, blank: true)
         description(nullable: true)
     }
 
