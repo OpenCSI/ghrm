@@ -9,8 +9,9 @@ class Task {
     Date updateat
 
     static constraints = {
+        name(nullable: false, blank: false)
+        label(unique: true, blank: false)
         description(nullable: true)
-        label(nullable: true)
         updateat(nullable: true)
         createat(nullable: true)
     }

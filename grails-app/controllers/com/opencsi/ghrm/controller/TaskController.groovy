@@ -11,9 +11,22 @@ class TaskController {
         
     }
 
+    def save = {
+        def task = new Task()
+        task.name = params.name
+        task.label = params.label
+        task.description = params.description
+
+        if(task.save(onFailError: true, flush:true)) {
+            redirect(action: 'list')
+        } else {
+            render(view:'create', model: [taskInstance: task])
+        }
+    }
+
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
-        [TaskInstanceList: Task.list(params), TaskInstanceTotal: Task.count()]
+        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
     }
 
 }

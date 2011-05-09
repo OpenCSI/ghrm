@@ -43,6 +43,7 @@
           <li>Admin
             <ul>
               <li><a href="${createLink(controller:"task", action:"create")}">Create task</a></li>
+              <li><a href="${createLink(controller:"task", action:"list")}">List task</a></li>
               <li><a href="${createLink(controller:"user", action:"create")}">Create user</a></li>
             </ul>
           </li>

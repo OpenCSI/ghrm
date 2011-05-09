@@ -1,5 +1,7 @@
 
 <%@ page import="com.opencsi.ghrm.domain.*" %>
+<%@ page import="com.opencsi.ghrm.services.*" %>
+
 
 <html>
   <head>
@@ -8,8 +10,8 @@
 
   <body>
     <h2><g:message code="global.project.information"/></h2>
-    <g:render template="/common/projectInfo" />
-    <br/>
-    <g:render template="/common/projectTasks" />
-  </body>
+  <g:render template="/common/projectInfo" />
+  <br/>
+  <g:render template="/common/projectTasks" model="['editMode': true]"/>
+</body>
 </html>

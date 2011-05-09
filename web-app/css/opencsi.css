@@ -324,8 +324,3 @@ table.calendarTable tbody tr {
 div#loginForm {
    margin: 50px 50px 0 0;
 }
-
-
-div.list table tbody tr.odd td.action {
-    text-align: justify;
-}

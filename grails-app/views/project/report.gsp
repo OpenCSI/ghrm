@@ -1,6 +1,4 @@
 
-<%@ page import="com.opencsi.ghrm.domain.*" %>
-
 <html>
   <head>
     <meta name="layout" content="opencsi" />
