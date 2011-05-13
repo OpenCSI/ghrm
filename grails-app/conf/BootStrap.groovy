@@ -5,25 +5,41 @@ import org.joda.time.DateTime
 class BootStrap {
 
     def init = { servletContext ->
-        new User(uid:"admin", firstname:"Bruno", lastname:"Bonfils", email:"admin@opencsi.com").save(failOnError:true)
+        def admin = new ShiroRole(name: 'admin')
+        admin.addToPermissions("*:*")
+        admin.save(failOnError: true)
+
+        def projectLeader = new ShiroRole(name: 'projectleader')
+        projectLeader.addToPermissions("customer:*")
+        projectLeader.addToPermissions("project:*")
+        projectLeader.addToPermissions("task:*")
+        projectLeader.save(failOnError:true)
+
+        def employee = new ShiroRole(name: 'employee')
+        employee.addToPermissions("report:*")
+        employee.save(failOnError:true)
+
+
+        new User(uid:"bruno", firstname:"Bruno", lastname:"Bonfils", email:"admin@opencsi.com").save(failOnError:true)
         new User(uid:"manager", firstname:"John", lastname:"Doe", email:"doe@opencsi.com").save(failOnError:true)
         new User(uid:"brian", firstname: "Brian", lastname:"Jones", email:"brian@opencsi.com").save(failOnError:true)
         new User(uid:"james", firstname: "James", lastname:"Smith", email:"james@opencsi.com").save(failOnError:true)
 
-        def admin = new ShiroUser(username: 'admin', passwordHash: new Sha256Hash("secret").toHex())
-        admin.addToPermissions("*:*")
-        admin.save(failOnError:true)
+        def bruno = new ShiroUser(username: 'admin', passwordHash: new Sha256Hash("secret").toHex())
+        bruno.addToRoles(ShiroRole.findByName('admin'))
+        bruno.save(failOnError:true)
+
 
         def manager = new ShiroUser(username: 'manager', passwordHash: new Sha256Hash("secret").toHex())
-        manager.addToPermissions("*:*")
+        bruno.addToRoles(ShiroRole.findByName('projectleader'))
         manager.save(failOnError:true)
 
         def brian = new ShiroUser(username: 'brian', passwordHash: new Sha256Hash("secret").toHex())
-        brian.addToPermissions("*:*")
+        brian.addToRoles(ShiroRole.findByName('employee'))
         brian.save(failOnError:true)
 
         def james = new ShiroUser(username: 'james', passwordHash: new Sha256Hash("secret").toHex())
-        james.addToPermissions("*:*")
+        james.addToRoles(ShiroRole.findByName('employee'))
         james.save(failOnError:true)
 
 
