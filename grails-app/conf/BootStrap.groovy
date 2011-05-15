@@ -1,4 +1,6 @@
 import com.opencsi.ghrm.domain.*
+import com.opencsi.security.ShiroUser
+import com.opencsi.security.ShiroRole
 import org.apache.shiro.crypto.hash.*
 import org.joda.time.DateTime
 

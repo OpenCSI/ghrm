@@ -1,7 +1,7 @@
 package com.opencsi.ghrm.services
 import org.apache.shiro.SecurityUtils
 import com.opencsi.ghrm.domain.User
-import ShiroUser
+import com.opencsi.security.*
 
 class UserService {
 

@@ -25,21 +25,22 @@
             <li><a href="${createLink(controller: 'report', action: 'create')}"><g:message code="global.report.new"/></a></li>
           </ul>
         </li>
-        <li>
-          <a href="#">Projects</a>
-          <ul>
-            <li><a href="${createLink(controller: 'project', action: 'report', id: '1')}">Report</a></li>
-            <li><a href="${createLink(controller: 'project', action: 'create')}"><g:message code="global.new" /></a></li>
-            <li><a href="${createLink(controller: 'project', action: 'list')}"><g:message code="global.list" /></a></li>
-          </ul>
-        </li>
-        <li>
-          <a href="#">Customers</a>
-          <ul>
-            <li><a href="${createLink(action:"create", controller:"customer")}"><g:message code="global.new"/></a></li>
-            <li><a href="${createLink(action:"list", controller:"customer")}"><g:message code="global.list"/></a></li>
-          </ul>
-        </li>
+        <auth:isProjectLeader>
+          <li>
+            <a href="#">Projects</a>
+            <ul>
+              <li><a href="${createLink(controller: 'project', action: 'create')}"><g:message code="global.new" /></a></li>
+              <li><a href="${createLink(controller: 'project', action: 'list')}"><g:message code="global.list" /></a></li>
+            </ul>
+          </li>
+          <li>
+            <a href="#">Customers</a>
+            <ul>
+              <li><a href="${createLink(action:"create", controller:"customer")}"><g:message code="global.new"/></a></li>
+              <li><a href="${createLink(action:"list", controller:"customer")}"><g:message code="global.list"/></a></li>
+            </ul>
+          </li>
+        </auth:isProjectLeader>
         <auth:isAdmin>
           <li>Admin
             <ul>

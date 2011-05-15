@@ -1,3 +1,5 @@
+package com.opencsi.security
+
 import org.apache.shiro.SecurityUtils
 import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.UsernamePasswordToken
@@ -73,6 +75,6 @@ class AuthController {
     }
 
     def unauthorized = {
-        render "You do not have permission to access this page."
+        
     }
 }

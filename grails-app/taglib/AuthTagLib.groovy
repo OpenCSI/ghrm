@@ -5,8 +5,15 @@ class AuthTagLib {
     UserService userService
 
     def isAdmin = { attrs, body ->
-        if(userService.isUserInRole('admin')) {
+        if(userService.checkCurrentUserPermission('admin')) {
             out << body()
         }
     }
+
+    def isProjectLeader = { attrs, body ->
+        if(userService.checkCurrentUserPermission('projectleader')) {
+            out << body()
+        }
+    }
+
 }

@@ -1,3 +1,5 @@
+package com.opencsi.security
+
 class ShiroRole {
     String name
 
