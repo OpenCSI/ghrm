@@ -26,12 +26,11 @@ class UserService {
     }
 
     def checkCurrentUserPermission(String role) {
-        def user = ShiroUser.findByUsername(getAuthenticatedUserName())
-        return user.roles.name.contains(role)
-    }
-
-    def checkPermission(String userName, String role) {
-        def user = ShiroUser.findByUsername(userName)
-        return user.roles.name.contains(role)
+        if (getAuthenticatedUserName()) {
+            def user = ShiroUser.findByUsername(getAuthenticatedUserName())
+            return user.roles.name.contains(role)
+        } else {
+            return false
+        }
     }
 }
