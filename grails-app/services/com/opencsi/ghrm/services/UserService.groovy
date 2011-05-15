@@ -7,10 +7,6 @@ class UserService {
 
     static transactional = true
 
-    def serviceMethod() {
-
-    }
-
     def getAuthenticatedUserName() {
 
         def subject = SecurityUtils.subject
