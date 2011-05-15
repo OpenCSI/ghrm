@@ -1,5 +1,7 @@
 package com.opencsi.ghrm.services
 import org.apache.shiro.SecurityUtils
+import com.opencsi.ghrm.domain.User
+import ShiroUser
 
 class UserService {
 
@@ -21,5 +23,15 @@ class UserService {
             }
         }
         return returnValue
+    }
+
+    def checkCurrentUserPermission(String role) {
+        def user = ShiroUser.findByUsername(getAuthenticatedUserName())
+        return user.roles.name.contains(role)
+    }
+
+    def checkPermission(String userName, String role) {
+        def user = ShiroUser.findByUsername(userName)
+        return user.roles.name.contains(role)
     }
 }

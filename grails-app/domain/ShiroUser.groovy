@@ -1,4 +1,3 @@
-import com.opencsi.ghrm.domain.User
 
 class ShiroUser {
     String username
