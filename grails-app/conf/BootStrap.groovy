@@ -27,13 +27,16 @@ class BootStrap {
         new User(uid:"brian", firstname: "Brian", lastname:"Jones", email:"brian@opencsi.com").save(failOnError:true)
         new User(uid:"james", firstname: "James", lastname:"Smith", email:"james@opencsi.com").save(failOnError:true)
 
-        def bruno = new ShiroUser(username: 'admin', passwordHash: new Sha256Hash("secret").toHex())
+        def bruno = new ShiroUser(username: 'bruno', passwordHash: new Sha256Hash("secret").toHex())
         bruno.addToRoles(ShiroRole.findByName('admin'))
+        bruno.addToRoles(ShiroRole.findByName('projectleader'))
+        bruno.addToRoles(ShiroRole.findByName('employee'))
         bruno.save(failOnError:true)
 
 
         def manager = new ShiroUser(username: 'manager', passwordHash: new Sha256Hash("secret").toHex())
-        bruno.addToRoles(ShiroRole.findByName('projectleader'))
+        manager.addToRoles(ShiroRole.findByName('projectleader'))
+        manager.addToRoles(ShiroRole.findByName('employee'))
         manager.save(failOnError:true)
 
         def brian = new ShiroUser(username: 'brian', passwordHash: new Sha256Hash("secret").toHex())
@@ -43,7 +46,6 @@ class BootStrap {
         def james = new ShiroUser(username: 'james', passwordHash: new Sha256Hash("secret").toHex())
         james.addToRoles(ShiroRole.findByName('employee'))
         james.save(failOnError:true)
-
 
         new Customer(name:"A big french company", street:"12 rue de la soif", city:"Paris", postalCode: "75000").save(failOnError:true)
         new Customer(name:"A small french company", street:"42 rue dtc", city:"Paris", postalCode: "75000").save(failOnError:true)
