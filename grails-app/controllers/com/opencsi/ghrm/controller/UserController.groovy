@@ -2,6 +2,7 @@ package com.opencsi.ghrm.controller
 
 import com.opencsi.ghrm.domain.User
 import com.opencsi.security.ShiroUser
+import com.opencsi.security.ShiroRole
 import org.apache.shiro.crypto.hash.*
 
 class UserController {
@@ -38,7 +39,8 @@ class UserController {
             if(userInstance.save(onFailError: true, flush: true)) {
                 shiroUser.username = params.uid
                 shiroUser.passwordHash = new Sha256Hash(params.password).toHex()
-
+                
+                shiroUser.addToRoles(ShiroRole.findByName(params.role))
                 shiroUser.save(flush: true)
                 redirect(controller: 'user', action: 'list')
 
