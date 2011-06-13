@@ -15,7 +15,7 @@ environments {
         dataSource {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             //url = "jdbc:hsqldb:mem:devDB"
-            url = "jdbc:mysql://localhost/ghrm"
+            url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
         }
     }
 
