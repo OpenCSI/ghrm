@@ -17,6 +17,7 @@
   </div>
   <table class="calendarTable">
     <thead>
+      <tr><center>${nameMonth[currentMonth - 1 ]} ${currentYear}</center></tr>
       <tr><th>Lundi</th><th>Mardi</th><th>Mercredi</th><th>Jeudi</th><th>Vendredi</th><th>Samedi</th><th>Dimanche</th></tr>
     </thead>
 

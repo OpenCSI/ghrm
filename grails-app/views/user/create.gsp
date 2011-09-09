@@ -6,7 +6,7 @@
   </head>
 
   <body>
-    <h2>Create task</h2>
+    <h2>Create User</h2>
 
 <%@ page import="com.opencsi.ghrm.services.*" %>
   <g:hasErrors bean="${userInstance}">
@@ -59,7 +59,7 @@
         <g:select name="role" from="${com.opencsi.security.ShiroRole.findAll()}" optionKey="name" optionValue="name" value="employee" />
       </td>
       </tr>
-
+    </table>
       <g:submitButton name="create" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
   </g:form>
 </body>

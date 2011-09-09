@@ -27,6 +27,5 @@
         <div class="paginateButtons">
           <g:paginate total="${customerInstanceTotal}" />
         </div>
-      </div>
     </body>
   </html>

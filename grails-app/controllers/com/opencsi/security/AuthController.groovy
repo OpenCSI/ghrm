@@ -5,6 +5,7 @@ import org.apache.shiro.authc.AuthenticationException
 import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.web.util.SavedRequest
 import org.apache.shiro.web.util.WebUtils
+import org.apache.shiro.realm.ldap.*
 
 class AuthController {
     def shiroSecurityManager
@@ -33,7 +34,10 @@ class AuthController {
             targetUri = savedRequest.requestURI - request.contextPath
             if (savedRequest.queryString) targetUri = targetUri + '?' + savedRequest.queryString
         }
-        
+
+        // LDAP Authentification:
+
+        // 
         try{
             // Perform the actual login. An AuthenticationException
             // will be thrown if the username is unrecognised or the

@@ -46,7 +46,8 @@ class ProjectController {
         def id = params.id
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-
+        def nameMonth = ['Janvier','Février','Mars','Avril','Mai','Juin','Juillet','Août','Septembre','Octobre','Novembre','Décembre']
+        
         /* Fetch all reports related to the selected project */
         def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
 
@@ -72,7 +73,10 @@ class ProjectController {
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
             calendarData: calendarData,
-            extraInfo: projectInfo
+            extraInfo: projectInfo,
+            nameMonth: nameMonth,
+            currentYear: selectedYear,
+            currentMonth: selectedMonth
         ]
     }
 }

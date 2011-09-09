@@ -33,6 +33,10 @@ class BootStrap {
         bruno.addToRoles(ShiroRole.findByName('employee'))
         bruno.save(failOnError:true)
 
+        def ced = new ShiroUser(username:'cedric',passwordHash: new Sha256Hash("cedric").toHex())
+        ced.addToRoles(ShiroRole.findByName('admin'))
+        ced.save(failOnError:true)
+
 
         def manager = new ShiroUser(username: 'manager', passwordHash: new Sha256Hash("secret").toHex())
         manager.addToRoles(ShiroRole.findByName('projectleader'))

@@ -11,7 +11,12 @@ class UserController {
     def create = {
         
     }
-    
+
+    def list = {
+         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+    }
+
     def save = {
         def userInstance = new User()
         def shiroUser = new ShiroUser()
@@ -25,12 +30,12 @@ class UserController {
         
 
         if (params.password != params.repassword) {
-            flash.message = "Password don't match"
+            flash.message = "Password doesn't match"
             error = 1
         }
         
         if (params.password.length() < 6) {
-            flash.message = "Password too short"
+            flash.message = "Password is too short"
             error = 1
         }
 
@@ -45,8 +50,13 @@ class UserController {
                 redirect(controller: 'user', action: 'list')
 
             }
+            //render(view: 'create', model: [userInstance: userInstance])
         } else {
             render(view: 'create', model: [userInstance: userInstance])
         }
+    }
+
+    def delete = {
+        
     }
 }
