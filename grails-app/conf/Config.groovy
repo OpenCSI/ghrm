@@ -61,13 +61,18 @@ ldap.search.pass = 'root'
 
 ldap.search.user = 'cn=Root'
 
-
-
 ldap.skip.authentication = false
 
 ldap.skip.credentialsCheck = false
 
 ldap.allowEmptyPasswords = false
+
+// Mail Notification :
+hostNameSMTP = 'smtp.opencsi.com'
+hostPortSMTP = 25
+hostLoginSMTP = 'login'
+hostPasswordSMTP = 'password'
+hostFromSMTP = 'noreply@opencsi.com'
 
 // set per-environment serverURL stem for creating absolute links
 environments {

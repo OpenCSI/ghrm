@@ -98,21 +98,15 @@ class UserController {
 
 
     def delete = {
-        def user = ShiroUser.get(params.id)
-        if (user)
+        def userShiro = ShiroUser.get(params.id)
+        def user = User.get(params.id)
+        if ( (user)&&(userShiro) )
         {
             user.delete()
-            def sql = Sql.newInstance("jdbc:mysql://localhost/ghrm", "asyd",
-                          "asyd", "com.mysql.jdbc.Driver")
-            // Data's user:
-            sql.execute("DELETE FROM `ghrm`.`user` WHERE `id` = $params.id")
-            // shiro authentification user:
-            //sql.execute("DELETE FROM `ghrm`.`shiro_user` WHERE `id` = $params.id")
-            // shiro role user:
-            //sql.execute("DELETE FROM `ghrm`.`shiro_user_roles` WHERE `shiro_user_id` = $params.id")
+            userShiro.delete()
             flash.message = "User deleted."
         }else
-            flash.message = "User already deleted or not exist."
+            flash.message = "User deosn't exist."
         redirect(action: "list")
     }
 }

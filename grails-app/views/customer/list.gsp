@@ -19,6 +19,8 @@
             <g:each in="${customerInstanceList}" status="i" var="customerInstance">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
               <td>${fieldValue(bean: customerInstance, field: "name")}</td>
+              <td class="action" style="text-align: justify;"><g:link action="modify" id="${customerInstance.id}">Modify</g:link>
+              <g:link action="delete" id="${customerInstance.id}">Delete</g:link></td>
               </tr>
             </g:each>
             </tbody>

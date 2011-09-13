@@ -29,4 +29,21 @@ class TaskController {
         [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
     }
 
+    def modify = {
+        def  taskInstance = Task.get(params.id)
+        if (params.modify)
+        {
+            // retreive datas:
+            taskInstance.name = params.name
+            taskInstance.label = params.label
+            taskInstance.description = params.description
+            // save them:
+            taskInstance.save()
+            flash.message = "Task modified!"
+            redirect(action:'list')
+        }
+        [id: params.id, name: taskInstance.name, label: taskInstance.label,
+            description: taskInstance.description]
+    }
+
 }

@@ -23,6 +23,8 @@
               <td>${fieldValue(bean: taskInstance, field: "name")}</td>
               <td>${fieldValue(bean: taskInstance, field: "label")}</td>
               <td>${fieldValue(bean: taskInstance, field: "description")}</td>
+              <td class="action" style="text-align: justify;"><g:link action="modify" id="${taskInstance.id}">
+              Modify</g:link></td>
             </tr>
           </g:each>
           </tbody>
