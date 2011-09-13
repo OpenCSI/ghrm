@@ -13,6 +13,7 @@
             <thead>
               <tr>
             <g:sortableColumn property="name" title="${message(code: 'project.name', default: 'Name')}" />
+            <th><g:message code="default.actions"/></th>
             </tr>
             </thead>
             <tbody>

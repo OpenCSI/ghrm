@@ -15,6 +15,7 @@
           <g:sortableColumn property="name" title="${message(code: 'global.name', default: 'Name')}" />
           <g:sortableColumn property="label" title="${message(code: 'global.label', default: 'Label')}" />
           <th>${message(code: 'global.description')}</th>
+          <th><g:message code="default.actions"/></th>
           </tr>
           </thead>
           <tbody>

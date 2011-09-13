@@ -1,5 +1,6 @@
 package com.opencsi.ghrm.controller
 
+import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.domain.User
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
@@ -98,15 +99,23 @@ class UserController {
 
 
     def delete = {
-        def userShiro = ShiroUser.get(params.id)
         def user = User.get(params.id)
-        if ( (user)&&(userShiro) )
+        def currentUser = new UserService()
+        if (currentUser.getAuthenticatedUserName() == user.toString())
         {
-            user.delete()
-            userShiro.delete()
-            flash.message = "User deleted."
-        }else
-            flash.message = "User deosn't exist."
+            flash.message = "Cannot delete your self!"
+        }
+        else
+        {
+            def userShiro = ShiroUser.findByUsername(user.toString())
+            if ( (user)&&(userShiro) )
+            {
+                user.delete()
+                userShiro.delete()
+                flash.message = "User deleted."
+            }else
+                flash.message = "User doesn't exist."
+        }
         redirect(action: "list")
     }
 }
