@@ -27,14 +27,14 @@
         </li>
         <auth:isProjectLeader>
           <li>
-            <a href="#">Projects</a>
+            <a href="#"><g:message code="global.project"/></a>
             <ul>
               <li><a href="${createLink(controller: 'project', action: 'create')}"><g:message code="global.new" /></a></li>
               <li><a href="${createLink(controller: 'project', action: 'list')}"><g:message code="global.list" /></a></li>
             </ul>
           </li>
           <li>
-            <a href="#">Customers</a>
+            <a href="#"><g:message code="global.customer"/></a>
             <ul>
               <li><a href="${createLink(action:"create", controller:"customer")}"><g:message code="global.new"/></a></li>
               <li><a href="${createLink(action:"list", controller:"customer")}"><g:message code="global.list"/></a></li>
@@ -42,16 +42,17 @@
           </li>
         </auth:isProjectLeader>
         <auth:isAdmin>
-          <li>Admin
+          <li>
+            <a href="#">Admin</a>
             <ul>
-              <li><a href="${createLink(controller:"task", action:"create")}">Create task</a></li>
-              <li><a href="${createLink(controller:"task", action:"list")}">List tasks</a></li>
-              <li><a href="${createLink(controller:"user", action:"create")}">Create user</a></li>
-              <li><a href="${createLink(controller:'user',action:'list')}">List users</a></li>
+              <li><a href="${createLink(controller:"task", action:"create")}"><g:message code="global.task.create"/></a></li>
+              <li><a href="${createLink(controller:"task", action:"list")}"><g:message code="global.task.list"/></a></li>
+              <li><a href="${createLink(controller:"user", action:"create")}"><g:message code="global.user.create"/></a></li>
+              <li><a href="${createLink(controller:'user',action:'list')}"><g:message code="global.user.list"/></a></li>
             </ul>
           </li>
         </auth:isAdmin>
-        <li><a href="${createLink(action:'signOut', controller:'auth')}">Logout</a></li>
+        <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
       </ul>
     </div>
     <div id="extrainfo">

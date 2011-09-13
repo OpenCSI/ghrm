@@ -51,6 +51,24 @@ grails.spring.bean.packages = []
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
+ldap.domain = 'cn=Root'
+
+ldap.ldapHost = 'ldap://localhost:1389'
+
+ldap.search.base = 'dc=opencsi,dc=com'
+
+ldap.search.pass = 'root'
+
+ldap.search.user = 'cn=Root'
+
+
+
+ldap.skip.authentication = false
+
+ldap.skip.credentialsCheck = false
+
+ldap.allowEmptyPasswords = false
+
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {

@@ -14,5 +14,6 @@ class UrlMappings {
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
 		"/"(controller: 'report', action: 'create')
 		"500"(view:'/error')
+                "404"(controller:'error',action:'error404')
 	}
 }

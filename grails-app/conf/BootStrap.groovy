@@ -26,6 +26,7 @@ class BootStrap {
         new User(uid:"manager", firstname:"John", lastname:"Doe", email:"doe@opencsi.com").save(failOnError:true)
         new User(uid:"brian", firstname: "Brian", lastname:"Jones", email:"brian@opencsi.com").save(failOnError:true)
         new User(uid:"james", firstname: "James", lastname:"Smith", email:"james@opencsi.com").save(failOnError:true)
+        new User(uid:'cedric', firstname:'Cédric', lastname:'Joron', email:'un-autre-mail@opencsi.com').save(failOnError:true)
 
         def bruno = new ShiroUser(username: 'bruno', passwordHash: new Sha256Hash("secret").toHex())
         bruno.addToRoles(ShiroRole.findByName('admin'))
