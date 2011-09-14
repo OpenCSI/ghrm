@@ -74,7 +74,7 @@ class ShiroDbRealm {
         def permissions = user.permissions
 
         // Try each of the permissions found and see whether any of
-        // them confer the required permission.
+        // them confer the required permisnew_viewsion.
         def retval = permissions?.find { permString ->
             // Create a real permission instance from the database
             // permission.

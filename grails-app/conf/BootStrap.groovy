@@ -61,9 +61,9 @@ class BootStrap {
         new Task(name:"Assistance technique", label:"AT").save(failOnError:true)
         new Task(name:"Project leader", label:"CP").save(failOnError:true)
 
-        new TaskInstance(project: Project.get(1), task: Task.findByLabel("AT"), user: User.get(3), hours: 40).save(failOnError:true)
-        new TaskInstance(project: Project.get(1), task: Task.findByLabel("CP"), user: User.get(4), hours: 4).save(failOnError:true)
-        new TaskInstance(project: Project.get(2), task: Task.findByLabel("AT"), user: User.get(4), hours: 10).save(failOnError:true)
+        new TaskInstance(project: Project.get(1), task: Task.findByLabel("AT"), user: User.get(3), days: 40).save(failOnError:true)
+        new TaskInstance(project: Project.get(1), task: Task.findByLabel("CP"), user: User.get(4), days: 4).save(failOnError:true)
+        new TaskInstance(project: Project.get(2), task: Task.findByLabel("AT"), user: User.get(4), days: 10).save(failOnError:true)
 
         def today = new DateTime()
 

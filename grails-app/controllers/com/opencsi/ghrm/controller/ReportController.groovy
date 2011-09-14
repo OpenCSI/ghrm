@@ -49,7 +49,7 @@ class ReportController {
             
             def color = calendarData[dayOfWeek].size % 4
             calendarData[dayOfWeek].push([
-                'htmldata': '<div class="color' + color + '" style="width:' + report.hours * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.hours + '</span></div>',
+                'htmldata': '<div class="color' + color + '" style="width:' + report.days * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                 'tooltipdata': 'Project: ' + report.taskInstance.project.name + '<br/>Task: ' + report.taskInstance.task.name
                 ])
 
@@ -62,16 +62,16 @@ class ReportController {
         {
             def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
             params.days.each { day, value ->
-                if(value.toInteger() > 0) {
+                if( (value.toFloat() > 0.0)&&(value.toFloat() <= 1.0) ) {
                     new TaskReport(
                         taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
                         date: firstDay.plusDays(day.toInteger()).toDate(),
-                        hours: value.toInteger()
+                        days: value.toFloat()
                     ).save(failOnError: true)
                 }
             }
         }else
-            flash.message = "Select a project, before adding a report."
+            flash.message = "${message(code : 'report.create.error')}"
         redirect(controller:'report', action:'week')
     }
 }

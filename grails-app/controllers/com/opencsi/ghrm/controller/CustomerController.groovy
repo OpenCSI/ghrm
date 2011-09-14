@@ -21,7 +21,7 @@ class CustomerController {
     def save = {
         def customerInstance = new Customer(params)
         if (customerInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'Customer.label', default: 'Customer'), customerInstance.id])}"
+            flash.message = "${message(code: 'customer.create', args: [message(code: 'customer.label', default: 'customer'), customerInstance.id])}"
             redirect(action: "list", id: customerInstance.id)
         }
         else {
@@ -46,7 +46,7 @@ class CustomerController {
             customerInstance.street = params.street
             // save them:
             customerInstance.save()
-            flash.message = "Customer modified!"
+            flash.message = "${message(code : 'customer.modify')}"
             redirect(action:'list')
         }
         [id: params.id, name: customerInstance.name, city: customerInstance.city,
@@ -70,9 +70,9 @@ class CustomerController {
             }
             // then, remove the customer:
             customerInstance.delete()
-            flash.message = "Customer (with projects and tasks) deleted!"
+            flash.message = "${message(code : 'customer.delete')}"
         }else
-            flash.message = "Customer doesn't exist."
+            flash.message = "${message(code : 'customer.delete.error')}"
         redirect(action:"list")
     }
 }

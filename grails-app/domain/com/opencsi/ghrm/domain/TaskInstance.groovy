@@ -4,7 +4,7 @@ class TaskInstance {
 
     Task task
     User user
-    Integer hours
+    float days
     Date createat
     Date updateat
     Project project
@@ -16,19 +16,19 @@ class TaskInstance {
     static hasMany = [reports: TaskReport]
 
     static constraints = {
-        hours(min:0)
+        days(min:0F)
         createat(nullable: true)
         updateat(nullable: true)
     }
 
-    public getHoursUsed() {
+    public getDaysUsed() {
         def c = TaskReport.createCriteria()
         return c.get {
             taskInstance {
                 eq 'id', this.id
             }
             projections {
-                sum('hours')
+                sum('days')
             }
         }
     }

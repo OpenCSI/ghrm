@@ -39,7 +39,7 @@ class TaskController {
             taskInstance.description = params.description
             // save them:
             taskInstance.save()
-            flash.message = "Task modified!"
+            flash.message = "${message(code : 'task.modify')}"
             redirect(action:'list')
         }
         [id: params.id, name: taskInstance.name, label: taskInstance.label,

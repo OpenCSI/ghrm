@@ -15,7 +15,7 @@ class TaskInstanceController {
         taskInstance.project = Project.get(params.projectid)
         taskInstance.user = User.get(params.userid)
         taskInstance.task = Task.get(params.taskid)
-        taskInstance.hours = (params.hours).toInteger()
+        taskInstance.days = (params.days).toFloat()
 
         if(taskInstance.save(onFailError: true, flush:true)) {
             // Send a notification mail:

@@ -51,7 +51,7 @@ grails.spring.bean.packages = []
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
-ldap {
+/*ldap {
    directories {
        directory1 {
            defaultDirectory = true
@@ -68,14 +68,23 @@ ldap {
    schemas = [
        LdapUserEntity
    ]
-}
+}*/
+
+ldap.ldapUrls = 'ldap://localhost:1389/'
+ldap.search.base = 'ou=people,dc=opencsi,dc=com'
+ldap.search.user = "cn=Root"
+ldap.search.pass = "root"
+ldap.username.attribute = "Root"
+ldap.skip.credentialsCheck = false
+ldap.allowEmptyPasswords = false
+hub.auth.realmName = "ShiroLDAPRealm"
 
 // Mail Notification :
-hostNameSMTP = 'smtp.opencsi.com'
-hostPortSMTP = 25
-hostLoginSMTP = 'login'
-hostPasswordSMTP = 'password'
-hostFromSMTP = 'noreply@opencsi.com'
+mail.hostNameSMTP = 'smtp.opencsi.com'
+mail.hostPortSMTP = 25
+mail.hostLoginSMTP = 'login'
+mail.hostPasswordSMTP = 'password'
+mail.hostFromSMTP = 'noreply@opencsi.com'
 
 // set per-environment serverURL stem for creating absolute links
 environments {

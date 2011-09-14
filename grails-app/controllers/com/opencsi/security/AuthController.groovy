@@ -6,11 +6,9 @@ import org.apache.shiro.authc.UsernamePasswordToken
 import org.apache.shiro.web.util.SavedRequest
 import org.apache.shiro.web.util.WebUtils
 import org.apache.shiro.realm.ldap.*
-import com.opencsi.ghrm.services.MailService
 
 class AuthController {
     def shiroSecurityManager
-    MailService mail
 
     def index = { redirect(action: "login", params: params) }
 

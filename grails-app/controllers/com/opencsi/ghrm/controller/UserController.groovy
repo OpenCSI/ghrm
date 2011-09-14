@@ -89,7 +89,7 @@ class UserController {
             userInstance.lastname = params.lastname
             userInstance.email = params.email
             userInstance.save()
-            flash.message = "User modified!"
+            flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
         }
         [uid : userInstance.uid, firstname : userInstance.firstname,
@@ -103,7 +103,7 @@ class UserController {
         def currentUser = new UserService()
         if (currentUser.getAuthenticatedUserName() == user.toString())
         {
-            flash.message = "Cannot delete your self!"
+            flash.message = "${message(code:'user.delete.error.yourself')}"
         }
         else
         {
@@ -112,9 +112,9 @@ class UserController {
             {
                 user.delete()
                 userShiro.delete()
-                flash.message = "User deleted."
+                flash.message = "${message(code:'user.delete')}"
             }else
-                flash.message = "User doesn't exist."
+                flash.message = "${message(code:'user.delete.error')}"
         }
         redirect(action: "list")
     }
