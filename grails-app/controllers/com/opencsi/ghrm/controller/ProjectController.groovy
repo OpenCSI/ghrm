@@ -71,7 +71,7 @@ class ProjectController {
             ])
         }
 
-        def projectInfo = "<ul><li><A href=''></a></li></ul>"
+        def projectInfo = ''//"<ul><li><A href=''></a></li></ul>"
         
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),

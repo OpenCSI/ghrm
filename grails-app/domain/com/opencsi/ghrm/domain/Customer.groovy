@@ -8,7 +8,7 @@ class Customer {
     String city
 
     static constraints = {
-        name(blank:false)
+        name(blank:false,nullable:false)
         street(blank:true, nullable:true)
         postalCode(blank:true, nullable:true)
         city(blank:true, nullable:true)

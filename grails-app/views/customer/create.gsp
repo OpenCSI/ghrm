@@ -6,6 +6,13 @@
 
   <body>
     <h1>New customer</h1>
+    <%@ page import="com.opencsi.ghrm.services.*" %>
+  <g:hasErrors bean="${customerInstance}">
+    <div class="errors">
+      <g:renderErrors bean="${customerInstance}" as="list" />
+    </div>
+  </g:hasErrors>
+  
   <g:form action="save">
     <table>
       <thead>
@@ -13,7 +20,7 @@
       <tbody>
         <tr>
           <td>Name</td>
-          <td>
+          <td class="value ${hasErrors(bean: customerInstance, field: 'name', 'errors')}">
             <input type="text" name="name" value="" />
           </td>
         </tr>

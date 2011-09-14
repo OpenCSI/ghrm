@@ -49,7 +49,7 @@
         <g:each var="dayOfWeek" in="${1..7}">
           <td>
             <g:set var="currentDate" value="${dayOfWeek}"/>
-          <g:textField name="days.${dayOfWeek}" id="dayOfWeek" value="0" />
+          <g:textField name="${dayOfWeek}" id="dayOfWeek" value="0" />
           </td>
         </g:each>
         </tr>

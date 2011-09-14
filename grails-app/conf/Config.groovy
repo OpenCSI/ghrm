@@ -51,21 +51,24 @@ grails.spring.bean.packages = []
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
-ldap.domain = 'cn=Root'
-
-ldap.ldapHost = 'ldap://localhost:1389'
-
-ldap.search.base = 'dc=opencsi,dc=com'
-
-ldap.search.pass = 'root'
-
-ldap.search.user = 'cn=Root'
-
-ldap.skip.authentication = false
-
-ldap.skip.credentialsCheck = false
-
-ldap.allowEmptyPasswords = false
+ldap {
+   directories {
+       directory1 {
+           defaultDirectory = true
+           url = "ldap://ldap.host.orglocalhost:1389"
+           userDn = "cn=Root,ou=people,dc=opencsi,dc=com"
+           password = "root"
+           searchControls {
+               countLimit = 40
+               timeLimit = 600
+               searchScope = "subtree"
+           }
+       }
+   }
+   schemas = [
+       LdapUserEntity
+   ]
+}
 
 // Mail Notification :
 hostNameSMTP = 'smtp.opencsi.com'

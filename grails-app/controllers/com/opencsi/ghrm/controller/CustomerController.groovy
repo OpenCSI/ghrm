@@ -19,14 +19,13 @@ class CustomerController {
     }
 
     def save = {
-        def CustomerInstance = new Customer(params)
-        if (CustomerInstance.save(flush: true)) {
-            flash.message = "${message(code: 'default.created.message', args: [message(code: 'Customer.label', default: 'Customer'), CustomerInstance.id])}"
-            redirect(action: "list", id: CustomerInstance.id)
+        def customerInstance = new Customer(params)
+        if (customerInstance.save(flush: true)) {
+            flash.message = "${message(code: 'default.created.message', args: [message(code: 'Customer.label', default: 'Customer'), customerInstance.id])}"
+            redirect(action: "list", id: customerInstance.id)
         }
         else {
-            flash.message = "Error " + CustomerInstance.errors.allErrors.join(',')
-            render(view: "create", model: [CustomerInstance: CustomerInstance])
+            render(view: "create", model: [customerInstance: customerInstance])
         }
 
     }
