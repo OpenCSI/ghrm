@@ -27,7 +27,8 @@
               <td>${fieldValue(bean: userInstance, field: "email")}</td>
               <td>${fieldValue(bean: userInstance, field: "uid")}</td>
               <td class="action" style="text-align: justify;"><g:link action="modify" id="${userInstance.id}">Modify</g:link>
-              <g:link action="delete" id="${userInstance.id}">Delete</g:link></td>
+              <modalbox:createLink controller="user" action="confirm" id="${userInstance.id}" title="${message(code:'confirm.title', default: 'Attention')}"  width="250">Delete</modalbox:createLink></td>
+
               </tr>
             </g:each>
             </tbody>

@@ -53,6 +53,10 @@ class CustomerController {
             postal_code: customerInstance.postalCode, street: customerInstance.street]
     }
 
+    def confirm ={
+        [id : params.id]
+    }
+
     def delete = {
         def customerInstance = Customer.get(params.id)
         if (customerInstance)

@@ -5,6 +5,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <link rel="stylesheet" href="${resource(dir:'css',file:'opencsi.css')}" />
   <tooltip:resources/>
+  <g:javascript library="application" />
+<modalbox:modalIncludes />
   <title>OpenCSI: Ressources humaines</title>
 </head>
 <body>

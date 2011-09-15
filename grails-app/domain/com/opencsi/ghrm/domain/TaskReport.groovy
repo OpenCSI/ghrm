@@ -14,6 +14,6 @@ class TaskReport {
     float days
 
     static constraints = {
-        days(min:0f, max:1f)
+        days(min:0f)
     }
 }

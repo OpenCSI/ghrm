@@ -1,3 +1,5 @@
+package com.opencsi.security
+
 import javax.naming.AuthenticationException
 import javax.naming.Context
 import javax.naming.NamingException

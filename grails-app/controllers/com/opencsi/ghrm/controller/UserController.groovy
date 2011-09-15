@@ -77,6 +77,10 @@ class UserController {
         }
     }
 
+    def confirm = {
+        [id : params.id]
+    }
+
     def modify = {
         // show user:
         def userInstance = User.get(params.id)
