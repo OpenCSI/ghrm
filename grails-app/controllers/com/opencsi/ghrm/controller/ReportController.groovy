@@ -38,21 +38,20 @@ class ReportController {
             User.findByUid(userService.getAuthenticatedUserName()),
             weekInfos
         )
-
+        
         reports.each { report ->
             def dayOfReport = new DateTime(report.date)
             def dayOfWeek = dayOfReport.dayOfWeek().get()
- 
             if (!calendarData.containsKey(dayOfWeek)) {
                 calendarData[dayOfWeek] = []
             }
             
             def color = calendarData[dayOfWeek].size % 4
             calendarData[dayOfWeek].push([
-                'htmldata': '<div class="color' + color + '" style="width:' + report.days * 10 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
-                'tooltipdata': 'Project: ' + report.taskInstance.project.name + '<br/>Task: ' + report.taskInstance.task.name
+                'htmldata': '<div class="color' + color + '" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                'tooltipdata': 'Project: ' + report.taskInstance.project.name + '<br/>Task: ' + report.taskInstance.task.name,
+                    'id' : report.id
                 ])
-
         }
         [calendarData: calendarData, weekInfos: weekInfos]
     }
@@ -62,7 +61,7 @@ class ReportController {
         {
             def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
             params.days.each { day, value ->
-                if( (value.toFloat() > 0.0)&&(value.toFloat() <= 1.0) ) {
+                if(value.toFloat() > 0.0) {
                     new TaskReport(
                         taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
                         date: firstDay.plusDays(day.toInteger()).toDate(),
@@ -73,5 +72,20 @@ class ReportController {
         }else
             flash.message = "${message(code : 'report.create.error')}"
         redirect(controller:'report', action:'week')
+    }
+    
+    def confirm = {
+        [id : params.id]
+    }
+
+    def delete = {
+        def report = TaskReport.get(params.id)
+        if (report)
+        {
+            report.delete()
+            flash.message = "${message(code:'report.delete')}"
+        }else
+            flash.message = "${message(code:'report.delete.error')}"
+        redirect(action: "week")
     }
 }

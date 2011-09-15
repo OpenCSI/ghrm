@@ -35,11 +35,13 @@
     <g:each var="dayOfWeek" in="${1..7}">
       <td>
       <g:if test="${calendarData.containsKey(dayOfWeek)}">
-        <g:each var="entry" in="${calendarData[dayOfWeek]}">
+        <g:each status="i" var="entry" in="${calendarData[dayOfWeek]}">
           <g:set var="tooltip" value="${entry['tooltipdata']}" />
           <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
 ${entry['htmldata']}
           </div>
+          <modalbox:createLink controller="report" action="confirm" id="${entry.id}" title="${message(code:'confirm.title', default: 'Attention')}" width="250">Delete</modalbox:createLink>
+          ${}
         </g:each>
       </g:if>        
       </td>

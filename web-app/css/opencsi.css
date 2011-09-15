@@ -295,6 +295,16 @@ th.desc a {
     background-color: green;
 }
 
+.calendar .color2 {
+    border: 1px solid CornflowerBlue ;
+    background-color: CornflowerBlue ;
+} 
+
+.calendar .color3 {
+    border: 1px solid BurlyWood ;
+    background-color: BurlyWood ;
+}
+
 .previousDate {
     float: left;
 }

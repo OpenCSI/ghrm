@@ -28,7 +28,7 @@ class ReportService {
             'between'("date", firstDay.toDate(),
                 lastDay.toDate())
             'in'("taskInstance", taskInstances)
-            'gt'("hours", 0)
+            'gt'("days", 0F)
         }
     }
 
