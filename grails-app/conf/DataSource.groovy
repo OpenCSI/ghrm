@@ -31,7 +31,7 @@ environments {
 
     shell {
         dataSource {
-            dbCreate = "update" // one of 'create', 'create-drop','update'
+            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             //url = "jdbc:hsqldb:mem:devDB"
            // url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
             url = "jdbc:mysql://localhost/ghrm"
@@ -40,13 +40,13 @@ environments {
 
     test {
         dataSource {
-            dbCreate = "update"
+            dbCreate = "create-drop"
             url = "jdbc:mysql://localhost/ghrm"
         }
     }
     production {
         dataSource {
-            dbCreate = "update"
+            dbCreate = "create-drop"
             url = "jdbc:mysql://localhost/ghrm"
         }
     }

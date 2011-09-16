@@ -33,31 +33,31 @@ class UserController {
         flash.message = ""
         // Passwod:
         if (params.password != params.repassword) {
-            flash.message += "Password doesn't match<br>"
+            flash.message += "${message(code : 'user.modify.error.password.match')}"
             error = 1
         }
         
         if (params.password.length() < 6) {
-            flash.message += "Password is too short<br>"
+            flash.message += "${message(code : 'user.modify.error.password.short')}"
             error = 1
         }
         // others fields (car < 2):
         if (params.uid.length() < 2) {
-            flash.message += "uid is too short<br>"
+            flash.message += "${message(code : 'user.modify.error.uid.short')}"
             error = 1
         }
         if (params.firstname.length() < 2) {
-            flash.message += "Firstname is too short<br>"
+            flash.message += "${message(code : 'user.modify.error.firstname.short')}"
             error = 1
         }
 
         if (params.lastname.length() < 2) {
-            flash.message += "Lastname is too short<br>"
+            flash.message += "${message(code : 'user.modify.error.lastname.short')}"
             error = 1
         }
 
         if ( params.email.length() < 2) {
-            flash.message += "Email is too short<br>"
+            flash.message += "${message(code : 'user.modify.error.email.short')}"
             error = 1
         }
 
