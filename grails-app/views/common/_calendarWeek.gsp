@@ -41,7 +41,6 @@
 ${entry['htmldata']}
           </div>
           <modalbox:createLink controller="report" action="confirm" id="${entry.id}" title="${message(code:'confirm.title', default: 'Attention')}" width="250">Delete</modalbox:createLink>
-          ${}
         </g:each>
       </g:if>        
       </td>
