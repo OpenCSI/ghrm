@@ -24,7 +24,7 @@ environments {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             url = "jdbc:hsqldb:mem:devDB"
             driverClassName = "org.hsqldb.jdbcDriver"
-            username = "sa"
+            username = "SA"
             password = ""
         }
     }
@@ -33,21 +33,21 @@ environments {
         dataSource {
             dbCreate = "update" // one of 'create', 'create-drop','update'
             //url = "jdbc:hsqldb:mem:devDB"
-            url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
-//            url = "jdbc:mysql://localhost/ghrm"
+           // url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
+            url = "jdbc:mysql://localhost/ghrm"
         }
     }
 
     test {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:hsqldb:mem:testDb"
+            url = "jdbc:mysql://localhost/ghrm"
         }
     }
     production {
         dataSource {
             dbCreate = "update"
-            url = "jdbc:hsqldb:file:prodDb;shutdown=true"
+            url = "jdbc:mysql://localhost/ghrm"
         }
     }
 }
