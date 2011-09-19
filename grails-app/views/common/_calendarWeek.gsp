@@ -24,7 +24,7 @@
       <tr>
      <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
      <g:each in="${1..7}" var="i">
-      <th>${nameOfDays[i]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
+      <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
       ${weekInfos[i]['year']}</th>
      </g:each>
      </tr>

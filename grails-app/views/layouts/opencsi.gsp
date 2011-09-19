@@ -18,6 +18,7 @@
   <div id="firstPanel">
     <div id="menu">
       <ul>
+        <li><langs:selector langs="fr, en, es"/></li>
         <li class="current">
           <a href="${createLink(url:'/')}">Home</a>
         </li>

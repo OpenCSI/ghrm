@@ -15,6 +15,9 @@ class ReportController {
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
         def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
+        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
 
         def taskLists = taskInstanceService.findAllOpenByUser(User.findByUid(userService.getAuthenticatedUserName()))
         def taskSelectOptions = []
@@ -23,7 +26,7 @@ class ReportController {
             taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
         }
 
-        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos]
+        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek]
     }
 
     def week = {
@@ -33,7 +36,10 @@ class ReportController {
 
         def calendarData = [:]
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
-
+        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
+                
         def reports = reportService.findAllReportsByUserByWeek(
             User.findByUid(userService.getAuthenticatedUserName()),
             weekInfos
@@ -53,7 +59,7 @@ class ReportController {
                     'id' : report.id
                 ])
         }
-        [calendarData: calendarData, weekInfos: weekInfos]
+        [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek]
     }
 
     def save = {
