@@ -334,3 +334,7 @@ table.calendarTable tbody tr {
 div#loginForm {
    margin: 50px 50px 0 0;
 }
+
+select {
+	height: auto;
+}
