@@ -1,11 +1,12 @@
 package com.opencsi.ghrm.controller
 
+import com.opencsi.ghrm.domain.TaskInstance
+import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.domain.User
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
 import org.apache.shiro.crypto.hash.*
-import groovy.sql.Sql
 
 class UserController {
 
@@ -114,6 +115,16 @@ class UserController {
             def userShiro = ShiroUser.findByUsername(user.toString())
             if ( (user)&&(userShiro) )
             {
+                // delete work done by the user:
+                def tasks = TaskInstance.findAllByUser(user)
+                tasks.each{task ->
+                    def reports = TaskReport.findAllByTaskInstance(task)
+                    reports.each{ report ->
+                        report.delete()
+                    }
+                    task.delete()
+                }
+                // delete the user:
                 user.delete()
                 userShiro.delete()
                 flash.message = "${message(code:'user.delete')}"
