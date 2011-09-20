@@ -1,10 +1,7 @@
 // locations to search for config files that get merged into the main config
 // config files can either be Java properties files or ConfigSlurper scripts
 
-// grails.config.locations = [ "classpath:${appName}-config.properties",
-//                             "classpath:${appName}-config.groovy",
-//                             "file:${userHome}/.grails/${appName}-config.properties",
-//                             "file:${userHome}/.grails/${appName}-config.groovy"]
+grails.config.locations = [ "classpath:app-config.properties"]
 
 // if(System.properties["${appName}.config.location"]) {
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
@@ -51,22 +48,23 @@ grails.spring.bean.packages = []
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
+ /*
 // LDAP datas:
-ldap.server.url = 'ldap://localhost:1389/'
-ldap.search.base = 'ou=people,dc=opencsi,dc=com'
-ldap.search.user = "cn=Root"
-ldap.search.pass = "root"
-ldap.username.attribute = "Root"
-ldap.skip.credentialsCheck = false
-ldap.allowEmptyPasswords = false
-hub.auth.realmName = "ShiroLDAPRealm"
+ldap.server.url = hibernate.ldap.url
+ldap.search.base = hibernate.ldap.base
+ldap.search.user = hibernate.ldap.user
+ldap.search.pass = hibernate.ldap.pass
+ldap.username.attribute = hibernate.ldap.attribute
+ldap.skip.credentialsCheck = hibernate.ldap.credentialsCheck
+ldap.allowEmptyPasswords = hibernate.ldap.allowEmptyPasswords
+hub.auth.realmName = hibernate.ldap.auth.realmName
 
 // Mail Notification :
-mail.hostNameSMTP = 'smtp.opencsi.com'
-mail.hostPortSMTP = 25
-mail.hostLoginSMTP = 'login'
-mail.hostPasswordSMTP = 'password'
-mail.hostFromSMTP = 'noreply@opencsi.com'
+mail.hostNameSMTP = hibernate.mail.hostNameSMTP
+mail.hostPortSMTP = hibernate.mail.hostPortSMTP
+mail.hostLoginSMTP = hibernate.mail.hostLoginSMTP
+mail.hostPasswordSMTP = hibernate.mail.hostPasswordSMTP
+mail.hostFromSMTP = hibernate.mail.hostFromSMTP*/
 
 // set per-environment serverURL stem for creating absolute links
 environments {

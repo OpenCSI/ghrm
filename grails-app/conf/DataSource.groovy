@@ -1,21 +1,22 @@
-dataSource {
-    pooled = true
-    driverClassName = "com.mysql.jdbc.Driver"
-    username = "asyd"
-    password = "asyd"
-}
 hibernate {
     cache.use_second_level_cache = true
     cache.use_query_cache = true
     cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
 }
+
+dataSource {
+    pooled = true
+    driverClassName = hibernate.jdbc.driver_class
+    username = hibernate.jdbc.username
+    password = hibernate.jdbc.password
+}
 // environment specific settings
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+            dbCreate = "create-drop"
             //url = "jdbc:mysql://url/DB"
-            url = "jdbc:mysql://localhost/ghrm"
+            url = hibernate.jdbc.url
         }
     }
 
@@ -34,20 +35,20 @@ environments {
             dbCreate = "create-drop" // one of 'create', 'create-drop','update'
             //url = "jdbc:hsqldb:mem:devDB"
            // url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
-            url = "jdbc:mysql://localhost/ghrm"
+            url = url = hibernate.jdbc.url
         }
     }
 
     test {
         dataSource {
             dbCreate = "create-drop"
-            url = "jdbc:mysql://localhost/ghrm"
+            url = url = hibernate.jdbc.url
         }
     }
     production {
         dataSource {
             dbCreate = "create-drop"
-            url = "jdbc:mysql://localhost/ghrm"
+            url = url = hibernate.jdbc.url
         }
     }
 }
