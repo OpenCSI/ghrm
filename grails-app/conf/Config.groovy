@@ -48,24 +48,6 @@ grails.spring.bean.packages = []
 // request parameters to mask when logging exceptions
 grails.exceptionresolver.params.exclude = ['password']
 
- /*
-// LDAP datas:
-ldap.server.url = hibernate.ldap.url
-ldap.search.base = hibernate.ldap.base
-ldap.search.user = hibernate.ldap.user
-ldap.search.pass = hibernate.ldap.pass
-ldap.username.attribute = hibernate.ldap.attribute
-ldap.skip.credentialsCheck = hibernate.ldap.credentialsCheck
-ldap.allowEmptyPasswords = hibernate.ldap.allowEmptyPasswords
-hub.auth.realmName = hibernate.ldap.auth.realmName
-
-// Mail Notification :
-mail.hostNameSMTP = hibernate.mail.hostNameSMTP
-mail.hostPortSMTP = hibernate.mail.hostPortSMTP
-mail.hostLoginSMTP = hibernate.mail.hostLoginSMTP
-mail.hostPasswordSMTP = hibernate.mail.hostPasswordSMTP
-mail.hostFromSMTP = hibernate.mail.hostFromSMTP*/
-
 // set per-environment serverURL stem for creating absolute links
 environments {
     production {
