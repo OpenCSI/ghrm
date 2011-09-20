@@ -8,6 +8,8 @@
   <tooltip:resources/>
   <g:javascript library="application" />
 <modalbox:modalIncludes />
+<export:resource/>
+
   <title>OpenCSI: Ressources humaines</title>
 </head>
 <body>

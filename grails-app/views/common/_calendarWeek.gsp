@@ -17,7 +17,7 @@
               day: weekInfos[8]['day']
               ]"> <g:message code="default.paginate.next" /> -&gt;</g:link>
     </span>
-    <br>
+    <br/>
   </div>
   <table class="reportTable">
     <thead>

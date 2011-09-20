@@ -2,9 +2,13 @@ package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Customer
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.TaskInstance
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class CustomerController {
     static allowedMethods = [save: "POST", update: "POST"]
+
+    // Export service provided by Export plugin
+    def exportService
 
     def index = {
         redirect(action: "list", params: params)
@@ -32,6 +36,15 @@ class CustomerController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        // Export :
+         if(params?.format && params.format != "html")
+         {
+            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
+            List fields = ['name','city','street','postalCode']
+            Map labels = ['name' : 'Name','city' : 'City', 'street' : 'Street','postalCode': 'Postal Code']
+            exportService.export(params.format, response.outputStream,Customer.list(params), fields, labels,[:],[:])
+         }
         [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count()]
     }
 

@@ -30,5 +30,6 @@
         <div class="paginateButtons">
           <g:paginate total="${customerInstanceTotal}" />
         </div>
+      <export:formats formats="['excel', 'pdf', 'xml']"/>
     </body>
   </html>

@@ -5,12 +5,15 @@ import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.domain.Customer
 import com.opencsi.ghrm.services.*
 import org.joda.time.DateTime
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ProjectController {
 
     ReportService reportService
     CalendarService calendarService
     TaskService taskService
+    // Export service provided by Export plugin
+    def exportService
 
     def create = {
     }
@@ -39,6 +42,16 @@ class ProjectController {
     
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        // Export :
+         if(params?.format && params.format != "html")
+         {
+            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
+            List fields = ['name','createat','customer.name','description','code','label']
+            Map labels = ['name' : 'Name','createat' : 'Create At', 'Customer.name' : 'Customer',
+                            'description': 'Description','label': 'Label']
+            exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
+         }
         [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count()]
     }
         

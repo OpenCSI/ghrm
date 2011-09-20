@@ -1,7 +1,10 @@
 package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Task
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class TaskController {
+    // Export service provided by Export plugin
+    def exportService
 
     def show = {
         [task: Task.findById(params.id)]
@@ -26,6 +29,15 @@ class TaskController {
 
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        // Export :
+         if(params?.format && params.format != "html")
+         {
+            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
+            List fields = ['createat','label','name','description']
+            Map labels = ['createat' : 'Created at','label' : 'Label', 'name' : 'Name','description': 'Description']
+            exportService.export(params.format, response.outputStream,Task.list(params), fields, labels,[:],[:])
+         }
         [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
     }
 

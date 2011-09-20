@@ -7,9 +7,11 @@ import com.opencsi.ghrm.domain.User
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
 import org.apache.shiro.crypto.hash.*
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class UserController {
-
+    // Export service provided by Export plugin
+    def exportService
     
     def create = {
        // flash.message = ""
@@ -17,6 +19,15 @@ class UserController {
 
     def list = {
          params.max = Math.min(params.max ? params.int('max') : 10, 100)
+         // Export :
+         if(params?.format && params.format != "html")
+         {
+            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename=user.list.${params.extension}")
+            List fields = ['id','name','email','uid']
+            Map labels = ['id' : 'ID','name' : 'Name', 'email' : 'Email','uid': 'UID']
+            exportService.export(params.format, response.outputStream,User.list(params),fields,labels, [:], [:])
+         }
         [userInstanceList: User.list(params), userInstanceTotal: User.count()]
     }
 

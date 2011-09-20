@@ -33,6 +33,7 @@
       <div class="paginateButtons">
         <g:paginate total="${ProjectInstanceTotal}" />
       </div>
+      <export:formats formats="['excel', 'pdf', 'xml']"/>
     </div>
   </body>
 </html>

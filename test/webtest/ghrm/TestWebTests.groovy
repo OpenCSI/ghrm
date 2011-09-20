@@ -16,8 +16,8 @@ class TestWebTests extends grails.util.WebTest {
         setInputField(name:'password',value:'secret')
         clickButton(label : 'Sign in')
         // English language:
-        invoke'?lang=en'
-        // test the menu:
+        invoke '?lang=en'
+        // test the menu:dtd grails
         clickLink(label :'current week')
         clickLink(label: 'New CRA')
         clickLink(label: 'New')
