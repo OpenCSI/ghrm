@@ -95,4 +95,43 @@ class ProjectController {
             currentMonth: selectedMonth
         ]
     }
+
+    def reportPDF = {
+        def id = params.id
+        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+        def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
+            ,g.message(code:'month.12')]
+
+        /* Fetch all reports related to the selected project */
+        def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
+
+        /* Create data to display */
+        def calendarData = [:]
+
+        reports.each { report ->
+            def reportDay = report.date.format('dd').toInteger() - 1
+
+            /* Create an empty list if not exist */
+            if (!calendarData.containsKey(reportDay)) {
+                calendarData[reportDay] = []
+            }
+            def color = (calendarData[reportDay]['htmldata']).size() % 4
+            calendarData[reportDay].push([
+                    'htmldata':'<div class="color' + color + '" style="width:' + 99 + '%" >' + report.taskInstance.user.initials + ': ' + report.days +
+                    'User: ' + report.taskInstance.user.name + '<br/>Task: ' + report.taskInstance.task.name + '</div>'
+            ])
+        }
+
+        [projectId: id,
+            monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
+            calendarData: calendarData,
+            extraInfo: '',
+            nameMonth: nameMonth,
+            currentYear: selectedYear,
+            currentMonth: selectedMonth
+        ]
+    }
 }

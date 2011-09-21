@@ -19,9 +19,9 @@ class TaskInstanceController {
 
         if(taskInstance.save(onFailError: true, flush:true)) {
             // Send a notification mail:
-            def message = "Hello, the user '${taskInstance.user.firstname} ${taskInstance.user.lastname}' has a new task corresponding : '${taskInstance.task.name}' for the project : '${taskInstance.project.name}'."
+            def message = "Hello,\n the user '${taskInstance.user.firstname} ${taskInstance.user.lastname}' has a new task corresponding : '${taskInstance.task.name}' for the project : '${taskInstance.project.name}'.\n\nRegards.\n\n\nINFO: do not answer to this email."
             MailService mail = new MailService()
-            flash.message = mail.sendMail("cjoron@opencsi.com","[GHRM] A new task for an user",message)//admin@opencsi.com
+            flash.message = mail.sendMail("admin@opencsi.com","[GHRM] A new task for an user",message)//admin@opencsi.com
             // redirect:
             redirect(controller: 'project', action: 'show', id: params.projectid)
         } else {
