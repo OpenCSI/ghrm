@@ -66,7 +66,7 @@ class ProjectController {
         
         /* Fetch all reports related to the selected project */
         def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
-
+        
         /* Create data to display */
         def calendarData = [:]
 

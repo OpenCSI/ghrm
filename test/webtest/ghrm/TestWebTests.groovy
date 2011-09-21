@@ -17,7 +17,7 @@ class TestWebTests extends grails.util.WebTest {
         clickButton(label : 'Sign in')
         // English language:
         invoke '?lang=en'
-        // test the menu:dtd grails
+        // test the menu:
         clickLink(label :'current week')
         clickLink(label: 'New CRA')
         clickLink(label: 'New')

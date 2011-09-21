@@ -22,8 +22,8 @@
   <tr>
     <td>${entry.user.name}</td>
     <td>${entry.task.name}</td>
-    <td>${entry.days}</td>
-    <td>${entry.daysUsed}</td>
+    <td><g:formatNumber number="${entry.days}" maxFractionDigits="2"/></td>
+    <td><g:formatNumber number="${entry.daysUsed}" maxFractionDigits="2" /></td>
   </tr>
 </g:each>
 </tbody>

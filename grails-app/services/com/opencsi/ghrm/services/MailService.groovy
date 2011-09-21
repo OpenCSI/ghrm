@@ -13,12 +13,12 @@ class MailService {
         def config = ConfigurationHolder.config// enable the method to use datas into Config.groovy
         
         Email email = new SimpleEmail()
-        email.setHostName(config.mail.hostNameSMTP)// "smtp.opencsi.com"
-        email.setSmtpPort(config.mail.hostPortSMTP)// 25
-        email.setAuthenticator(new DefaultAuthenticator(config.mail.hostLoginSMTP,
-                                    config.mail.hostPasswordSMTP))
+        email.setHostName(config.mail.hostNameSMTP.toString())// "smtp.opencsi.com"
+        email.setSmtpPort(config.mail.hostPortSMTP.toInteger())// 25
+        email.setAuthenticator(new DefaultAuthenticator(config.mail.hostLoginSMTP.toString(),
+                                    config.mail.hostPasswordSMTP.toString()))
         email.setTLS(true) // need a true certificat
-        email.setFrom(config.mail.hostFromSMTP)
+        email.setFrom(config.mail.hostFromSMTP.toString())
         email.setSubject(subject)
         email.setMsg(content)
         email.addTo(who)
