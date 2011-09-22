@@ -108,7 +108,7 @@ class ProjectController {
         /* Fetch all reports related to the selected project */
         def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
 
-        // Extract to PDF File:
+        // Extract in PDF File:
          if(params?.format && params.format != "html")
          {
             response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]

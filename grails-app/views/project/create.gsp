@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <h2>Create project</h2>
+    <h2><g:message code="project.create"/></h2>
 
 <%@ page import="com.opencsi.ghrm.services.*" %>
   <g:hasErrors bean="${projectInstance}">
@@ -45,7 +45,7 @@
       <g:textField name="description" value="${projectInstance?.description}" /></td>
       </tr>
     </table>
-    <g:submitButton name="create" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+    <g:submitButton name="create" value="${message(code: 'project.submit', default: 'Create')}"/>
   </g:form>
 </body>
 </html>

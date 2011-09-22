@@ -8,7 +8,7 @@
   </head>
 
   <body>
-    <h2>Create task</h2>
+    <h2><g:message code="task.new"/></h2>
 
 <%@ page import="com.opencsi.ghrm.services.*" %>
   <g:hasErrors bean="${taskInstance}">
@@ -35,7 +35,7 @@
       <g:textField name="description" value="${taskInstance?.description}"/></td>
       </tr>
     </table>
-    <g:submitButton name="create" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+    <g:submitButton name="create" value="${message(code: 'task.submit', default: 'Create')}"/>
   </g:form>
 </body>
 </html>

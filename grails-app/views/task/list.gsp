@@ -7,7 +7,7 @@
     </head>
 
     <body>
-      <h2><g:message code="List tasks" /></h2>
+      <h2><g:message code="task.list" /></h2>
       <div class="list">
         <table>
           <thead>

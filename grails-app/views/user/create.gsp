@@ -6,7 +6,7 @@
   </head>
 
   <body>
-    <h2>Create User</h2>
+    <h2><g:message code="user.new"/></h2>
 
 <%@ page import="com.opencsi.ghrm.services.*" %>
   <g:hasErrors bean="${userInstance}">
@@ -60,7 +60,7 @@
       </td>
       </tr>
     </table>
-      <g:submitButton name="create" value="${message(code: 'default.button.create.label', default: 'Create')}"/>
+      <g:submitButton name="create" value="${message(code: 'user.submit', default: 'Create')}"/>
   </g:form>
 </body>
 </html>

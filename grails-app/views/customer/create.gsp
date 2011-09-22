@@ -5,7 +5,7 @@
   </head>
 
   <body>
-    <h1>New customer</h1>
+    <h2><g:message code="customer.new"/></h2>
     <%@ page import="com.opencsi.ghrm.services.*" %>
   <g:hasErrors bean="${customerInstance}">
     <div class="errors">
@@ -27,7 +27,7 @@
       </tbody>
     </table>
     <div class="buttons">
-      <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'default.button.create.label', default: 'Create')}" /></span>
+      <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'customer.submit', default: 'Create')}" /></span>
     </div>
   </g:form>
 </body>
