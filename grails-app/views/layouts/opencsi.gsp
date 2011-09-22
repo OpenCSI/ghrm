@@ -23,10 +23,11 @@
         <li><langs:selector langs="fr, en, es"/></li>
         <li class="current">
           <a href="${createLink(url:'/')}">Home</a>
-        </li>
+        </li> 
         <li>
           <a href="#">Reports</a>
           <ul>
+            <li><a href="${createLink(controller: 'report', action: 'month')}"><g:message code="global.month.current"/></a></li>
             <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
             <li><a href="${createLink(controller: 'report', action: 'create')}"><g:message code="global.report.new"/></a></li>
           </ul>

@@ -33,6 +33,27 @@ class ReportService {
         }
     }
 
+    def findAllReportsByUserByMonth(User user,Integer year,Integer month){
+        def criteria = TaskReport.createCriteria()
+        def firstDay = new DateTime(year, month, 1, 0, 0, 0, 0)
+        /* By chance, I work on this project the April, 30th, which show me a bug on lastDay */
+        def lastDay = (firstDay.plusMonths(1)).minusSeconds(1)
+
+        /* Prevent a SQL error if there is no tasks associated for the current project */
+        def taskInstances = TaskInstance.findAllByUser(user)
+        if (taskInstances.size == 0) {
+            return null
+        }
+
+        return criteria.list {
+            'between'("date", firstDay.toDate(),
+                lastDay.toDate())
+            'in'("taskInstance", taskInstances)
+            'gt'("days", 0F)
+            'order'("date")
+        }
+    }
+
     def findAllReportsByUserByWeek(User user, LinkedHashMap weekInfos) {
         return findAllReportsByUserByWeek(user, weekInfos[1]['year'], weekInfos[1]['month'], weekInfos[1]['day'])
     }
