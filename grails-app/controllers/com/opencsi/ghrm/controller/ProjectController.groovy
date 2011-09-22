@@ -108,30 +108,19 @@ class ProjectController {
         /* Fetch all reports related to the selected project */
         def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
 
-        /* Create data to display */
-        def calendarData = [:]
-
-        reports.each { report ->
-            def reportDay = report.date.format('dd').toInteger() - 1
-
-            /* Create an empty list if not exist */
-            if (!calendarData.containsKey(reportDay)) {
-                calendarData[reportDay] = []
-            }
-            def color = (calendarData[reportDay]['htmldata']).size() % 4
-            calendarData[reportDay].push([
-                    'htmldata':'<div class="color' + color + '" style="width:' + 99 + '%" >' + report.taskInstance.user.initials + ': ' + report.days +
-                    'User: ' + report.taskInstance.user.name + '<br/>Task: ' + report.taskInstance.task.name + '</div>'
-            ])
-        }
-
-        [projectId: id,
-            monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
-            calendarData: calendarData,
-            extraInfo: '',
-            nameMonth: nameMonth,
-            currentYear: selectedYear,
-            currentMonth: selectedMonth
-        ]
+        // Extract to PDF File:
+         if(params?.format && params.format != "html")
+         {
+            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+            response.setHeader("Content-disposition", "attachment; filename=Calendar-${nameMonth[selectedMonth-1]}-${selectedYear}.${params.extension}")
+            List fields=['date','days','taskInstance.user.name','taskInstance.project.name',
+                        'taskInstance.task.name']
+            Map labels = ['date' : 'Date','days' : 'Report Days','taskInstance.user.name' : 'User' ,
+                        'taskInstance.project.name' : 'Project','taskInstance.task.name' : 'Task']
+            exportService.export(params.format, response.outputStream,reports, fields,labels, [:],[:])
+         }
+        // End Extract
+        // Redirect to the calendar view:
+        redirect(action:'report',params:[id:id,year:selectedYear,month:selectedMonth])
     }
 }

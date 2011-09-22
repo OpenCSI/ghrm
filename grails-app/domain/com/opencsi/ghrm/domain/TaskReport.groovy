@@ -10,10 +10,13 @@ class TaskReport {
     static final Integer STATUS_VALIDATED = 1
     static final Integer STATUS_DEPRECATED = 2
     
-    // The number of days spent on this task for date date
+    // The number of days spent on this task for date
     float days
 
     static constraints = {
         days(min:0f)
     }
+   static mapping = {
+       sort 'date'
+   }
 }

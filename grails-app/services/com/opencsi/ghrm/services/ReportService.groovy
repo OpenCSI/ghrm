@@ -29,6 +29,7 @@ class ReportService {
                 lastDay.toDate())
             'in'("taskInstance", taskInstances)
             'gt'("days", 0F)
+            'order'("date")
         }
     }
 
