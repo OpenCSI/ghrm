@@ -55,7 +55,7 @@ class ReportController {
             def color = calendarData[dayOfWeek].size % 4
             calendarData[dayOfWeek].push([
                 'htmldata': '<div class="color' + color + '" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
-                'tooltipdata': 'Project: ' + report.taskInstance.project.name + '<br/>Task: ' + report.taskInstance.task.name,
+                'tooltipdata': "${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name,
                     'id' : report.id
                 ])
         }
@@ -88,7 +88,7 @@ class ReportController {
             def color = (calendarData[reportDay]['htmldata']).size() % 4
             calendarData[reportDay].push([
                     'htmldata':'<div class="color' + color + '" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
-                    'tooltipdata': 'User: ' + report.taskInstance.user.name + '<br/>Task: ' + report.taskInstance.task.name
+                    'tooltipdata': "${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
             ])
         }
         

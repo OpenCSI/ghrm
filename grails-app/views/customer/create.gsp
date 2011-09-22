@@ -19,7 +19,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>Name</td>
+          <td><g:message code="customer.name"/></td>
           <td class="value ${hasErrors(bean: customerInstance, field: 'name', 'errors')}">
             <input type="text" name="name" value="" />
           </td>
