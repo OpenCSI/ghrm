@@ -40,7 +40,7 @@
           <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
 ${entry['htmldata']}
           </div>
-          <modalbox:createLink controller="report" action="confirm" id="${entry.id}" title="${message(code:'confirm.title', default: 'Attention')}" width="250">Delete</modalbox:createLink>
+          <modalbox:createLink controller="report" action="confirm" id="${entry.id}" title="${message(code:'confirm.title', default: 'Attention')}" width="250"><g:message code="report.submit.delete"/></modalbox:createLink>
         </g:each>
       </g:if>        
       </td>

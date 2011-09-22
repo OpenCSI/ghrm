@@ -67,12 +67,18 @@ class ReportController {
         {
             def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
             params.days.each { day, value ->
+                try{
                 if(value.toFloat() > 0.0) {
                     new TaskReport(
                         taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
                         date: firstDay.plusDays(day.toInteger()).toDate(),
                         days: value.toFloat()
                     ).save(failOnError: true)
+                }
+                }catch(Exception e)
+                {
+                    flash.message =  "${message(code:'report.save.error')}"
+                    
                 }
             }
         }else
