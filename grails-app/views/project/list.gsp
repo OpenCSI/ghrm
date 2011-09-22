@@ -23,8 +23,8 @@
               <td>${fieldValue(bean: projectInstance, field: "name")}</td>
               <td>${fieldValue(bean: projectInstance, field: "label")}</td>
               <td>${fieldValue(bean: projectInstance, field: "customer.name")}</td>
-              <td class="action" style="text-align: justify;"><g:link action="show" id="${projectInstance.id}">Show</g:link>
-              <g:link action="report" id="${projectInstance.id}">Calendrier</g:link></td>
+              <td class="action" style="text-align: justify;"><g:link action="show" id="${projectInstance.id}"><g:message code="project.show.href"/></g:link>
+              <g:link action="report" id="${projectInstance.id}"><g:message code="project.calendar.href"/></g:link></td>
             </tr>
           </g:each>
           </tbody>

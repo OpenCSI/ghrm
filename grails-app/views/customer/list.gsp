@@ -20,8 +20,8 @@
             <g:each in="${customerInstanceList}" status="i" var="customerInstance">
               <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
               <td>${fieldValue(bean: customerInstance, field: "name")}</td>
-              <td class="action" style="text-align: justify;"><g:link action="modify" id="${customerInstance.id}">Modify</g:link>
-              <modalbox:createLink controller="customer" action="confirm" id="${customerInstance.id}" title="${message(code:'confirm.title', default: 'Attention')}"  width="250">Delete</modalbox:createLink></td>
+              <td class="action" style="text-align: justify;"><g:link action="modify" id="${customerInstance.id}"><g:message code="customer.modify.href"/></g:link>
+              <modalbox:createLink controller="customer" action="confirm" id="${customerInstance.id}" title="${message(code:'confirm.title', default: 'Attention')}"  width="250"><g:message code="customer.delete.href"/></modalbox:createLink></td>
               </tr>
             </g:each>
             </tbody>
