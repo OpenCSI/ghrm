@@ -21,6 +21,10 @@ class BootStrap {
         employee.addToPermissions("report:*")
         employee.save(failOnError:true)
 
+        def HR = new ShiroRole(name : 'HR')
+        HR.addToPermissions("HR:*")
+        HR.save(failOnError:true)
+
 
         new User(uid:"bruno", firstname:"Bruno", lastname:"Bonfils", email:"admin@opencsi.com").save(failOnError:true)
         new User(uid:"manager", firstname:"John", lastname:"Doe", email:"doe@opencsi.com").save(failOnError:true)
@@ -32,17 +36,19 @@ class BootStrap {
         bruno.addToRoles(ShiroRole.findByName('admin'))
         bruno.addToRoles(ShiroRole.findByName('projectleader'))
         bruno.addToRoles(ShiroRole.findByName('employee'))
+        bruno.addToRoles(ShiroRole.findByName('HR'))
         bruno.save(failOnError:true)
 
         def ced = new ShiroUser(username:'cedric',passwordHash: new Sha256Hash("cedric").toHex())
-        bruno.addToRoles(ShiroRole.findByName('employee'))
-        ced.addToRoles(ShiroRole.findByName('admin'))
+        ced.addToRoles(ShiroRole.findByName('employee'))
+        ced.addToRoles(ShiroRole.findByName('HR'))
         ced.save(failOnError:true)
 
 
         def manager = new ShiroUser(username: 'manager', passwordHash: new Sha256Hash("secret").toHex())
         manager.addToRoles(ShiroRole.findByName('projectleader'))
         manager.addToRoles(ShiroRole.findByName('employee'))
+        bruno.addToRoles(ShiroRole.findByName('HR'))
         manager.save(failOnError:true)
 
         def brian = new ShiroUser(username: 'brian', passwordHash: new Sha256Hash("secret").toHex())
@@ -75,6 +81,29 @@ class BootStrap {
         new TaskReport(taskInstance: TaskInstance.get(3), date: today.minusMonths(1).toDate(), days: 1).save(failOnError:true)
         new TaskReport(taskInstance: TaskInstance.get(3), date: (today.minusMonths(1)).plusDays(1).toDate(), days: 1.1).save(failOnError:true)
         new TaskReport(taskInstance: TaskInstance.get(2), date: today.plusDays(3).toDate(), days: 0.9).save(failOnError:true)
+
+        // HR:
+        new StatutRecruitment(name :"New").save(failOnError:true)
+        new StatutRecruitment(name :"In progress").save(failOnError:true)
+        new StatutRecruitment(name :"Interview").save(failOnError:true)
+        new StatutRecruitment(name :"Refused").save(failOnError:true)
+        new StatutRecruitment(name :"Accepted").save(failOnError:true)
+
+        new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+                file:"CV_test.pdf",statut:StatutRecruitment.get(1),
+                user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+                file:"CV_test.pdf",statut:StatutRecruitment.get(2),
+                user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+                file:"CV_test.pdf",statut:StatutRecruitment.get(3),
+                user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+                file:"CV_test.pdf",statut:StatutRecruitment.get(4),
+                user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+                file:"CV_test.pdf",statut:StatutRecruitment.get(5),
+                user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
 
         new TestObject(name: "toto",
         updateat: new Date(),
