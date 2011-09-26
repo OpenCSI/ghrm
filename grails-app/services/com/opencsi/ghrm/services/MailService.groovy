@@ -42,7 +42,7 @@ class MailService {
         try{
             prop.setProperty("mail.store.protocol","imap")
             prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString())
-            prop.setProperty("mail.imap.port",config.mail.hostPortReceive.toInteger())
+            prop.setProperty("mail.imap.port",config.mail.hostPortReceive.toString())
 
             def session = Session.getDefaultInstance(prop,null)
             def store = session.getStore("imap")
@@ -52,13 +52,15 @@ class MailService {
             store.connect(prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString()),
                           config.mail.hostLoginReceive.toString(),config.mail.hostPasswordReceive.toString())
             // receive all the email:
-            inbox = openFolder(store,config.mail.hostINBOXReceive.toString())
-            // close when it's done
-            store.close()
+            inbox = store.getFolder(config.mail.hostINBOXReceive.toString())//openFolder(store,config.mail.hostINBOXReceive.toString())
+            inbox.open(Folder.READ_WRITE)
+            Message[] msgs = inbox.getMessages()
             // return the mails
-            return inbox
+            return msgs
+            // close when it's done
+            //store.close()
         }catch(Exception e){
-            return null
+            return e
         }
     }
 }
