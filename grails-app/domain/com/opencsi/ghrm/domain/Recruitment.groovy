@@ -12,8 +12,6 @@ class Recruitment {
 
     static hasMany = [message: MessageRecruitment]
     static constraints = {
-        who(nullable: false, blank: false)
-        title(nullable:false,blanke: false)
     }
 
     def beforeInsert = {
@@ -23,4 +21,8 @@ class Recruitment {
     def beforeUpdate = {
         updateat = new Date()
     }
+
+    static mapping = {
+       sort 'statut'
+   }
 }
