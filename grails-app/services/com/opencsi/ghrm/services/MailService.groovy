@@ -60,7 +60,7 @@ class MailService {
             // close when it's done
             //store.close()
         }catch(Exception e){
-            return e
+            return null
         }
     }
 }

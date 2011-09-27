@@ -21,11 +21,13 @@ class HRController {
             Map labels = ['id' : 'ID','who' : 'Who', 'title' : 'Title','statut.name': 'Statut','createat':'Date']
             exportService.export(params.format, response.outputStream,Recruitment.list(),fields,labels, [:], [:])
          }
-         def recruitmentNew = Recruitment.findAllByStatut(StatutRecruitment.get(1))
-         def recruitmentProgress = Recruitment.findAllByStatut(StatutRecruitment.get(2))
-         def recruitmentInterview = Recruitment.findAllByStatut(StatutRecruitment.get(3))
-         def recruitmentAccepted = Recruitment.findAllByStatut(StatutRecruitment.get(4))
-         def recruitmentRefused = Recruitment.findAllByStatut(StatutRecruitment.get(5))
+         
+         def recruitmentNew = Recruitment.findAllByStatut(StatutRecruitment.get(1),params)
+         def recruitmentProgress = Recruitment.findAllByStatut(StatutRecruitment.get(2),params)
+         def recruitmentInterview = Recruitment.findAllByStatut(StatutRecruitment.get(3),params)
+         def recruitmentAccepted = Recruitment.findAllByStatut(StatutRecruitment.get(4),params)
+         def recruitmentRefused = Recruitment.findAllByStatut(StatutRecruitment.get(5),params)
+         
         [recruitmentInstanceNewList: recruitmentNew,recruitmentInstanceProgressList: recruitmentProgress,
          recruitmentInstanceInterviewList : recruitmentInterview, recruitmentInstanceAcceptedList : recruitmentAccepted,
          recruitmentInstanceRefusedList: recruitmentRefused]
@@ -34,6 +36,7 @@ class HRController {
     def more = {
         try
         {
+            // TODO:
             def recruitment = Recruitment.get(params.id)
             [recruitment: recruitment]
             

@@ -31,11 +31,41 @@ class HRRecruitmentJob {
             {
                 // add into database the mail, and the attached file (CV) into a directory.
                 msgs.each{
+                    // test if the mail is already in the database:
+                    // verify if the email is already used (statut : New,In progress or Interview):
                     def From = (it.getFrom().toString().split(" "))
-                    new Recruitment(who: '['+From[1].toString(),title: it.getSubject(),comment: it.getContent().toString(),
-                       statut: StatutRecruitment.get(1),user: User.get(1),file:it.getFileName()==null?'No file':it.getFileName(),
-                       createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-                    it.setFlag(Flags.Flag.DELETED, true)
+                    def res = Recruitment.findByWho('['+From[From.size()-1])
+                    def OK = true
+                    if (!res)
+                        OK = true
+                    else
+                    {
+                        // the statut is not either New,In progress or Interview:
+                        if ( !((res.statut.name == "Refused") || (res.statut.name == "Accepted")) )
+                        {
+                            // don't add mail into Recruitment class:
+                            OK = false
+                            // But adding it into the messageRecruitment class:
+                            
+                        }
+                    }
+                    // Receive email:
+                    if (OK)
+                    {
+                        println("[HRRecruitment JOB] : Adding a new mail...")
+                        // String to convert the multipart/Alternative into String:
+                        String strContent = ""
+                        if (it.getContentType() =~ "multipart/ALTERNATIVE")
+                            strContent = it.getContent().getBodyPart(0).getContent().toString()
+                        else // not a multipart method
+                            strContent = it.getContent().toString() 
+                        new Recruitment(who: '['+From[From.size()-1].toString(),title: it.getSubject(),comment: strContent,
+                           statut: StatutRecruitment.get(1),user: User.get(1),file:it.getFileName()==null?'No file':it.getFileName(),
+                           createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+                        it.setFlag(Flags.Flag.DELETED, true)
+                    }
+                    else
+                        println("[HRRecruitment JOB] : Mail is already existed")
                 }
                 println("[HRRecruitment JOB] : Done!")
             }
