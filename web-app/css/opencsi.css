@@ -338,3 +338,15 @@ div#loginForm {
 select {
 	height: auto;
 }
+
+.right{
+	text-align:right;
+}
+
+.left{
+	text-align:left;
+}
+
+.center{
+	text-align:center;
+}

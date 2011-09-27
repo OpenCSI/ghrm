@@ -10,7 +10,7 @@ class Recruitment {
     Date createat
     Date updateat
 
-    static hasMany = [message: MessageRecruitment]
+    /*static hasMany = [message: MessageRecruitment]*/
     static constraints = {
     }
 

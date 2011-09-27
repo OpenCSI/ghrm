@@ -35,10 +35,6 @@ class AuthController {
             if (savedRequest.queryString) targetUri = targetUri + '?' + savedRequest.queryString
         }
 
-        // LDAP Authentification:
-
-
-        // 
         try{
             // Perform the actual login. An AuthenticationException
             // will be thrown if the username is unrecognised or the
