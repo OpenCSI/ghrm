@@ -19,6 +19,11 @@
       </tr>
       </tbody>
     </table>
+    <div class="export">
+      <g:if test="${recruitment.file == 'No file'}">
+        <b>Pas de fichier joint</b>
+      </g:if>
+    </div>
     <br>
     <g:form action="modify">
       <input type="hidden" name="id" value="${recruitment.id}"/>

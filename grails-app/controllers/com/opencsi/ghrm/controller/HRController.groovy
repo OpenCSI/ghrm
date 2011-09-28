@@ -32,8 +32,8 @@ class HRController {
          def recruitmentNew = Recruitment.findAllByStatut(StatutRecruitment.get(1),params)
          def recruitmentProgress = Recruitment.findAllByStatut(StatutRecruitment.get(2),params)
          def recruitmentInterview = Recruitment.findAllByStatut(StatutRecruitment.get(3),params)
-         def recruitmentAccepted = Recruitment.findAllByStatut(StatutRecruitment.get(4),params)
-         def recruitmentRefused = Recruitment.findAllByStatut(StatutRecruitment.get(5),params)
+         def recruitmentAccepted = Recruitment.findAllByStatut(StatutRecruitment.get(5),params)
+         def recruitmentRefused = Recruitment.findAllByStatut(StatutRecruitment.get(4),params)
          
         [recruitmentInstanceNewList: recruitmentNew,recruitmentInstanceProgressList: recruitmentProgress,
          recruitmentInstanceInterviewList : recruitmentInterview, recruitmentInstanceAcceptedList : recruitmentAccepted,
@@ -49,7 +49,7 @@ class HRController {
         }
         catch(Exception e)
         {
-            flash.message = "Error" + e
+            flash.message = "Error cannot find the recruitment."
             redirect(action:'recruitment')
         }
     }

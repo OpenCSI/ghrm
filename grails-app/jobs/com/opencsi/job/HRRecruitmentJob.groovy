@@ -44,7 +44,7 @@ class HRRecruitmentJob {
                     From = From.replace(']','')
                     def res = Recruitment.findByWho(From)
                     def OK = false
-                    // If the request doesn't exist, add it:
+                    // If the request doesn't exist then add it:
                     if (!res)
                         OK = true
                     else
@@ -75,7 +75,9 @@ class HRRecruitmentJob {
                         // String to convert the multipart/Alternative into String:
                         String strContent = ""
                         if (it.getContentType() =~ "multipart/ALTERNATIVE")
+                        {
                             strContent = it.getContent().getBodyPart(0).getContent().toString()
+                        }
                         else // not a multipart method
                             strContent = it.getContent().toString() 
                         new Recruitment(who: From,title: it.getSubject(),comment: strContent,
@@ -83,8 +85,6 @@ class HRRecruitmentJob {
                            createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
                         it.setFlag(Flags.Flag.DELETED, true)
                     }
-                    /*else
-                        println("[HRRecruitment JOB] : Mail is already existed")*/
                 }
                 println("[HRRecruitment JOB] : Done!")
             }

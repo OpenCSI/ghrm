@@ -105,6 +105,12 @@ class UserController {
             userInstance.lastname = params.lastname
             userInstance.email = params.email
             userInstance.save()
+            if (params?.role)
+            {
+                def userShiro = ShiroUser.findByUsername(userInstance.uid)
+                userShiro.addToRoles(ShiroRole.findByName(params.role))
+                userShiro.save()
+            }
             flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
         }
