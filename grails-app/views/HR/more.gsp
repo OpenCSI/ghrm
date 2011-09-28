@@ -12,16 +12,16 @@
         <td>
         <div class="left">id:${fieldValue(bean: recruitment, field: "id")}</div>
         <div class="right">STATUT:<b>${fieldValue(bean: recruitment, field: "statut.name")}</b></div><br>
-        <u>Titre</u>:<div class="center">${fieldValue(bean: recruitment, field: "title")}</div><br>
-        <u>Contenu</u>:<br><div class="center">${fieldValue(bean: recruitment, field: "comment")}</div><br>
-        De:${fieldValue(bean: recruitment, field: "who")}<br>
+        <u><g:message code="recruitment.more.message.title"/></u><div class="center">${fieldValue(bean: recruitment, field: "title")}</div><br>
+        <u><g:message code="recruitment.more.message.content"/></u><br><div class="center">${fieldValue(bean: recruitment, field: "comment")}</div><br>
+        <g:message code="recruitment.more.message.from"/> ${fieldValue(bean: recruitment, field: "who")}<br>
         </td>
       </tr>
       </tbody>
     </table>
     <div class="export">
       <g:if test="${recruitment.file == 'No file'}">
-        <b>Pas de fichier joint</b>
+        <b><g:message code="recruitment.more.message.file"/></b>
       </g:if>
       <g:if test="${recruitment.file != 'No file'}">
         <a href="/ghrm/recruitment/${recruitment.who}/${recruitment.file}"><b>${recruitment.file}</b></a>
@@ -38,7 +38,7 @@
               <option>${fieldValue(bean: statut, field: "name")}</option>
             </g:each>
           </select>
-          <input type="submit" value="Modifier"/>
+          <input type="submit" value="${message(code:'recruitment.more.modify')}"/>
         </td></tr>
       </table>
     </g:form>
