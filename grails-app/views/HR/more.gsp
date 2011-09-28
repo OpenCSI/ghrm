@@ -23,6 +23,9 @@
       <g:if test="${recruitment.file == 'No file'}">
         <b>Pas de fichier joint</b>
       </g:if>
+      <g:if test="${recruitment.file != 'No file'}">
+        <a href="/ghrm/recruitment/${recruitment.who}/${recruitment.file}"><b>${recruitment.file}</b></a>
+      </g:if>
     </div>
     <br>
     <g:form action="modify">

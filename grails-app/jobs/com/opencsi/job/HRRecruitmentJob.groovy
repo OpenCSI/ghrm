@@ -10,6 +10,9 @@ import com.opencsi.ghrm.domain.MessageRecruitment
 import com.opencsi.ghrm.services.MailService
 import javax.mail.Message
 import javax.mail.Flags
+import javax.mail.internet.MimeBodyPart
+import javax.mail.internet.MimeMultipart
+import javax.mail.BodyPart
 import java.io.InputStream
 
 import org.joda.time.DateTime
@@ -18,6 +21,7 @@ class HRRecruitmentJob {
     def timeout = 600000l // execute job every 10 minutes.
     MailService mail
 
+    // TODO | UPDATE | IMPROVE :
     def execute() {
         def today = new DateTime()
         // connection into the IMAP server in order to receive the different mails
@@ -57,14 +61,24 @@ class HRRecruitmentJob {
                             // But adding it into the messageRecruitment class:
                             // String to convert the multipart/Alternative into String:
                             String strContent = ""
-                            if (it.getContentType() =~ "multipart/ALTERNATIVE")
-                                strContent = it.getContent().getBodyPart(0).getContent().toString()
+                            String strFileName = "No file"
+                            if (it.getContentType() =~ /multipart/)
+                            {
+                                MimeMultipart mmultiPart = (MimeMultipart)it.getContent()
+                                for(def i = 0;i < mmultiPart.getCount();i++)
+                                {
+                                     if (mmultiPart.getBodyPart(i).getFileName() != null)
+                                         strFileName = mmultiPart.getBodyPart(i).getFileName()
+                                     else
+                                       strContent += mmultiPart.getBodyPart(i).getContent()
+                                }
+                            }
                             else // not a multipart method
                                 strContent = it.getContent().toString()
                             println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
                             new MessageRecruitment(title: it.getSubject().toString(),
                                 message: strContent,createat: today.toDate(),
-                                recruitment: res,who: From).save(failOnError:true)
+                                recruitment: res,who: From,file:strFileName).save(failOnError:true)
                             it.setFlag(Flags.Flag.DELETED,true)
                         }
                     }
@@ -74,14 +88,22 @@ class HRRecruitmentJob {
                         println("[HRRecruitment JOB] : Adding a new Request Mail from " + From + " ...")
                         // String to convert the multipart/Alternative into String:
                         String strContent = ""
-                        if (it.getContentType() =~ "multipart/ALTERNATIVE")
+                        String strFileName = ""
+                        if (it.getContentType() =~ /multipart/)
                         {
-                            strContent = it.getContent().getBodyPart(0).getContent().toString()
+                            MimeMultipart mmultiPart = (MimeMultipart)it.getContent()
+                            for(def i = 0;i < mmultiPart.getCount();i++)
+                            {
+                                 if (mmultiPart.getBodyPart(i).getFileName() != null)
+                                     strFileName = mmultiPart.getBodyPart(i).getFileName()
+                                 else
+                                     strContent += mmultiPart.getBodyPart(i).getContent()
+                            }
                         }
                         else // not a multipart method
                             strContent = it.getContent().toString() 
                         new Recruitment(who: From,title: it.getSubject(),comment: strContent,
-                           statut: StatutRecruitment.get(1),user: User.get(1),file:it.getFileName()==null?'No file':it.getFileName(),
+                           statut: StatutRecruitment.get(1),user: User.get(1),file:strFileName,
                            createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
                         it.setFlag(Flags.Flag.DELETED, true)
                     }
