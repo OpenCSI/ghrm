@@ -1,7 +1,7 @@
 package com.opencsi.ghrm.domain
 
 class MessageRecruitment {
-    String titre
+    String title
     String message
     Date createat
     Recruitment recruitment

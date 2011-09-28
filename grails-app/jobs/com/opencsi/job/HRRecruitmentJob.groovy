@@ -62,7 +62,7 @@ class HRRecruitmentJob {
                             else // not a multipart method
                                 strContent = it.getContent().toString()
                             println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
-                            new MessageRecruitment(titre: it.getSubject().toString(),
+                            new MessageRecruitment(title: it.getSubject().toString(),
                                 message: strContent,createat: today.toDate(),
                                 recruitment: res,who: From).save(failOnError:true)
                             it.setFlag(Flags.Flag.DELETED,true)

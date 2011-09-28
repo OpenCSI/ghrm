@@ -58,7 +58,7 @@
       </g:if>
       ${message.who} <g:message code="recruitment.more.dialog.wrote"/> :
           <div class="right"><g:message code="recruitment.more.dialog.date"/> ${fieldValue(bean: message, field: "createat")}</div>
-          <g:message code="recruitment.more.message.title"/> <div class="center">${fieldValue(bean: message, field: "titre")}</div><br>
+          <g:message code="recruitment.more.message.title"/> <div class="center">${fieldValue(bean: message, field: "title")}</div><br>
           <g:message code="recruitment.more.message.content"/> <div class="center">${fieldValue(bean: message, field: "message")}</div><br>
       <g:if test="${recruitment.user.name == message.who}">
         </b>

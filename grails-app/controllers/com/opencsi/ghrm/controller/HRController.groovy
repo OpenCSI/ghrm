@@ -3,13 +3,17 @@ package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Recruitment
 import com.opencsi.ghrm.domain.StatutRecruitment
 import com.opencsi.ghrm.domain.MessageRecruitment
+import com.opencsi.ghrm.domain.User
 
 import com.opencsi.ghrm.services.MailService
+import com.opencsi.ghrm.services.UserService
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
+import org.joda.time.DateTime
 
 class HRController {
     def exportService
+    UserService userService
 
     def index = { }
 
@@ -52,30 +56,35 @@ class HRController {
     def modify = {
         try
         {
+            // get the current date:
+            def today = new DateTime()
             // get the current recruitment (id):
             def recruitment = Recruitment.get(params.id)
             MailService mail = new MailService()
             // witch type of post method has been sent:
             if (params.statut)
             {
-                // TODO
-                flash.message = "HOP"
+                // modify the statut:
+                recruitment.statut = StatutRecruitment.findByName(params.statut)
+                recruitment.updateat = today.toDate()
+                recruitment.save()
                 // send a email to the user:
                 def content = "Dear " + recruitment.who + "\n\nYour statut has been modify to : " + params.statut + "."
-                mail.sendMail(recruitment.who,"[GHRM] : Recruitment",content)
+                flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment - Statut",content) + "<br>Statut changed!"
             }
-            else if( (params.titre) && (params.content) )
+            else if( (params.title) && (params.content) )
             {
-                // TODO
-                new MessageRecruitment(titre: params.titre,
+                new MessageRecruitment(title: params.title,
                                 message: params.content,createat: today.toDate(),
-                                recruitment: recruitment,who: me).save(failOnError:true)
+                                recruitment: recruitment,who: User.findByUid(userService.getAuthenticatedUserName()).name).save(failOnError:true)
+                recruitment.updateat = today.toDate()
+                recruitment.save()
                 // Send a email to the user:
-                flash.message = "Recruitment mis à jour."
+                flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment : " + params.title,params.content + "\n\n" + User.findByUid(userService.getAuthenticatedUserName()).name)
             }
         }catch(Exception e)
         {
-            flash.message = "Error to modify the data"
+            flash.message = "Error to modify the data" + e
         }
         redirect(action:'recruitment')
     }
