@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
+import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
 
@@ -54,6 +55,7 @@ class HRRecruitmentJob {
                     // If the request doesn't exist then specify for a Recruitment Mail:
                     if (!res)
                     {
+                        println("[HRRecruitment JOB] : Adding a new Request Mail from " + From + " ...")
                         OK_MailRecruitment = true
                         OK_DialogMessage = false
                     }
@@ -61,11 +63,12 @@ class HRRecruitmentJob {
                         // the statut is not either New,In progress or Interview:
                         if ( !((res.statut.name == "Refused") || (res.statut.name == "Accepted")) )
                         {
+                            println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
                                 OK_DialogMessage = true
                                 // don't add mail into Recruitment class:
                                 OK_MailRecruitment = false
                         }
-                        // String to convert the multipart/*** into String:
+                        // String to convert the multipart/--- into String:
                         String strContent = ""
                         String strFileName = ""
                         if (it.getContentType() =~ /multipart/)
@@ -76,17 +79,25 @@ class HRRecruitmentJob {
                                 if (mmultiPart.getBodyPart(i).getFileName() != null)
                                 {
                                     // create the directory to receive CV of user:
-                                    strFileName = grailsApplication.parentContext.getResource("/recruitment/" + From).file.toString() + '/'  + mmultiPart.getBodyPart(i).getFileName()
-                                    FileWriter file = new FileWriter(strFileName)
-                                    // retreive data's file:
-                                    byte[] buff = new byte[2048]
-                                    InputStream is = mmultiPart.getBodyPart(i).getInputStream()
-                                    //file.write(is.getText(),0,is.getText().length())
-                                    /*int ret = 0
-                                    while( (ret = is.read(buff)) > 0 ){
-                                        ;//     file.write(buff, 0, ret)
-                                    }*/
-                                    is.close()
+                                    strFileName = grailsApplication.parentContext.getResource("/recruitment/" + From).file.toString() 
+                                    new File(strFileName).mkdir()
+                                    strFileName += '/'  + mmultiPart.getBodyPart(i).getFileName()
+                                    FileWriter file = new FileWriter(strFileName,true)
+                                    // If data's file is some text :
+                                    if (mmultiPart.getBodyPart(i).getContent() instanceof String)
+                                    {
+                                        file.write(mmultiPart.getBodyPart(i).getContent().toString()
+                                            ,0,mmultiPart.getBodyPart(i).getContent().toString().length())
+                                    }
+                                    else // other :
+                                    {
+                                        // TO IMPROVE:
+                                        BASE64DecoderStream is = new BASE64DecoderStream(mmultiPart.getBodyPart(i).getContent(),true)
+                                        while (is.read() != -1)
+                                            file.write(is.read())
+                                        is.close()
+                                        // END IMPROVE;
+                                    }
                                     file.close()
                                     // name of the file :
                                     strFileName =  mmultiPart.getBodyPart(i).getFileName()
@@ -108,7 +119,6 @@ class HRRecruitmentJob {
                     // Receive Mail Recruitment:
                     if ( (OK_MailRecruitment)&&(!OK_DialogMessage) )
                     {
-                        println("[HRRecruitment JOB] : Adding a new Request Mail from " + From + " ...")
                         new Recruitment(who: From,title: it.getSubject(),comment: strContent,
                            statut: StatutRecruitment.get(1),user: User.get(1),file:strFileName,
                            createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
@@ -117,13 +127,15 @@ class HRRecruitmentJob {
                     // Receive DialogMessage:
                     else if ( (OK_DialogMessage)&&(!OK_MailRecruitment) )
                     {
-                        println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
                         new MessageRecruitment(title: it.getSubject().toString(),
                             message: strContent,createat: today.toDate(),
                             recruitment: res,who: From,file:strFileName).save(failOnError:true)
                         it.setFlag(Flags.Flag.DELETED,true)
                     }
                 }
+                // Close inbox & store (save deleted file):
+                mail.closeInbox()
+                mail.closeStore()
                 println("[HRRecruitment JOB] : Done!")
             }
             else

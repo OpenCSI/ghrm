@@ -36,6 +36,10 @@ class MailService {
         return "A email notification has been sent to '$who'."
     }
 
+    def inbox
+    def session
+    def store
+
     def receiveMail() {
         def config = ConfigurationHolder.config
         Properties prop = new Properties()
@@ -44,9 +48,9 @@ class MailService {
             prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString())
             prop.setProperty("mail.imap.port",config.mail.hostPortReceive.toString())
 
-            def session = Session.getDefaultInstance(prop,null)
-            def store = session.getStore("imap")
-            def inbox
+            session = Session.getDefaultInstance(prop,null)
+            store = session.getStore("imap")
+            
         
             // try to connect into the IMAP server:
             store.connect(prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString()),
@@ -62,5 +66,14 @@ class MailService {
         }catch(Exception e){
             return null
         }
+    }
+
+    def closeInbox(){
+        if (inbox)
+            inbox.close(true)
+    }
+    def closeStore(){
+        if (store)
+            store.close()
     }
 }
