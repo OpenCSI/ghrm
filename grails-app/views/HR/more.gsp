@@ -20,7 +20,7 @@
       </tbody>
     </table>
     <div class="export">
-      <g:if test="${recruitment.file == 'No file'}">
+      <g:if test="${recruitment.file == ''}">
         <b><g:message code="recruitment.more.message.file"/></b>
       </g:if>
       <g:if test="${recruitment.file != 'No file'}">
