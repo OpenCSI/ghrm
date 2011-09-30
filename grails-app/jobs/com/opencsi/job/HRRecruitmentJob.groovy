@@ -92,7 +92,7 @@ class HRRecruitmentJob {
                                     else // other :
                                     {
                                         // TO IMPROVE:
-                                        BASE64DecoderStream is = new BASE64DecoderStream(mmultiPart.getBodyPart(i).getContent(),true)
+                                        InputStream is = new BASE64DecoderStream(mmultiPart.getBodyPart(i).getContent(),true)
                                         while (is.read() != -1)
                                             file.write(is.read())
                                         is.close()

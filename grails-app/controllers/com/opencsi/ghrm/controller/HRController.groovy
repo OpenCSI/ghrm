@@ -74,13 +74,16 @@ class HRController {
             }
             else if( (params.title) && (params.content) )
             {
-                new MessageRecruitment(title: params.title,
-                                message: params.content,createat: today.toDate(),
-                                recruitment: recruitment,who: User.findByUid(userService.getAuthenticatedUserName()).name).save(failOnError:true)
-                recruitment.updateat = today.toDate()
-                recruitment.save()
                 // Send a email to the user:
                 flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment : " + params.title,params.content + "\n\n" + User.findByUid(userService.getAuthenticatedUserName()).name)
+                if (!flash.message =~ /error/)
+                {
+                    new MessageRecruitment(title: params.title,
+                                    message: params.content,createat: today.toDate(),
+                                    recruitment: recruitment,who: User.findByUid(userService.getAuthenticatedUserName()).name).save(failOnError:true)
+                    recruitment.updateat = today.toDate()
+                    recruitment.save()
+                }
             }
         }catch(Exception e)
         {
