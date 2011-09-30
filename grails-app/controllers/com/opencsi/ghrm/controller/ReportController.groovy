@@ -10,15 +10,19 @@ class ReportController {
     ReportService reportService
     TaskInstanceService taskInstanceService
 
+    private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
+            ,g.message(code:'month.12')]
+    private def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
     def create = {
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
         def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
-        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
-                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
-                    g.message(code:"day.7")]
-
+        
         def taskLists = taskInstanceService.findAllOpenByUser(User.findByUid(userService.getAuthenticatedUserName()))
         def taskSelectOptions = []
 
@@ -36,9 +40,6 @@ class ReportController {
 
         def calendarData = [:]
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
-        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
-                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
-                    g.message(code:"day.7")]
                 
         def reports = reportService.findAllReportsByUserByWeek(
             User.findByUid(userService.getAuthenticatedUserName()),
@@ -66,10 +67,6 @@ class ReportController {
        def id = params.id
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-        def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
-            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
-            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
-            ,g.message(code:'month.12')]
 
         /* Fetch all reports related to the selected project */
         def reports = reportService.findAllReportsByUserByMonth(User.findByUid(userService.getAuthenticatedUserName()),
