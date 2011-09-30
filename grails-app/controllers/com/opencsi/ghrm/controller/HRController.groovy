@@ -76,7 +76,7 @@ class HRController {
             {
                 // Send a email to the user:
                 flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment : " + params.title,params.content + "\n\n" + User.findByUid(userService.getAuthenticatedUserName()).name)
-                if (!flash.message =~ /error/)
+                if (!flash.message =~ /Error/)
                 {
                     new MessageRecruitment(title: params.title,
                                     message: params.content,createat: today.toDate(),
@@ -87,7 +87,7 @@ class HRController {
             }
         }catch(Exception e)
         {
-            flash.message = "Error to modify the data" + e
+            flash.message = "Error to modify the data"
         }
         redirect(action:'recruitment')
     }

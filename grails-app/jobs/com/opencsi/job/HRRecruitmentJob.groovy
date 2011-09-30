@@ -8,14 +8,14 @@ import com.opencsi.ghrm.domain.StatutRecruitment
 import com.opencsi.ghrm.domain.MessageRecruitment
 
 import com.opencsi.ghrm.services.MailService
-import javax.mail.Message
+import javax.mail.internet.MimeMessage
 import javax.mail.Flags
 import javax.mail.internet.MimeBodyPart
 import javax.mail.internet.MimeMultipart
 import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
-import com.sun.mail.util.BASE64DecoderStream
+//import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
 
@@ -30,7 +30,7 @@ class HRRecruitmentJob {
         // connection into the IMAP server in order to receive the different mails
         mail = new MailService()
         println("[HRRecruitment JOB] : Retreive email...")
-        Message[] msgs = mail.receiveMail()
+        MimeMessage[] msgs = mail.receiveMail()
         if (!msgs)
            println("[HRRecruitment JOB] : Error to retreive email!")
         else
@@ -92,7 +92,7 @@ class HRRecruitmentJob {
                                     else // other :
                                     {
                                         // TO IMPROVE:
-                                        InputStream is = new BASE64DecoderStream(mmultiPart.getBodyPart(i).getContent(),true)
+                                        InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
                                         while (is.read() != -1)
                                             file.write(is.read())
                                         is.close()
@@ -134,8 +134,8 @@ class HRRecruitmentJob {
                     }
                 }
                 // Close inbox & store (save deleted file):
-                mail.closeInbox()
-                mail.closeStore()
+                //mail.closeInbox()
+                //mail.closeStore()
                 println("[HRRecruitment JOB] : Done!")
             }
             else

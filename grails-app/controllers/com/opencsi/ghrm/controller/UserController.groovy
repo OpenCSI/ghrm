@@ -6,7 +6,7 @@ import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.domain.User
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
-import org.apache.shiro.crypto.hash.*
+import org.apache.shiro.crypto.hash.Sha256Hash
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class UserController {

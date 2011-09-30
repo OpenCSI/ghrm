@@ -1,10 +1,12 @@
 package com.opencsi.ghrm.services
 
-import org.apache.commons.mail.*
-import org.codehaus.groovy.grails.commons.*
-
-import javax.mail.*
-import javax.mail.search.*
+import org.codehaus.groovy.grails.commons.ConfigurationHolder
+// SEND:
+import org.apache.commons.mail.SimpleEmail
+import org.apache.commons.mail.Email
+import org.apache.commons.mail.DefaultAuthenticator
+// RECEIVE:
+import javax.mail.internet.MimeMessage
 import java.util.Properties
 
 // For using the MailService class, you need to install the plugin mail for grails:
@@ -51,14 +53,13 @@ class MailService {
             session = Session.getDefaultInstance(prop,null)
             store = session.getStore("imap")
             
-        
             // try to connect into the IMAP server:
             store.connect(prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString()),
                           config.mail.hostLoginReceive.toString(),config.mail.hostPasswordReceive.toString())
             // receive all the email:
             inbox = store.getFolder(config.mail.hostINBOXReceive.toString())//openFolder(store,config.mail.hostINBOXReceive.toString())
             inbox.open(Folder.READ_WRITE)
-            Message[] msgs = inbox.getMessages()
+            MimeMessage[] msgs = inbox.getMessages()
             // return the mails
             return msgs
             // close when it's done

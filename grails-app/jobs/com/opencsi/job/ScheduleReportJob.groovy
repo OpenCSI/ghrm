@@ -5,7 +5,7 @@ import com.opencsi.ghrm.domain.*
 import org.joda.time.DateTime
 
 import com.opencsi.ghrm.services.MailService
-import org.codehaus.groovy.tools.shell.util.MessageSource
+//import org.codehaus.groovy.tools.shell.util.MessageSource
 
 class ScheduleReportJob {
     static triggers = {// lanch the trigger every Friday at 18:00:00
