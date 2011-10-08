@@ -11,6 +11,7 @@ class UrlMappings {
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
                 "/project/show/$id"(controller: 'project', action: 'show')
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
+                "/report/month/$year?/$month?"(controller: 'report', action: 'month')
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
 		"/"(controller: 'report', action: 'create')
 		"500"(view:'/error')

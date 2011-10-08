@@ -3,24 +3,65 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <link rel="stylesheet" href="${resource(dir:'css',file:'bootstrap.css')}" />
-    <link rel="stylesheet" href="${resource(dir:'css',file:'opencsi.css')}" />
+
+    <link rel="stylesheet/less" type="text/css" href="${resource(dir:'bootstrap/lib',file:'bootstrap.less')}">
+    <link rel="stylesheet/less" type="text/css" href="${resource(dir:'css',file:'opencsi.css')}">
+    <script type="text/javascript" src="${resource(dir:'bootstrap/js',file:'less-1.1.3.min.js')}" ></script>
+    <script type="text/javascript" src="${resource(dir:'bootstrap/js',file:'jquery.min.js')}" ></script>
+    <script type="text/javascript" src="${resource(dir:'bootstrap/js',file:'bootstrap-dropdown.js')}" ></script>
+
   <tooltip:resources/>
   <g:javascript library="application" />
-<modalbox:modalIncludes />
-<export:resource/>
+  <modalbox:modalIncludes />
+  <export:resource/>
 
   <title>OpenCSI: Ressources humaines</title>
 </head>
-<body>
-  <div id="header">
-    <img id="logoImage" src="${resource(dir:'images', file:'logo.png')}" alt="logo" />
+<body style="padding-top: 50px;">
+
+  <div class="topbar-wrapper" style="z-index: 5;">
+    <div class="topbar" data-dropdown="dropdown">
+      <div class="topbar-inner">
+        <div class="container">
+          <h3><a href="#">Human Resources</a></h3>
+          <ul class="nav">
+            <li><a href="${createLink(controller: 'report', action: 'create')}"><span class="menu_button alert-message success" >+</span></a></li>
+            <li><a href="#">Reports</a></li>
+            <li><a href="#">Projet</a></li>
+            <li><a href="#">Client</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" href="#">Admin</a>
+              <ul class="dropdown-menu">
+                <li><a href="${createLink(controller:"task", action:"list")}"><g:message code="global.task.list"/></a></li>
+                <li></li>
+                <li class="divider"></li>
+                <li></li>
+              </ul>
+            </li>
+
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle">Dropdown</a>
+              <ul class="dropdown-menu">
+                <li><a href="#">Secondary link</a></li>
+                <li><a href="#">Something else here</a></li>
+                <li class="divider"></li>
+                <li><a href="#">Another link</a></li>
+              </ul>
+            </li>
+          </ul>
+          <ul class="nav secondary-nav">
+            <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
+
+          </ul>
+        </div>
+      </div><!-- /topbar-inner -->
+    </div><!-- /topbar -->
   </div>
 
-  <div id="firstPanel">
-    <div id="menu">
+
+  <div class="container-fluid">
+    <div class="sidebar">
       <ul>
-        <li><langs:selector langs="fr, en, es"/></li>
         <li class="current">
           <a href="${createLink(url:'/')}">Home</a>
         </li>
@@ -73,12 +114,17 @@
     <div id="extrainfo">
       <g:render template="/common/extraInfo" />
     </div>
+    <div class="content">
+      <g:if test="${flash.message}">
+        <div class="message">${flash.message}</div>
+      </g:if>
+      <g:layoutBody />
+    </div>
   </div>
-  <div id="secondPanel">
-    <g:if test="${flash.message}">
-      <div class="message">${flash.message}</div>
-    </g:if>
-    <g:layoutBody />
+  <div id="footer">
+    <hr size="1px" />
+    <langs:selector langs="fr, en, es"/>
+    Powered by OpenCSI
   </div>
 </body>
 </html>

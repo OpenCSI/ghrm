@@ -25,7 +25,7 @@
               <td>${fieldValue(bean: taskInstance, field: "label")}</td>
               <td>${fieldValue(bean: taskInstance, field: "description")}</td>
               <td class="action" style="text-align: justify;"><g:link action="modify" id="${taskInstance.id}">
-               <g:message code="task.modify.href"/></g:link></td>
+              <g:message code="task.modify.href"/></g:link></td>
             </tr>
           </g:each>
           </tbody>
@@ -34,6 +34,10 @@
       <div class="paginateButtons">
         <g:paginate total="${taskInstanceTotal}" />
       </div>
-      <export:formats formats="['excel', 'pdf', 'xml']"/>
-    </body>
-  </html>
+
+      <div class="middle">
+        <a href="${createLink(controller:"task", action:"create")}" class="btn large primary"><g:message code="global.task.create"/></a>
+      </div>
+    <export:formats formats="['excel', 'pdf', 'xml']"/>
+  </body>
+</html>
