@@ -16,7 +16,7 @@ span.menu_button {
 .calendar .numberOfDay {
     text-align: center;
     background-color: #F4F4F4;
-    border: 1px solid #E0E0E0;
+    border-bottom: 1px solid #E0E0E0;
 }
 
 .calendar .color0 {
@@ -62,7 +62,7 @@ table.reportTable tbody tr td input {
 }
 
 table.calendarTable thead th {
-	text-align: center;
+    text-align: center;
 }
 
 table.calendarTable tbody {

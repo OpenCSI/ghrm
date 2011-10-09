@@ -27,15 +27,15 @@
           <ul class="nav">
             <li><a href="${createLink(controller: 'report', action: 'create')}"><span class="menu_button alert-message success" >+</span></a></li>
             <li><a href="#">Reports</a></li>
-            <li><a href="#">Projet</a></li>
-            <li><a href="#">Client</a></li>
+            <li><a href="#">Projets</a></li>
             <li class="dropdown">
               <a class="dropdown-toggle" href="#">Admin</a>
               <ul class="dropdown-menu">
-                <li><a href="${createLink(controller:"task", action:"list")}"><g:message code="global.task.list"/></a></li>
+                <li><a href="${createLink(controller:"task", action:"list")}"><g:message code="task.manage"/></a></li>
+                <li><a href="${createLink(controller:"customer", action:"list")}"><g:message code="customer.manage"/></a></li>
                 <li></li>
                 <li class="divider"></li>
-                <li></li>
+                <li><a href="${createLink(controller:"user", action:"list")}"><g:message code="user.manage"/></a></li>
               </ul>
             </li>
 
