@@ -14,10 +14,18 @@ import org.joda.time.DateTime
 class HRController {
     def exportService
     UserService userService
+    def grailsApplication
+
+    private def activate() {
+        def config = grailsApplication.config
+        if (config.Recruitment.statut.toString().equals("stop"))
+            redirect(controller:'report',action:'week')
+    }
 
     def index = { }
 
     def recruitment = {
+        activate()
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
          // Export :
          if(params?.format && params.format != "html")
@@ -41,6 +49,7 @@ class HRController {
     }
 
     def more = {
+        activate()
         try
         {
             def recruitment = Recruitment.get(params.id)
@@ -54,6 +63,7 @@ class HRController {
         }
     }
     def modify = {
+        activate()
         try
         {
             // get the current date:

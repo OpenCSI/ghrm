@@ -17,6 +17,7 @@ class ReportController {
     private def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
                     g.message(code:"day.7")]
+
     def create = {
         def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()

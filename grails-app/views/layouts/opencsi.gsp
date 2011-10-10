@@ -51,7 +51,7 @@
           </ul>
           <ul class="nav secondary-nav">
             <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
-
+            
           </ul>
         </div>
       </div><!-- /topbar-inner -->
@@ -92,10 +92,12 @@
           </li>
         </auth:isProjectLeader>
         <auth:isHR>
+          <g:if test="${grailsApplication.config.Recruitment.statut == 'start'}">
           <li>
             <a href="#"><g:message code="global.HR"/></a>
             <ul><li><a href="${createLink(controller:"HR", action:"recruitment")}"><g:message code="global.HR.recruitment"/></a></li></ul>
           </li>
+          </g:if>
         </auth:isHR>
         <auth:isAdmin>
           <li>

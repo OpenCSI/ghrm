@@ -21,6 +21,7 @@ import org.joda.time.DateTime
 
 class HRRecruitmentJob {
     def timeout = 600000l // execute job every 10 minutes.
+    def group = "HRRecruitment"
     MailService mail
     def grailsApplication
 

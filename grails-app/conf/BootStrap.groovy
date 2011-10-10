@@ -5,8 +5,23 @@ import org.apache.shiro.crypto.hash.*
 import org.joda.time.DateTime
 
 class BootStrap {
-
+    def grailsApplication
+    def quartzScheduler
+    
     def init = { servletContext ->
+        // JOB:
+        // Test int configuration file, if the HRRecruitment job is enabled:
+        def appConfig = grailsApplication.config
+        if (appConfig.Recruitment.statut.toString().equals("stop"))
+        {
+            quartzScheduler.pauseJob('HRRecruitmentJob','HRRecruitment')
+            println("[GHRM Init] : The HRRecruitment Job is stopped")
+        }
+        else if (appConfig.Recruitment.statut.toString().equals("start"))
+        {
+            println("[GHRM Init] : The HRRecruitment Job is started")
+        }
+        // Init scenario:
         def admin = new ShiroRole(name: 'admin')
         admin.addToPermissions("*:*")
         admin.save(failOnError: true)
@@ -92,16 +107,16 @@ class BootStrap {
         new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(1),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+        new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(2),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+        new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(3),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+        new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(4),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-            new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
+        new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(5),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
 
