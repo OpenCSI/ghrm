@@ -128,7 +128,9 @@
     </div>
     <div class="content">
       <g:if test="${flash.message}">
+        <div class="alert-message warning">
         <div class="message">${flash.message}</div>
+        </div>
       </g:if>
       <g:layoutBody />
     </div>

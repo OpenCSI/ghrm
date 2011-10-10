@@ -69,7 +69,7 @@ class HRRecruitmentJob {
                                 // don't add mail into Recruitment class:
                                 OK_MailRecruitment = false
                         }
-                        // String to convert the multipart/--- into String:
+                        // Convert the multipart/--- into String:
                         String strContent = ""
                         String strFileName = ""
                         if (it.getContentType() =~ /multipart/)
