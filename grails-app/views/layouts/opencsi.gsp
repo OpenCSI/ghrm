@@ -92,7 +92,7 @@
           </li>
         </auth:isProjectLeader>
         <auth:isHR>
-          <g:if test="${grailsApplication.config.Recruitment.statut == 'start'}">
+          <g:if test="${grailsApplication.config.recruitment.status == 'start'}">
           <li>
             <a href="#"><g:message code="global.HR"/></a>
             <ul><li><a href="${createLink(controller:"HR", action:"recruitment")}"><g:message code="global.HR.recruitment"/></a></li></ul>

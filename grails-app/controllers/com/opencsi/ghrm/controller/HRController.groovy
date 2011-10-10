@@ -18,7 +18,7 @@ class HRController {
 
     private def activate() {
         def config = grailsApplication.config
-        if (config.Recruitment.statut.toString().equals("stop"))
+        if (config.recruitment.status.toString().equals("stop"))
             redirect(controller:'report',action:'week')
     }
 
