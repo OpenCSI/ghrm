@@ -30,6 +30,10 @@
         <div class="paginateButtons">
           <g:paginate total="${customerInstanceTotal}" />
         </div>
+
+      <div class="middle">
+        <a href="${createLink(controller:"customer", action:"create")}" class="btn large primary"><g:message code="global.customer.create"/></a>
+      </div>
       <export:formats formats="['excel', 'pdf', 'xml']"/>
     </body>
   </html>

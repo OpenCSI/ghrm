@@ -25,9 +25,30 @@
         <div class="container">
           <h3><a href="#">Human Resources</a></h3>
           <ul class="nav">
-            <li><a href="${createLink(controller: 'report', action: 'create')}"><span class="menu_button alert-message success" >+</span></a></li>
-            <li><a href="#">Reports</a></li>
-            <li><a href="#">Projets</a></li>
+            <auth:isEmployee>
+              <li><a href="${createLink(controller: 'report', action: 'create')}"><span class="menu_button alert-message success" >+</span></a></li>
+              <li class="dropdown">
+              <a class="dropdown-toggle" href="#">Reports</a>
+              <ul class="dropdown-menu">
+              <li><a href="${createLink(controller: 'report', action: 'month')}"><g:message code="global.month.current"/></a></li>
+              <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
+              </ul>
+              </li>
+            </auth:isEmployee>
+            <auth:isProjectLeader>
+              <li><a href="${createLink(controller:'project', action:'list')}"><g:message code="global.project"/></a></li>
+            </auth:isProjectLeader>
+            <auth:isHR>
+              <g:if test="${grailsApplication.config.recruitment.status == 'start'}">
+               <li class="dropdown">
+                 <a class="dropdown-toggle" href="#"><g:message code="global.HR"/></a>
+                 <ul class="dropdown-menu">
+                  <li><a href="${createLink(controller:"HR", action:"recruitment")}"><g:message code="global.HR.recruitment"/></a></li>
+                 </ul>
+               </li>
+              </g:if>
+            </auth:isHR>
+            <auth:isAdmin>
             <li class="dropdown">
               <a class="dropdown-toggle" href="#">Admin</a>
               <ul class="dropdown-menu">
@@ -38,26 +59,15 @@
                 <li><a href="${createLink(controller:"user", action:"list")}"><g:message code="user.manage"/></a></li>
               </ul>
             </li>
-
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle">Dropdown</a>
-              <ul class="dropdown-menu">
-                <li><a href="#">Secondary link</a></li>
-                <li><a href="#">Something else here</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Another link</a></li>
-              </ul>
-            </li>
+            </auth:isAdmin>
           </ul>
           <ul class="nav secondary-nav">
             <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
-            
           </ul>
         </div>
       </div><!-- /topbar-inner -->
     </div><!-- /topbar -->
   </div>
-
 
   <div class="container-fluid">
     <div class="sidebar">
@@ -123,6 +133,7 @@
       <g:layoutBody />
     </div>
   </div>
+  
   <div id="footer">
     <hr size="1px" />
     <langs:selector langs="fr, en, es"/>

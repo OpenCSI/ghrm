@@ -116,7 +116,7 @@ class HRRecruitmentJob {
                         }
                         else // not a multipart method
                             strContent = it.getContent().toString()
-                            
+                    
                     // Receive Mail Recruitment:
                     if ( (OK_MailRecruitment)&&(!OK_DialogMessage) )
                     {
