@@ -8,15 +8,17 @@ import org.apache.commons.mail.DefaultAuthenticator
 // RECEIVE:
 import javax.mail.internet.MimeMessage
 import java.util.Properties
+import javax.mail.Session
+import javax.mail.Folder
 
 // For using the MailService class, you need to install the plugin mail for grails:
 // CLI : grails install-plugin mail
 class MailService {
 
     static transactional = true
+    def config = ConfigurationHolder.config// enable the method to use datas into Config.groovy
 
     def sendMail(String who,String subject,String content) {
-        def config = ConfigurationHolder.config// enable the method to use datas into Config.groovy
         try
         {
             Email email = new SimpleEmail()
@@ -39,18 +41,16 @@ class MailService {
     }
 
     def inbox
-    def session
     def store
 
     def receiveMail() {
-        def config = ConfigurationHolder.config
         Properties prop = new Properties()
         try{
             prop.setProperty("mail.store.protocol","imap")
             prop.setProperty("mail.imap.host",config.mail.hostNameReceive.toString())
             prop.setProperty("mail.imap.port",config.mail.hostPortReceive.toString())
 
-            session = Session.getDefaultInstance(prop,null)
+            def session = Session.getDefaultInstance(prop,null)
             store = session.getStore("imap")
             
             // try to connect into the IMAP server:

@@ -105,11 +105,16 @@ class HRRecruitmentJob {
                                 }
                                 else
                                 {
-                                    MimeMultipart mmp = (MimeMultipart)mmultiPart.getBodyPart(i).getContent()
-                                    for(def j = 0;j < mmp.getCount();j++)
+                                    if (mmultiPart.getBodyPart(i).getContent() instanceof String)
+                                        strContent += mmultiPart.getBodyPart(i).getContent().toString().replaceAll("<[^>]*>", "")
+                                    else
                                     {
-                                        // escape HTML tag:
-                                        strContent = mmp.getBodyPart(j).getContent().toString().replaceAll("<[^>]*>", "")
+                                        MimeMultipart mmp = (MimeMultipart)mmultiPart.getBodyPart(i).getContent()
+                                        for(def j = 0;j < mmp.getCount();j++)
+                                        {
+                                            // escape HTML tag:
+                                            strContent = mmp.getBodyPart(j).getContent().toString().replaceAll("<[^>]*>", "")
+                                        }
                                     }
                                 }
                             }
