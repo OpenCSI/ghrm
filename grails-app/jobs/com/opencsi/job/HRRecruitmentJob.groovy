@@ -82,7 +82,12 @@ class HRRecruitmentJob {
                                     // create the directory to receive CV of user:
                                     strFileName = grailsApplication.parentContext.getResource("/recruitment/" + From).file.toString() 
                                     new File(strFileName).mkdir()
+                                    // Create and write into file:
                                     strFileName += '/'  + mmultiPart.getBodyPart(i).getFileName()
+                                    // Remove file if already exists:
+                                    File fichier = new File(strFileName)
+                                    if (fichier.exists())
+                                        fichier.delete()
                                     FileWriter file = new FileWriter(strFileName,true)
                                     // If data's file is some text :
                                     if (mmultiPart.getBodyPart(i).getContent() instanceof String)
