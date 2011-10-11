@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
-//import com.sun.mail.util.BASE64DecoderStream
+import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
 
@@ -89,7 +89,7 @@ class HRRecruitmentJob {
                                     if (fichier.exists())
                                         fichier.delete()
                                     FileWriter file = new FileWriter(strFileName,true)
-                                    // If data's file is some text :
+                                    // If data's attachment is some text :
                                     if (mmultiPart.getBodyPart(i).getContent() instanceof String)
                                     {
                                         file.write(mmultiPart.getBodyPart(i).getContent().toString()
@@ -99,8 +99,10 @@ class HRRecruitmentJob {
                                     {
                                         // TO IMPROVE:
                                         InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
-                                        while (is.read() != -1)
-                                            file.write(is.read())
+                                        //BASE64DecoderStream b64 = new BASE64DecoderStream(is)
+                                        int data;
+                                        while((data = is.read()) != -1)
+                                            file.write(data)
                                         is.close()
                                         // END IMPROVE;
                                     }
