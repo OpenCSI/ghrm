@@ -15,7 +15,7 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
-import com.sun.mail.util.BASE64DecoderStream
+//import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
 
@@ -99,7 +99,6 @@ class HRRecruitmentJob {
                                     {
                                         // TO IMPROVE:
                                         InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
-                                        //BASE64DecoderStream b64 = new BASE64DecoderStream(is)
                                         int data;
                                         while((data = is.read()) != -1)
                                             file.write(data)

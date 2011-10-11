@@ -93,7 +93,8 @@ class ProjectController {
             extraInfo: projectInfo,
             nameMonth: nameMonth,
             currentYear: selectedYear,
-            currentMonth: selectedMonth
+            currentMonth: selectedMonth,
+            value : 'project'
         ]
     }
 

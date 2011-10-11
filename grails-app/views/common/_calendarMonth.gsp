@@ -1,18 +1,34 @@
 <div class="calendar">
   <div class="calendarNavigation">
     <span class="previousDate">
-      <g:link action="report" params="[
-              id:projectId,
-              year: monthInfos['previousYear'],
-              month: monthInfos['previousMonth']
-              ]">&lt;- <g:message code="default.paginate.prev" /></g:link>
+      <g:if test="${value == 'report'}">
+        <g:link action="month" params="[
+                year: monthInfos['previousYear'],
+                month: monthInfos['previousMonth']
+                ]">&lt;- <g:message code="default.paginate.prev" /></g:link>
+      </g:if>
+      <g:if test="${value == 'project'}">
+        <g:link action="report" params="[
+                id:projectId,
+                year: monthInfos['previousYear'],
+                month: monthInfos['previousMonth']
+                ]">&lt;- <g:message code="default.paginate.prev" /></g:link>
+      </g:if>
     </span>
     <span class="nextDate">
-      <g:link action="report" params="[
-              id:projectId,
-              year: monthInfos['nextYear'],
-              month: monthInfos['nextMonth']
-              ]"><g:message code="default.paginate.next" /> -&gt;</g:link>
+      <g:if test="${value == 'report'}">
+        <g:link action="month" params="[
+                year: monthInfos['nextYear'],
+                month: monthInfos['nextMonth']
+                ]"><g:message code="default.paginate.next" /> -&gt;</g:link>
+      </g:if>
+      <g:if test="${value == 'project'}">
+        <g:link action="report" params="[
+                id:projectId,
+                year: monthInfos['nextYear'],
+                month: monthInfos['nextMonth']
+                ]"><g:message code="default.paginate.next" /> -&gt;</g:link>
+      </g:if>
     </span>
   </div>
   <g:set var="totalNumberOfDays" value="${0}" />
