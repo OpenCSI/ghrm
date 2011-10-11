@@ -21,6 +21,7 @@ class ProjectController {
             ,g.message(code:'month.12')]
 
     def create = {
+        [projectList: Project.list()]
     }
     
     def save = {
@@ -42,7 +43,7 @@ class ProjectController {
         def project = Project.get(params.id)
         def tasks = TaskInstance.findAllByProject(project)
 
-        [project: project, projectTasks: tasks]
+        [project: project, projectTasks: tasks,projectList: Project.list()]
     }
     
     def list = {
@@ -57,7 +58,7 @@ class ProjectController {
                             'description': 'Description','label': 'Label']
             exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
          }
-        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count()]
+        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Project.list()]
     }
         
     def report = {
@@ -94,7 +95,8 @@ class ProjectController {
             nameMonth: nameMonth,
             currentYear: selectedYear,
             currentMonth: selectedMonth,
-            value : 'project'
+            value : 'project',
+            projectList: Project.list()
         ]
     }
 

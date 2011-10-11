@@ -33,6 +33,11 @@
       <div class="paginateButtons">
         <g:paginate total="${ProjectInstanceTotal}" />
       </div>
+      <auth:isProjectLeader>
+        <div class="middle">
+            <a href="${createLink(controller:"project", action:"create")}" class="btn large primary"><g:message code="global.new"/></a>
+          </div>
+      </auth:isProjectLeader>
       <export:formats formats="['excel', 'pdf', 'xml']"/>
     </div>
   </body>

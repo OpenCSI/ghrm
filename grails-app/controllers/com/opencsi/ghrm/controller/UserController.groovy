@@ -2,10 +2,14 @@ package com.opencsi.ghrm.controller
 
 import com.opencsi.ghrm.domain.TaskInstance
 import com.opencsi.ghrm.domain.TaskReport
-import com.opencsi.ghrm.services.UserService
+import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.User
+
+import com.opencsi.ghrm.services.UserService
+
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
+
 import org.apache.shiro.crypto.hash.Sha256Hash
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
@@ -15,6 +19,7 @@ class UserController {
     
     def create = {
        // flash.message = ""
+       [projectList: Project.list()]
     }
 
     def list = {
@@ -28,7 +33,7 @@ class UserController {
             Map labels = ['id' : 'ID','name' : 'Name', 'email' : 'Email','uid': 'UID']
             exportService.export(params.format, response.outputStream,User.list(params),fields,labels, [:], [:])
          }
-        [userInstanceList: User.list(params), userInstanceTotal: User.count()]
+        [userInstanceList: User.list(params), userInstanceTotal: User.count(),projectList: Project.list()]
     }
 
     def save = {
@@ -116,7 +121,7 @@ class UserController {
         }
         [uid : userInstance.uid, firstname : userInstance.firstname,
             ,email : userInstance.email,lastname : userInstance.lastname,
-            id : params.id]
+            id : params.id,projectList: Project.list()]
     }
 
 

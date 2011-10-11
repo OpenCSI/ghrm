@@ -31,7 +31,7 @@ class ReportController {
             taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
         }
 
-        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek]
+        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,projectList: Project.list()]
     }
 
     def week = {
@@ -61,7 +61,7 @@ class ReportController {
                     'id' : report.id
                 ])
         }
-        [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek]
+        [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,projectList: Project.list()]
     }
 
     def month = {
@@ -99,7 +99,8 @@ class ReportController {
             nameMonth: nameMonth,
             currentYear: selectedYear,
             currentMonth: selectedMonth,
-            value : 'report'
+            value : 'report',
+            projectList: Project.list()
         ]
     }
 

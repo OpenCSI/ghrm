@@ -36,6 +36,11 @@
         <div class="paginateButtons">
           <g:paginate total="${userInstanceTotal}" />
         </div>
+      <auth:isAdmin>
+    <div class="middle">
+        <a href="${createLink(controller:"user", action:"create")}" class="btn large primary"><g:message code="global.new"/></a>
+      </div>
+  </auth:isAdmin>
       <export:formats formats="['excel', 'pdf', 'xml']"/>
     </body>
   </html>

@@ -71,70 +71,35 @@
 
   <div class="container-fluid">
     <div class="sidebar">
-      <ul>
-        <li class="current">
-          <a href="${createLink(url:'/')}">Home</a>
-        </li>
-        <auth:isEmployee>
-          <li>
-            <a href="#">Reports</a>
-            <ul>
-              <li><a href="${createLink(controller: 'report', action: 'month')}"><g:message code="global.month.current"/></a></li>
-              <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
-              <li><a href="${createLink(controller: 'report', action: 'create')}"><g:message code="global.report.new"/></a></li>
-            </ul>
-          </li>
-        </auth:isEmployee>
-        <auth:isProjectLeader>
-          <li>
-            <a href="#"><g:message code="global.project"/></a>
-            <ul>
-              <li><a href="${createLink(controller: 'project', action: 'create')}"><g:message code="global.new" /></a></li>
-              <li><a href="${createLink(controller: 'project', action: 'list')}"><g:message code="global.list" /></a></li>
-            </ul>
-          </li>
-          <li>
-            <a href="#"><g:message code="global.customer"/></a>
-            <ul>
-              <li><a href="${createLink(action:"create", controller:"customer")}"><g:message code="global.new"/></a></li>
-              <li><a href="${createLink(action:"list", controller:"customer")}"><g:message code="global.list"/></a></li>
-            </ul>
-          </li>
-        </auth:isProjectLeader>
-        <auth:isHR>
-          <g:if test="${grailsApplication.config.recruitment.status == 'start'}">
-          <li>
-            <a href="#"><g:message code="global.HR"/></a>
-            <ul><li><a href="${createLink(controller:"HR", action:"recruitment")}"><g:message code="global.HR.recruitment"/></a></li></ul>
-          </li>
-          </g:if>
-        </auth:isHR>
-        <auth:isAdmin>
-          <li>
-            <a href="#">Admin</a>
-            <ul>
-              <li><a href="${createLink(controller:"task", action:"create")}"><g:message code="global.task.create"/></a></li>
-              <li><a href="${createLink(controller:"task", action:"list")}"><g:message code="global.task.list"/></a></li>
-              <li><a href="${createLink(controller:"user", action:"create")}"><g:message code="global.user.create"/></a></li>
-              <li><a href="${createLink(controller:'user',action:'list')}"><g:message code="global.user.list"/></a></li>
-            </ul>
-          </li>
-        </auth:isAdmin>
-        <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
-      </ul>
-    </div>
+      <div class="well">
+        <h5><g:message code="global.project.actif"/></h5>
+          <g:each in="${projectList}">
+            <g:if test="${it.status == 0}">
+              <g:if test="${it.customer.name != name}">
+                <g:set var="name" value="${it.customer.name}"/>
+                ${it.customer.name}
+              </g:if>
+              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a></li>
+            </g:if>
+          </g:each>
+      </div>
+    </div> 
+
     <div id="extrainfo">
       <g:render template="/common/extraInfo" />
     </div>
+    
     <div class="content">
       <g:if test="${flash.message}">
         <div class="alert-message warning">
         <div class="message">${flash.message}</div>
         </div>
       </g:if>
+
       <g:layoutBody />
+      
     </div>
-  </div>
+  </div> 
   
   <div id="footer">
     <hr size="1px" />

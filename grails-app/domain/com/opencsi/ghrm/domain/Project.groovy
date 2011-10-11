@@ -25,6 +25,10 @@ class Project {
         description(nullable: true)
     }
 
+    static mapping = {
+       sort customer:'asc'
+   }
+
     def beforeInsert = {
         createat = new Date()
     }

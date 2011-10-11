@@ -1,5 +1,7 @@
 package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Task
+import com.opencsi.ghrm.domain.Project
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class TaskController {
@@ -7,11 +9,11 @@ class TaskController {
     def exportService
 
     def show = {
-        [task: Task.findById(params.id)]
+        [task: Task.findById(params.id),projectList: Project.list()]
     }
 
     def create = {
-        
+        [projectList: Project.list()]
     }
 
     def save = {
@@ -38,7 +40,7 @@ class TaskController {
             Map labels = ['createat' : 'Created at','label' : 'Label', 'name' : 'Name','description': 'Description']
             exportService.export(params.format, response.outputStream,Task.list(params), fields, labels,[:],[:])
          }
-        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count()]
+        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count(),projectList: Project.list()]
     }
 
     def modify = {
@@ -55,7 +57,7 @@ class TaskController {
             redirect(action:'list')
         }
         [id: params.id, name: taskInstance.name, label: taskInstance.label,
-            description: taskInstance.description]
+            description: taskInstance.description,projectList: Project.list()]
     }
 
 }

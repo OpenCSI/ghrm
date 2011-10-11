@@ -16,10 +16,11 @@ class CustomerController {
 
     def show = {
         def customer = Customer.get(params.id)
-        [customer: customer]
+        [customer: customer,projectList: Project.list()]
     }
     
     def create = {
+        [projectList: Project.list()]
     }
 
     def save = {
@@ -45,7 +46,7 @@ class CustomerController {
             Map labels = ['name' : 'Name','city' : 'City', 'street' : 'Street','postalCode': 'Postal Code']
             exportService.export(params.format, response.outputStream,Customer.list(params), fields, labels,[:],[:])
          }
-        [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count()]
+        [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count(),projectList: Project.list()]
     }
 
     def modify = {
@@ -63,7 +64,7 @@ class CustomerController {
             redirect(action:'list')
         }
         [id: params.id, name: customerInstance.name, city: customerInstance.city,
-            postal_code: customerInstance.postalCode, street: customerInstance.street]
+            postal_code: customerInstance.postalCode, street: customerInstance.street,projectList: Project.list()]
     }
 
     def confirm ={

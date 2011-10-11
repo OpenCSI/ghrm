@@ -4,6 +4,7 @@ import com.opencsi.ghrm.domain.Recruitment
 import com.opencsi.ghrm.domain.StatutRecruitment
 import com.opencsi.ghrm.domain.MessageRecruitment
 import com.opencsi.ghrm.domain.User
+import com.opencsi.ghrm.domain.Project
 
 import com.opencsi.ghrm.services.MailService
 import com.opencsi.ghrm.services.UserService
@@ -21,8 +22,6 @@ class HRController {
         if (config.recruitment.status.toString().equals("stop"))
             redirect(controller:'report',action:'week')
     }
-
-    def index = { }
 
     def recruitment = {
         activate()
@@ -45,7 +44,7 @@ class HRController {
          
         [recruitmentInstanceNewList: recruitmentNew,recruitmentInstanceProgressList: recruitmentProgress,
          recruitmentInstanceInterviewList : recruitmentInterview, recruitmentInstanceAcceptedList : recruitmentAccepted,
-         recruitmentInstanceRefusedList: recruitmentRefused]
+         recruitmentInstanceRefusedList: recruitmentRefused,projectList: Project.list()]
     }
 
     def more = {
@@ -54,7 +53,7 @@ class HRController {
         {
             def recruitment = Recruitment.get(params.id)
             def message = MessageRecruitment.findAllByRecruitment(recruitment)
-            [recruitment: recruitment, message: message, statut: StatutRecruitment.list()]
+            [recruitment: recruitment, message: message, statut: StatutRecruitment.list(),,projectList: Project.list()]
         }
         catch(Exception e)
         {
@@ -62,6 +61,7 @@ class HRController {
             redirect(action:'recruitment')
         }
     }
+
     def modify = {
         activate()
         try
