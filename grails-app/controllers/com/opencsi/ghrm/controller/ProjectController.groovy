@@ -96,7 +96,8 @@ class ProjectController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'project',
-            projectList: Project.list()
+            projectList: Project.list(),
+            nameProject : Project.get(id).name
         ]
     }
 

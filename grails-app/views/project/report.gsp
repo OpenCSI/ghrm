@@ -5,11 +5,11 @@
   </head>
 
   <body>
-    <h2>Project report</h2>
+    <h2>Project report [${nameProject}]</h2>
     <g:render template="/common/calendarMonth" />
     <div class='export'>
       <span class='menuButton'>
-        <g:link class="excel" controller="project" action="reportPDF" params="[
+        <g:link class="excel" contr oller="project" action="reportPDF" params="[
                   id:projectId,
                   year: currentYear,
                   month: currentMonth,format:'excel',extension:'xls'
