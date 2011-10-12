@@ -14,7 +14,7 @@ dataSource {
 environments {
     development {
         dataSource {
-            dbCreate = "create-drop"
+            dbCreate = "create"
             //url = "jdbc:mysql://url/DB"
             url = hibernate.jdbc.url
         }
@@ -22,7 +22,7 @@ environments {
 
     hsql {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+            dbCreate = "create" // one of 'create', 'create-drop','update'
             url = "jdbc:hsqldb:mem:devDB"
             driverClassName = "org.hsqldb.jdbcDriver"
             username = "SA"
@@ -32,23 +32,23 @@ environments {
 
     shell {
         dataSource {
-            dbCreate = "create-drop" // one of 'create', 'create-drop','update'
+            dbCreate = "create" // one of 'create', 'create-drop','update'
             //url = "jdbc:hsqldb:mem:devDB"
            // url = "jdbc:mysql://proxy-local.opencsi.com/ghrm"
-            url = url = hibernate.jdbc.url
+            url = hibernate.jdbc.url
         }
     }
 
     test {
         dataSource {
-            dbCreate = "create-drop"
-            url = url = hibernate.jdbc.url
+            dbCreate = "create"
+            url = hibernate.jdbc.url
         }
     }
     production {
         dataSource {
-            dbCreate = "create-drop"
-            url = url = hibernate.jdbc.url
+            dbCreate = "create"
+            url = hibernate.jdbc.url
         }
     }
 }

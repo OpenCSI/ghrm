@@ -25,16 +25,17 @@ class HRRecruitmentJob {
     def group = "HRRecruitment"
     MailService mail
     def grailsApplication
-
     // TODO | UPDATE | IMPROVE :
     def execute() {
+        if (grailsApplication.config.recruitment.status.toString().equals('stop') )
+            return false
         def today = new DateTime()
         // connection into the IMAP server in order to receive the different mails
         mail = new MailService()
         println("[HRRecruitment JOB] : Retreive email...")
         MimeMessage[] msgs = mail.receiveMail()
         if (!msgs)
-           println("[HRRecruitment JOB] : Error to retreive email!")
+           println("[HRRecruitment JOB] : Error to retreive email! [INBOX empty? or wrong app-config for mail?]")
         else
         {
             if (msgs.size() > 0)

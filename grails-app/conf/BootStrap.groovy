@@ -12,12 +12,12 @@ class BootStrap {
         // JOB:
         // Test int configuration file, if the HRRecruitment job is enabled:
         def appConfig = grailsApplication.config
-        if (appConfig.Recruitment.statut.toString().equals("stop"))
+        if (appConfig.recruitment.status.toString().equals("stop"))
         {
-            quartzScheduler.pauseJob('HRRecruitmentJob','HRRecruitment')
+            quartzScheduler.deleteJob('HRRecruitmentJob','HRRecruitment')
             println("[GHRM Init] : The HRRecruitment Job is stopped")
         }
-        else if (appConfig.Recruitment.statut.toString().equals("start"))
+        else if (appConfig.recruitment.status.toString().equals("start"))
         {
             println("[GHRM Init] : The HRRecruitment Job is started")
         }

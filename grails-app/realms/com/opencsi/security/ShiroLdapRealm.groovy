@@ -42,30 +42,30 @@ class ShiroLdapRealm {
 
             // Skip authentication ?
             if (skipAuthc) {
-              log.info "Skipping authentication in development mode."
+              log.info "[LDAP] : Skipping authentication in development mode."
               return username
             }
 
             // Null username is invalid
             if (username == null) {
-                throw new AccountException("Null usernames are not allowed by this realm.")
+                throw new AccountException("[LDAP] : Null usernames are not allowed by this realm.")
             }
 
             // Empty username is invalid
             if (username == "") {
-                throw new AccountException("Empty usernames are not allowed by this realm.")
+                throw new AccountException("[LDAP] : Empty usernames are not allowed by this realm.")
             }
 
             // Allow empty passwords ?
             if (!allowEmptyPass) {
                 // Null password is invalid
                 if (password == null) {
-                    throw new CredentialsException("Null password are not allowed by this realm.")
+                    throw new CredentialsException("[LDAP] : Null password are not allowed by this realm.")
                 }
 
                 // empty password is invalid
                 if (password == "") {
-                    throw new CredentialsException("Empty passwords are not allowed by this realm.")
+                    throw new CredentialsException("[LDAP] : Empty passwords are not allowed by this realm.")
                 }
             }
 
@@ -89,7 +89,7 @@ class ShiroLdapRealm {
             // Find an LDAP server that we can connect to.
             def ctx
             def urlUsed = ldapUrls.find { url ->
-                log.info "Trying LDAP server ${url} ..."
+                log.info "[LDAP] : Trying LDAP server ${url} ..."
                 env[Context.PROVIDER_URL] = url
 
                 // If an exception occurs, log it.
@@ -98,14 +98,14 @@ class ShiroLdapRealm {
                     return true
                 }
                 catch (NamingException e) {
-                    log.error "Could not connect to ${url}: ${e}"
+                    println "[LDAP] : Could not connect to ${url}: ${e}"
                     return false
                 }
             }
 
             if (!urlUsed) {
-                def msg = 'No LDAP server available.'
-                log.error msg
+                def msg = '[LDAP] : No LDAP server available.'
+                println msg
                 throw new org.apache.shiro.authc.AuthenticationException(msg)
             }
 
@@ -113,15 +113,15 @@ class ShiroLdapRealm {
             // matching the given username.
             def matchAttrs = new BasicAttributes(true)
             matchAttrs.put(new BasicAttribute(usernameAttribute, username))
-
             def result = ctx.search(searchBase, matchAttrs)
             if (!result.hasMore()) {
-                throw new UnknownAccountException("No account found for user [${username}]")
+                println "[LDAP] : No account found for user [${username}]"
+                throw new UnknownAccountException("[LDAP] : No account found for user [${username}]")
             }
 
             // Skip credentials check ?
             if (skipCredChk) {
-              log.info "Skipping credentials check in development mode."
+              println "[LDAP] : Skipping credentials check in development mode."
               return username
             }
 
@@ -138,8 +138,8 @@ class ShiroLdapRealm {
                 return username
             }
             catch (AuthenticationException ex) {
-                log.info "Invalid password"
-                throw new IncorrectCredentialsException("Invalid password for user '${username}'")
+                println "[LDAP] : Invalid password for user '${username}'"
+                throw new IncorrectCredentialsException("[LDAP] : Invalid password for user '${username}'")
             }
         }
     }
