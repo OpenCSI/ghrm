@@ -25,7 +25,7 @@ class ShiroLdapRealm {
         // if the authenticate value is 'on', enable LDAP:
         if (appConfig.ldap.authentication.toString().equals('on'))
         {
-            log.info "Attempting to authenticate ${authToken.username} in LDAP realm..."
+            println "[LDAP] : Attempting to authenticate '${authToken.username}' ..."
             def username = authToken.username
             def password = new String(authToken.password)
 
