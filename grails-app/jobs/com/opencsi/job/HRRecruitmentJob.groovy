@@ -89,33 +89,21 @@ class HRRecruitmentJob {
                                     File fichier = new File(strFileName)
                                     if (fichier.exists())
                                         fichier.delete()
-                                    // If data's attachment is some text :
-                                    if (mmultiPart.getBodyPart(i).getContent() instanceof String)
-                                    {
-                                        FileWriter file = new FileWriter(strFileName,true)
-                                        file.write(mmultiPart.getBodyPart(i).getContent().toString()
-                                            ,0,mmultiPart.getBodyPart(i).getContent().toString().length())
-                                        file.close()
-                                    }
-                                    else // other :
-                                    {
-                                        // TO IMPROVE:
-                                        FileOutputStream file = new FileOutputStream(strFileName)
-                                        InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
-                                        int data;
-                                        while((data = is.read()) != -1)
-                                            file.write(data)
-                                        is.close()
-                                        file.close()
-                                        // END IMPROVE;
-                                    }
-                                    // name of the file :
+                                    // Put the flux attachment into the file:
+                                    FileOutputStream file = new FileOutputStream(fichier)
+                                    InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
+                                    int data;
+                                    while((data = is.read()) != -1)
+                                        file.write(data)
+                                    is.close()
+                                    file.close()
+                                    // name of the file for the BATABASE:
                                     strFileName =  mmultiPart.getBodyPart(i).getFileName()
                                 }
                                 else
                                 {
                                     if (mmultiPart.getBodyPart(i).getContent() instanceof String)
-                                        strContent += mmultiPart.getBodyPart(i).getContent().toString().replaceAll("<[^>]*>", "")
+                                        strContent = mmultiPart.getBodyPart(i).getContent().toString().replaceAll("<[^>]*>", "")
                                     else
                                     {
                                         MimeMultipart mmp = (MimeMultipart)mmultiPart.getBodyPart(i).getContent()
@@ -129,7 +117,7 @@ class HRRecruitmentJob {
                             }
                         }
                         else // not a multipart method
-                            strContent = it.getContent().toString()
+                            strContent = it.getContent().toString().replaceAll("<[^>]*>", "")
                     
                     // Receive Mail Recruitment:
                     if ( (OK_MailRecruitment)&&(!OK_DialogMessage) )
@@ -149,8 +137,8 @@ class HRRecruitmentJob {
                     }
                 }
                 // Close inbox & store (save deleted file):
-                //mail.closeInbox()
-                //mail.closeStore()
+                mail.closeInbox()
+                mail.closeStore()
                 println("[HRRecruitment JOB] : Done!")
             }
             else
