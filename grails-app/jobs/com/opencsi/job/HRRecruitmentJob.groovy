@@ -15,6 +15,7 @@ import javax.mail.internet.MimeMultipart
 import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
+import java.io.FileOutputStream
 //import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
@@ -88,24 +89,26 @@ class HRRecruitmentJob {
                                     File fichier = new File(strFileName)
                                     if (fichier.exists())
                                         fichier.delete()
-                                    FileWriter file = new FileWriter(strFileName,true)
                                     // If data's attachment is some text :
                                     if (mmultiPart.getBodyPart(i).getContent() instanceof String)
                                     {
+                                        FileWriter file = new FileWriter(strFileName,true)
                                         file.write(mmultiPart.getBodyPart(i).getContent().toString()
                                             ,0,mmultiPart.getBodyPart(i).getContent().toString().length())
+                                        file.close()
                                     }
                                     else // other :
                                     {
                                         // TO IMPROVE:
+                                        FileOutputStream file = new FileOutputStream(strFileName)
                                         InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
                                         int data;
                                         while((data = is.read()) != -1)
                                             file.write(data)
                                         is.close()
+                                        file.close()
                                         // END IMPROVE;
                                     }
-                                    file.close()
                                     // name of the file :
                                     strFileName =  mmultiPart.getBodyPart(i).getFileName()
                                 }
