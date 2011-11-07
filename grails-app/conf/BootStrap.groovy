@@ -121,11 +121,6 @@ class BootStrap {
                 file:"CV_test.pdf",statut:StatutRecruitment.get(5),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
         }
-
-        //        new TestObject(name: "toto",
-        //            updateat: new Date(),
-        //            createat: new Date()
-        //        ).save(failOnError:true)
     }
     
     def destroy = {

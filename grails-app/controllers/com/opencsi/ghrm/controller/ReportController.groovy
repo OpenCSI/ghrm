@@ -35,9 +35,16 @@ class ReportController {
     }
 
     def week = {
-        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-        def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
+        def selectedYear,selectedMonth,selectedDay
+        try{
+            selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+            selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+            selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'month')
+        }
 
         def calendarData = [:]
         def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
@@ -65,14 +72,20 @@ class ReportController {
     }
 
     def month = {
-       def id = params.id
-        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+        def id,selectedYear,selectedMonth,reports
+        try{
+        id = params.id
+        selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+        selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
 
-        /* Fetch all reports related to the selected project */
-        def reports = reportService.findAllReportsByUserByMonth(User.findByUid(userService.getAuthenticatedUserName()),
+        /* Fetch all reports related to the selected project */       
+            reports = reportService.findAllReportsByUserByMonth(User.findByUid(userService.getAuthenticatedUserName()),
                                                 selectedYear, selectedMonth)
-
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'month')
+        }
         /* Create data to display */
         def calendarData = [:]
 

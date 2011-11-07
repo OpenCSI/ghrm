@@ -44,7 +44,14 @@ class TaskController {
     }
 
     def modify = {
-        def  taskInstance = Task.get(params.id)
+        def taskInstance
+        try{
+            taskInstance = Task.get(params.id)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
         if (params.modify)
         {
             // retreive datas:

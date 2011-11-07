@@ -67,7 +67,14 @@ class ProjectController {
         def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
         
         /* Fetch all reports related to the selected project */
-        def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
+        def reports
+        try{
+            reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
         
         /* Create data to display */
         def calendarData = [:]

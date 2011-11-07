@@ -2,10 +2,11 @@ package com.opencsi.ghrm.controller
 import com.opencsi.ghrm.domain.Customer
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.TaskInstance
+import com.opencsi.ghrm.domain.Task
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class CustomerController {
-    static allowedMethods = [save: "POST", update: "POST"]
+    //static allowedMethods = [save: "POST", update: "POST"]
 
     // Export service provided by Export plugin
     def exportService
@@ -50,7 +51,14 @@ class CustomerController {
     }
 
     def modify = {
-        def  customerInstance = Customer.get(params.id)
+        def customerInstance
+        try{
+            customerInstance = Customer.get(params.id)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'customer.delete.error')}"
+            redirect(action:'list')
+        }
         if (params.modify)
         {
             // retreive datas:
@@ -72,7 +80,14 @@ class CustomerController {
     }
 
     def delete = {
-        def customerInstance = Customer.get(params.id)
+        def customerInstance
+        try{
+            customerInstance = Customer.get(params.id)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'customer.delete.error')}"
+            redirect(action:'list')
+        }
         if (customerInstance)
         {
             // find all projects and tasks:
@@ -80,17 +95,26 @@ class CustomerController {
             // projects:
             for (proj in project)
             {
-                def tasks = TaskInstance.findAllByProject(proj)
+                def tasksInstances = TaskInstance.findAllByProject(proj)
                 // tasks:
-                for (task in tasks)
-                    task.delete()
+                for (taskInstance in tasksInstances)
+                {
+                    taskInstance.reports.each{
+                        it.delete()
+                    }
+                    /*taskInstance.task.each{
+                        it.delete()
+                    }*/
+                    taskInstance.delete()
+                }
                 proj.delete()
             }
             // then, remove the customer:
-            customerInstance.delete()
+            customerInstance.delete(failOnError:true)
             flash.message = "${message(code : 'customer.delete')}"
         }else
             flash.message = "${message(code : 'customer.delete.error')}"
         redirect(action:"list")
     }
+    
 }

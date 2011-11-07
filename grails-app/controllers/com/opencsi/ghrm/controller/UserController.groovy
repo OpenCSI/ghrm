@@ -101,6 +101,7 @@ class UserController {
     def modify = {
         // show user:
         def userInstance = User.get(params.id)
+        def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
         // modification:
         if (params.modify)
         {
@@ -119,9 +120,29 @@ class UserController {
             flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
         }
+        // delete rule:
+        else if (params.modifyRule)
+        {
+            
+        }
         [uid : userInstance.uid, firstname : userInstance.firstname,
             ,email : userInstance.email,lastname : userInstance.lastname,
-            id : params.id,projectList: Project.list()]
+            id : params.id,projectList: Project.list(),roles : userShiroInstance]
+    }
+
+    def deleteRule = {
+        def userInstance = User.get(params.id)
+        def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
+        // delete the selected rule:
+        if (params.modify)
+        {
+            def rules = userShiroInstance.getRoles()
+            def rule = rules.get(params.rule)
+            rule.delete()
+            // Redirect:
+            flash.message = "${message(code:'user.modify')}"
+            //redirect(action:'modify', params:["id":params.id])
+        }
     }
 
 
