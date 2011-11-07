@@ -43,6 +43,19 @@
       </tr>
 
       <tr>
+        <th><g:message code="user.role.add"/></th>
+      <td class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
+        <g:select name="role" from="${com.opencsi.security.ShiroRole.findAll()}" optionKey="name" optionValue="name" value="employee" />
+      </td>
+      </tr>
+    </table>
+    <center>
+      <g:submitButton name="modify" value="${message(code: 'default.button.modify.label', default: 'modify')}"/>
+    </center>
+    </g:form>
+
+    <table>
+      <tr>
         <th><g:message code="user.role.del"/></th>
         <td>
          <g:each in="${roles.roles}" status="i" var="roleInstance">
@@ -54,14 +67,6 @@
          </g:each>
         </td>
       </tr>
-      <tr>
-        <th><g:message code="user.role.add"/></th>
-      <td class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
-        <g:select name="role" from="${com.opencsi.security.ShiroRole.findAll()}" optionKey="name" optionValue="name" value="employee" />
-      </td>
-      </tr>
     </table>
-      <g:submitButton name="modify" value="${message(code: 'default.button.modify.label', default: 'modify')}"/>
-  </g:form>
 </body>
 </html>

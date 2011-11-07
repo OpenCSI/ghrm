@@ -41,7 +41,6 @@ class UserController {
         def shiroUser = new ShiroUser()
         def error = 0
         
-        
         userInstance.uid = params.uid
         userInstance.firstname = params.firstname
         userInstance.lastname = params.lastname
@@ -131,18 +130,21 @@ class UserController {
     }
 
     def deleteRule = {
-        def userInstance = User.get(params.id)
-        def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
-        // delete the selected rule:
-        if (params.modify)
-        {
-            def rules = userShiroInstance.getRoles()
-            def rule = rules.get(params.rule)
-            rule.delete()
-            // Redirect:
-            flash.message = "${message(code:'user.modify')}"
-            //redirect(action:'modify', params:["id":params.id])
+        try{
+            def userInstance = User.get(params.id)
+            def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
+            // delete the selected rule:
+            if (params.modify)
+            {
+                userShiroInstance.removeFromRoles(ShiroRole.get(params.rule))
+                flash.message = "${message(code:'user.modify')}"
+            }
         }
+        catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+        }
+        redirect(action:'modify', params:["id":params.id])
     }
 
 
