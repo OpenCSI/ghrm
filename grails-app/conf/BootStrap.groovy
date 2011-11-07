@@ -31,6 +31,8 @@ class BootStrap {
         projectLeader.addToPermissions("customer:*")
         projectLeader.addToPermissions("project:*")
         projectLeader.addToPermissions("task:*")
+        projectLeader.addToPermissions("report:*")
+        projectLeader.addToPermissions("taskInstance:*")
         projectLeader.save(failOnError:true)
 
         def employee = new ShiroRole(name: 'employee')
