@@ -97,7 +97,7 @@ class HRController {
             }
         }catch(Exception e)
         {
-            flash.message = "Error to modify the data"
+            flash.message = "Error to modify data"
         }
         redirect(action:'recruitment')
     }

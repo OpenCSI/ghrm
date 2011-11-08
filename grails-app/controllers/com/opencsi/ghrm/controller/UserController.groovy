@@ -99,7 +99,15 @@ class UserController {
 
     def modify = {
         // show user:
-        def userInstance = User.get(params.id)
+        def userInstance
+        try{
+            userInstance = User.get(params.id)
+        }
+        catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
         def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
         // modification:
         if (params.modify)
