@@ -3,7 +3,8 @@ hibernate {
     cache.use_query_cache = true
     cache.provider_class = 'net.sf.ehcache.hibernate.EhCacheProvider'
 }
-
+def grailsApplication
+println(grailsApplication)
 dataSource {
     pooled = true
     driverClassName = hibernate.jdbc.driver_class

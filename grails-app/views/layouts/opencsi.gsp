@@ -69,10 +69,10 @@
     </div><!-- /topbar -->
   </div>
 
-<shiro:user>
   <div class="container-fluid">
     <div class="sidebar">
       <div class="well">
+        <shiro:user>
         <h5><g:message code="global.project.actif"/></h5>
           <g:each in="${projectList}">
             <g:if test="${it.status == 0}">
@@ -83,9 +83,10 @@
               <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a></li>
             </g:if>
           </g:each>
+        </shiro:user>
       </div>
-    </div> 
-</shiro:user>
+    </div>
+
     <div id="extrainfo">
       <g:render template="/common/extraInfo" />
     </div>
