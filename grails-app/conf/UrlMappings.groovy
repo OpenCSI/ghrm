@@ -11,10 +11,10 @@ class UrlMappings {
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
                 "/project/show/$id"(controller: 'project', action: 'show')
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
-                "/report/create/$year?/$month?/$day?"(controller: 'report', action: 'week')
+                "/report/create/$year?/$month?/$day?"(controller: 'report', action: 'create')
                 "/report/month/$year?/$month?"(controller: 'report', action: 'month')
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
-		"/"(controller: 'report', action: 'create')
+		"/"(controller: 'report', action: 'week')
 		"500"(view:'/error')
                 "404"(controller:'error',action:'error404')
 	}
