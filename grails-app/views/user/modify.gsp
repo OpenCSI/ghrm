@@ -19,12 +19,6 @@
     <input type="hidden" name="id" value ="${id}"/>
     <table>
       <tr>
-        <th><g:message code="user.uid"/></th>
-      <td class="value ${hasErrors(bean: userInstance, field: 'uid', 'errors')}">
-      <g:textField name="uid" value="${uid}"/></td>
-      </tr>
-
-      <tr>
         <th><g:message code="user.firstname"/></th>
       <td class="value ${hasErrors(bean: userInstance, field: 'firstname', 'errors')}">
       <g:textField name="firstname" value="${firstname}"/></td>
@@ -45,7 +39,7 @@
       <tr>
         <th><g:message code="user.role.add"/></th>
       <td class="value ${hasErrors(bean: userInstance, field: 'role', 'errors')}">
-        <g:select name="role" from="${com.opencsi.security.ShiroRole.findAll()}" optionKey="name" optionValue="name" value="employee" />
+        <g:select multiple="multiple" name="role" from="${com.opencsi.security.ShiroRole.findAll()}" optionKey="name" optionValue="name" value="employee" />
       </td>
       </tr>
     </table>
@@ -62,7 +56,7 @@
           <g:form action="deleteRule">
             <input type="hidden" name="id" value ="${id}"/>
             <input type="hidden" name="rule" value ="${roleInstance.id}"/>
-            ${roleInstance.name} <g:submitButton name="modify" value="${message(code: 'user.role.del.href')}"/><br>
+             <g:submitButton name="modify" value="${message(code: 'user.role.del.href')}"/> "${roleInstance.name}"<br>
            </g:form>
          </g:each>
         </td>

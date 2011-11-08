@@ -19,10 +19,17 @@ class ReportController {
                     g.message(code:"day.7")]
 
     def create = {
-        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-        def selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
-        def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
+        def selectedYear,selectedMonth,selectedDay,weekInfos
+        try{
+            selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+            selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+            selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
+            weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'week')
+        }
         
         def taskLists = taskInstanceService.findAllOpenByUser(User.findByUid(userService.getAuthenticatedUserName()))
         def taskSelectOptions = []
@@ -31,7 +38,8 @@ class ReportController {
             taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
         }
 
-        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,projectList: Project.list()]
+        [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,
+            projectList: Project.list(), create:true]
     }
 
     def week = {
@@ -68,7 +76,8 @@ class ReportController {
                     'id' : report.id
                 ])
         }
-        [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,projectList: Project.list()]
+        [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,
+            projectList: Project.list(), create:false]
     }
 
     def month = {
