@@ -69,6 +69,7 @@
     </div><!-- /topbar -->
   </div>
 
+<shiro:user>
   <div class="container-fluid">
     <div class="sidebar">
       <div class="well">
@@ -84,7 +85,7 @@
           </g:each>
       </div>
     </div> 
-
+</shiro:user>
     <div id="extrainfo">
       <g:render template="/common/extraInfo" />
     </div>
