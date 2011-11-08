@@ -42,108 +42,110 @@ class HRRecruitmentJob {
             {
                 // add into database the mail, and the attached file (CV) into a directory.
                 msgs.each{
-                    // test if the mail is already in the database:
-                    // verify if the email is already used (statut : New,In progress or Interview):
-                    def tabFrom = (it.getFrom().toString().split(" "))
-                    // retreive the adress mail:
-                    String From = tabFrom[tabFrom.size() -1]
-                    // remove the '[<' '>]' caracters into mail:
-                    From = From.replace('<','')
-                    From = From.replace('>','')
-                    From = From.replace('[','')
-                    From = From.replace(']','')
-                    def res = Recruitment.findByWho(From)
-                    def OK_MailRecruitment = false
-                    def OK_DialogMessage = false
-                    // If the request doesn't exist then specify for a Recruitment Mail:
-                    if (!res)
+                    if (it.getFlags().contains(Flags.Flag.SEEN) == false)
                     {
-                        println("[HRRecruitment JOB] : Adding a new Request Mail from " + From + " ...")
-                        OK_MailRecruitment = true
-                        OK_DialogMessage = false
-                    }
-                    else
-                        // the statut is not either New,In progress or Interview:
-                        if ( !((res.statut.name == "Refused") || (res.statut.name == "Accepted")) )
+                        // test if the mail is already in the database:
+                        // verify if the email is already used (statut : New,In progress or Interview):
+                        def tabFrom = (it.getFrom().toString().split(" "))
+                        // retreive the adress mail:
+                        String From = tabFrom[tabFrom.size() -1]
+                        // remove the '[<' '>]' caracters into mail:
+                        From = From.replace('<','')
+                        From = From.replace('>','')
+                        From = From.replace('[','')
+                        From = From.replace(']','')
+                        def res = Recruitment.findByWho(From)
+                        def OK_MailRecruitment = false
+                        def OK_DialogMessage = false
+                        // If the request doesn't exist then specify for a Recruitment Mail:
+                        if (!res)
                         {
-                            println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
-                                OK_DialogMessage = true
-                                // don't add mail into Recruitment class:
-                                OK_MailRecruitment = false
+                            println("[HRRecruitment JOB] : Adding a new Request Mail from " + From + " ...")
+                            OK_MailRecruitment = true
+                            OK_DialogMessage = false
                         }
-                        // Convert the multipart/--- into String:
-                        String strContent = ""
-                        String strFileName = ""
-                        if (it.getContentType() =~ /multipart/)
-                        {
-                            MimeMultipart mmultiPart = (MimeMultipart)it.getContent()
-                            for(def i = 0;i < mmultiPart.getCount();i++)
+                        else
+                            // the statut is not either New,In progress or Interview:
+                            if ( !((res.statut.name == "Refused") || (res.statut.name == "Accepted")) )
                             {
-                                if (mmultiPart.getBodyPart(i).getFileName() != null)
+                                println("[HRRecruitment JOB] : Adding a DialogMessage from " + From + " ...")
+                                    OK_DialogMessage = true
+                                    // don't add mail into Recruitment class:
+                                    OK_MailRecruitment = false
+                            }
+                            // Convert the multipart/--- into String:
+                            String strContent = ""
+                            String strFileName = ""
+                            if (it.getContentType() =~ /multipart/)
+                            {
+                                MimeMultipart mmultiPart = (MimeMultipart)it.getContent()
+                                for(def i = 0;i < mmultiPart.getCount();i++)
                                 {
-                                    // create the directory to receive CV of user:
-                                    strFileName = grailsApplication.parentContext.getResource("/recruitment/" + From).file.toString() 
-                                    new File(strFileName).mkdir()
-                                    // Create and write into file:
-                                    strFileName += '/'  + mmultiPart.getBodyPart(i).getFileName()
-                                    // Remove file if already exists:
-                                    File fichier = new File(strFileName)
-                                    if (fichier.exists())
-                                        fichier.delete()
-                                    // Put the flux attachment into the file:
-                                    FileOutputStream file = new FileOutputStream(fichier)
-                                    InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
-                                    int data;
-                                    while((data = is.read()) != -1)
-                                        file.write(data)
-                                    is.close()
-                                    file.close()
-                                    // name of the file for the BATABASE:
-                                    strFileName =  mmultiPart.getBodyPart(i).getFileName()
-                                }
-                                else
-                                {
-                                    if (mmultiPart.getBodyPart(i).getContent() instanceof String)
-                                        strContent = mmultiPart.getBodyPart(i).getContent().toString().replaceAll("<[^>]*>", "")
+                                    if (mmultiPart.getBodyPart(i).getFileName() != null)
+                                    {
+                                        // create the directory to receive CV of user:
+                                        strFileName = grailsApplication.parentContext.getResource("/recruitment/" + From).file.toString()
+                                        new File(strFileName).mkdir()
+                                        // Create and write into file:
+                                        strFileName += '/'  + mmultiPart.getBodyPart(i).getFileName()
+                                        // Remove file if already exists:
+                                        File fichier = new File(strFileName)
+                                        if (fichier.exists())
+                                            fichier.delete()
+                                        // Put the flux attachment into the file:
+                                        FileOutputStream file = new FileOutputStream(fichier)
+                                        InputStream is = (InputStream)mmultiPart.getBodyPart(i).getInputStream()
+                                        int data;
+                                        while((data = is.read()) != -1)
+                                            file.write(data)
+                                        is.close()
+                                        file.close()
+                                        // name of the file for the BATABASE:
+                                        strFileName =  mmultiPart.getBodyPart(i).getFileName()
+                                    }
                                     else
                                     {
-                                        MimeMultipart mmp = (MimeMultipart)mmultiPart.getBodyPart(i).getContent()
-                                        for(def j = 0;j < mmp.getCount();j++)
+                                        if (mmultiPart.getBodyPart(i).getContent() instanceof String)
+                                            strContent = mmultiPart.getBodyPart(i).getContent().toString().replaceAll("<[^>]*>", "")
+                                        else
                                         {
-                                            // escape HTML tag:
-                                            strContent = mmp.getBodyPart(j).getContent().toString().replaceAll("<[^>]*>", "")
+                                            MimeMultipart mmp = (MimeMultipart)mmultiPart.getBodyPart(i).getContent()
+                                            for(def j = 0;j < mmp.getCount();j++)
+                                            {
+                                                // escape HTML tag:
+                                                strContent = mmp.getBodyPart(j).getContent().toString().replaceAll("<[^>]*>", "")
+                                            }
                                         }
                                     }
                                 }
                             }
+                            else // not a multipart method
+                                strContent = it.getContent().toString().replaceAll("<[^>]*>", "")
+
+                        // Receive Mail Recruitment:
+                        if ( (OK_MailRecruitment)&&(!OK_DialogMessage) )
+                        {
+                            new Recruitment(who: From,title: it.getSubject(),comment: strContent,
+                               statut: StatutRecruitment.get(1),user: User.get(1),file:strFileName,
+                               createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
+                            //it.setFlag(Flags.Flag.DELETED, true)
                         }
-                        else // not a multipart method
-                            strContent = it.getContent().toString().replaceAll("<[^>]*>", "")
-                    
-                    // Receive Mail Recruitment:
-                    if ( (OK_MailRecruitment)&&(!OK_DialogMessage) )
-                    {
-                        new Recruitment(who: From,title: it.getSubject(),comment: strContent,
-                           statut: StatutRecruitment.get(1),user: User.get(1),file:strFileName,
-                           createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-                        it.setFlag(Flags.Flag.DELETED, true)
-                    }
-                    // Receive DialogMessage:
-                    else if ( (OK_DialogMessage)&&(!OK_MailRecruitment) )
-                    {
-                        new MessageRecruitment(title: it.getSubject().toString(),
-                            message: strContent,createat: today.toDate(),
-                            recruitment: res,who: From,file:strFileName).save(failOnError:true)
-                        it.setFlag(Flags.Flag.DELETED,true)
-                    }
+                        // Receive DialogMessage:
+                        else if ( (OK_DialogMessage)&&(!OK_MailRecruitment) )
+                        {
+                            new MessageRecruitment(title: it.getSubject().toString(),
+                                message: strContent,createat: today.toDate(),
+                                recruitment: res,who: From,file:strFileName).save(failOnError:true)
+                           // it.setFlag(Flags.Flag.DELETED,true)
+                        }
+                        // Close inbox & store:
+                        mail.closeInbox()
+                        mail.closeStore()
+                        println("[HRRecruitment JOB] : Done!")
+                    }else
+                        println("[HRRecruitment JOB] : No new message!")
                 }
-                // Close inbox & store (save deleted file):
-                mail.closeInbox()
-                mail.closeStore()
-                println("[HRRecruitment JOB] : Done!")
             }
-            else
-                println("[HRRecruitment JOB] : No new message!")
         }
     }
 }
