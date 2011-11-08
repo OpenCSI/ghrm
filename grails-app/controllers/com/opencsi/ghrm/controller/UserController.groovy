@@ -109,11 +109,23 @@ class UserController {
             userInstance.lastname = params.lastname
             userInstance.email = params.email
             userInstance.save()
-            params.role.each{
-                if (it)
+            try{
+                // multiple entries:
+                params.role.each{
+                    if (it)
+                    {
+                        def userShiro = ShiroUser.findByUsername(userInstance.uid)
+                        userShiro.addToRoles(ShiroRole.findByName(it))
+                        userShiro.save()
+                    }
+            }
+            }catch(Exception e)
+            {
+                // one entry:
+                if (params?.role)
                 {
                     def userShiro = ShiroUser.findByUsername(userInstance.uid)
-                    userShiro.addToRoles(ShiroRole.findByName(it))
+                    userShiro.addToRoles(ShiroRole.findByName(params.role))
                     userShiro.save()
                 }
             }
