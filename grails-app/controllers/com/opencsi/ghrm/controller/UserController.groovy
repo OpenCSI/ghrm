@@ -99,15 +99,15 @@ class UserController {
 
     def modify = {
         // show user:
-        def userInstance
+        def userInstance, userShiroInstance
         try{
             userInstance = User.get(params.id)
+            userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
         }catch(Exception e)
         {
             flash.message = "${message(code:'global.error.open')}"
             redirect(action:'list')
         }
-        def userShiroInstance = ShiroUser.findByUsername(userInstance.uid)
         // modification:
         if (params.modify)
         {
@@ -138,11 +138,6 @@ class UserController {
             }
             flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
-        }
-        // delete rule:
-        else if (params.modifyRule)
-        {
-            
         }
         [uid : userInstance.uid, firstname : userInstance.firstname,
             ,email : userInstance.email,lastname : userInstance.lastname,
