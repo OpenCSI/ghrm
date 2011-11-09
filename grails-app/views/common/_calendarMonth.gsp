@@ -54,7 +54,7 @@
         <g:each var="entry" in="${calendarData[currentDay]}">
           <g:set var="tooltip" value="${entry['tooltipdata']}" />
           <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
-<%=entry['htmldata']%>
+          <%=entry['htmldata']%>
           </div>
         </g:each>
       </g:if>

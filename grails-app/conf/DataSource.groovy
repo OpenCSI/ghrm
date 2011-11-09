@@ -11,24 +11,29 @@ dataSource {
     password = hibernate.jdbc.password*/
 }
 // environment specific settings
+/*
+"create-drop" - Drop and re-create the database when Grails is run
+"create" - Create the database if it doesn't exist, but don't modify it if it does. Deletes existing data.
+"update" - Create the database if it doesn't exist, and modify it if it does exist
+*/
 environments {
     development {
         dataSource {
-            dbCreate = "create" // one of 'create', 'create-drop','update'
-            driverClassName = "com.mysql.jdbc.Driver"
-            url = "jdbc:mysql://localhost/ghrm"
-            username = "asyd"
-            password = "asyd"
+            dbCreate = "" // one of 'create', 'create-drop','update'
+            driverClassName = "" //com.mysql.jdbc.Driver
+            url = "" //"jdbc:mysql://localhost/ghrm"
+            username = "" //"asyd"
+            password = "" //"asyd"
         }
     }
 
     production {
         dataSource {
-            dbCreate = "create"
-            driverClassName = "com.mysql.jdbc.Driver"
-            url = "jdbc:mysql://localhost/ghrm"
-            username = "asyd"
-            password = "asyd"
+            dbCreate = "" // one of 'create', 'create-drop','update'
+            driverClassName = "" //com.mysql.jdbc.Driver
+            url = "" //"jdbc:mysql://localhost/ghrm"
+            username = "" //"asyd"
+            password = "" //"asyd"
         }
     }
 }
