@@ -40,7 +40,14 @@ class ProjectController {
     }
 
     def show = {
-        def project = Project.get(params.id)
+        def project
+        try{
+            project = Project.get(params.id)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
         def tasks = TaskInstance.findAllByProject(project)
 
         [project: project, projectTasks: tasks,projectList: Project.list()]
@@ -62,15 +69,15 @@ class ProjectController {
     }
         
     def report = {
-        def id = params.id
-        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-        
-        /* Fetch all reports related to the selected project */
-        def reports
+        def reports,id,selectedYear,selectedMonth
         try{
+            id = params.id
+            selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+            selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+            /* Fetch all reports related to the selected project */
             reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
-        }catch(Exception e)
+        }
+        catch(Exception e)
         {
             flash.message = "${message(code:'global.error.open')}"
             redirect(action:'list')
@@ -109,12 +116,19 @@ class ProjectController {
     }
 
     def reportPDF = {
-        def id = params.id
-        def selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        def selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-
-        /* Fetch all reports related to the selected project */
-        def reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
+        def reports,id,selectedYear,selectedMonth
+        try{
+            id = params.id
+            selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+            selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+            /* Fetch all reports related to the selected project */
+            reports = reportService.findAllReportsByProjectByMonth(Project.get(id), selectedYear, selectedMonth)
+        }
+        catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
 
         // Extract in PDF File:
          if(params?.format && params.format != "html")

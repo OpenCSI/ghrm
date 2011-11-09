@@ -14,11 +14,6 @@ class CustomerController {
     def index = {
         redirect(action: "list", params: params)
     }
-
-    def show = {
-        def customer = Customer.get(params.id)
-        [customer: customer,projectList: Project.list()]
-    }
     
     def create = {
         [projectList: Project.list()]
@@ -33,7 +28,6 @@ class CustomerController {
         else {
             render(view: "create", model: [customerInstance: customerInstance])
         }
-
     }
 
     def list = {

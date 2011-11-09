@@ -83,11 +83,10 @@ class ReportController {
     def month = {
         def id,selectedYear,selectedMonth,reports
         try{
-        id = params.id
-        selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
-        selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
-
-        /* Fetch all reports related to the selected project */       
+            id = params.id
+            selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
+            selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
+            /* Fetch all reports related to the selected project */
             reports = reportService.findAllReportsByUserByMonth(User.findByUid(userService.getAuthenticatedUserName()),
                                                 selectedYear, selectedMonth)
         }catch(Exception e)

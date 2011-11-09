@@ -102,8 +102,7 @@ class UserController {
         def userInstance
         try{
             userInstance = User.get(params.id)
-        }
-        catch(Exception e)
+        }catch(Exception e)
         {
             flash.message = "${message(code:'global.error.open')}"
             redirect(action:'list')
@@ -126,7 +125,7 @@ class UserController {
                         userShiro.addToRoles(ShiroRole.findByName(it))
                         userShiro.save()
                     }
-            }
+                }
             }catch(Exception e)
             {
                 // one entry:
@@ -160,8 +159,7 @@ class UserController {
                 userShiroInstance.removeFromRoles(ShiroRole.get(params.rule))
                 flash.message = "${message(code:'user.modify')}"
             }
-        }
-        catch(Exception e)
+        }catch(Exception e)
         {
             flash.message = "${message(code:'global.error.open')}"
         }
@@ -170,7 +168,14 @@ class UserController {
 
 
     def delete = {
-        def user = User.get(params.id)
+        def user
+        try{
+            user = User.get(params.id)
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action: "list")
+        }
         def currentUser = new UserService()
         if (currentUser.getAuthenticatedUserName() == user.toString())
         {
