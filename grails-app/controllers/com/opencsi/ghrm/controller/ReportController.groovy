@@ -43,11 +43,12 @@ class ReportController {
     }
 
     def week = {
-        def selectedYear,selectedMonth,selectedDay
+        def selectedYear,selectedMonth,selectedDay,weekInfos
         try{
             selectedYear = params.year?params.year.toInteger(): calendarService.getCurrentYear()
             selectedMonth = params.month?params.month.toInteger(): calendarService.getCurrentMonth()
             selectedDay = params.day?params.day.toInteger(): calendarService.getCurrentDay()
+            weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
         }catch(Exception e)
         {
             flash.message = "${message(code:'global.error.open')}"
@@ -55,7 +56,6 @@ class ReportController {
         }
 
         def calendarData = [:]
-        def weekInfos = calendarService.getWeekInfos(selectedYear, selectedMonth, selectedDay)
                 
         def reports = reportService.findAllReportsByUserByWeek(
             User.findByUid(userService.getAuthenticatedUserName()),
