@@ -15,7 +15,7 @@ class UrlMappings {
                 "/report/month/$year?/$month?"(controller: 'report', action: 'month')
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
 		"/"(controller: 'report', action: 'week')
-		"500"(view:'/error')
+		"500"(controller:'error',action:'error404')
                 "404"(controller:'error',action:'error404')
 	}
 }
