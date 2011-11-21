@@ -21,6 +21,20 @@ class UserService {
         return returnValue
     }
 
+    static def getAuthenticatedUserNameStatic() {
+
+        def subject = SecurityUtils.subject
+        def returnValue = null
+
+        if (subject != null) {
+            def principal = subject.principal
+            if (principal != null) {
+                returnValue = principal.toString()
+            }
+        }
+        return returnValue
+    }
+
     def checkCurrentUserPermission(String role) {
         if (getAuthenticatedUserName()) {
             def user = ShiroUser.findByUsername(getAuthenticatedUserName())

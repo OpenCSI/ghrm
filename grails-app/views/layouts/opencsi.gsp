@@ -73,7 +73,8 @@
     <div class="sidebar">
       <div class="well">
         <shiro:user>
-        <h5><center><g:message code="global.project.actif"/></center></h5>
+          <g:message code="global.you.are"/><b>${com.opencsi.ghrm.services.UserService.getAuthenticatedUserNameStatic()}</b>.
+          <h5><center><g:message code="global.project.actif"/></center></h5>
           <g:each in="${projectList}">
             <g:if test="${it.status == 0}">
               <g:if test="${it.customer.name != name}">
