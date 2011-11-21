@@ -36,16 +36,16 @@
       <table class="reportTable">
         <thead>
           <tr>
-            <th style="background-color: white;"/>
-        <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
-        <g:each in="${1..7}" var="i">
-          <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/></th>
-        </g:each>
-        </tr>
+            <th/>
+            <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
+            <g:each in="${1..7}" var="i">
+              <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/></th>
+            </g:each>
+          </tr>
         </thead>
         <tbody>
           <tr>
-            <td><g:select name="taskInstance" optionKey="id" optionValue="label" from="${taskSelectOptions}"/></td>
+            <td style="background-color: #FDF6E3;"><g:select name="taskInstance" optionKey="id" optionValue="label" from="${taskSelectOptions}"/></td>
         <g:each var="dayOfWeek" in="${1..7}">
           <td>
             <g:set var="currentDate" value="${dayOfWeek}"/>

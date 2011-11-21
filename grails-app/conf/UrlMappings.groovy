@@ -11,6 +11,7 @@ class UrlMappings {
                 "/task/list/$format?/$extension?"(controller: 'task', action :'list')
                 "/customer/list/$format?/$extension?"(controller: 'customer', action: 'list')
                 "/user/list/$format?/$extension?"(controller: 'user', action :'list')
+                "/project/list/$format?/$extension?"(controller: 'project', action :'list')
                 "/project/report/$id/$year?/$month?"( controller: 'project', action: 'report' )
                 "/project/show/$id"(controller: 'project', action: 'show')
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
