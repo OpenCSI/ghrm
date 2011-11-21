@@ -137,6 +137,7 @@ class ReportController {
                             date: firstDay.plusDays(day.toInteger()).toDate(),
                             days: value.toFloat()
                         ).save(failOnError: true)
+                        flash.message = "${message(code:'report.save.succes')}"
                     }
                 }catch(Exception e)
                 {

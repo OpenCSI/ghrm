@@ -45,7 +45,7 @@
         </thead>
         <tbody>
           <tr>
-            <td style="background-color: #FDF6E3;"><g:select name="taskInstance" optionKey="id" optionValue="label" from="${taskSelectOptions}"/></td>
+            <td style="background-color: #FDF6E3;"><g:select name="taskInstance" optionKey="id" optionValue="label" from="${taskSelectOptions}" /></td>
         <g:each var="dayOfWeek" in="${1..7}">
           <td>
             <g:set var="currentDate" value="${dayOfWeek}"/>

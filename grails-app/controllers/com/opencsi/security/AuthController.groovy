@@ -76,6 +76,6 @@ class AuthController {
     }
 
     def unauthorized = {
-        
+
     }
 }

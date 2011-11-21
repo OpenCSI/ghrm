@@ -73,14 +73,14 @@
     <div class="sidebar">
       <div class="well">
         <shiro:user>
-        <h5><g:message code="global.project.actif"/></h5>
+        <h5><center><g:message code="global.project.actif"/></center></h5>
           <g:each in="${projectList}">
             <g:if test="${it.status == 0}">
               <g:if test="${it.customer.name != name}">
                 <g:set var="name" value="${it.customer.name}"/>
                 ${it.customer.name}
               </g:if>
-              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a></li>
+              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a> (${it.label})</li>
             </g:if>
           </g:each>
         </shiro:user>
