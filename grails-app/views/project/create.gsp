@@ -45,7 +45,9 @@
       <g:textField name="description" value="${projectInstance?.description}" /></td>
       </tr>
     </table>
+    <center>
     <g:submitButton name="create" value="${message(code: 'project.submit', default: 'Create')}"/>
+    </center>
   </g:form>
 </body>
 </html>

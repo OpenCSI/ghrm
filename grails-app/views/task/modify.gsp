@@ -36,7 +36,9 @@
       <g:textField name="description" value="${description}"/></td>
       </tr>
     </table>
+    <center>
     <g:submitButton name="modify" value="${message(code: 'task.modify.submit', default: 'Modify')}"/>
+    </center>
   </g:form>
 </body>
 </html>

@@ -60,7 +60,9 @@
       </td>
       </tr>
     </table>
+    <center>
       <g:submitButton name="create" value="${message(code: 'user.submit', default: 'Create')}"/>
+    </center>
   </g:form>
 </body>
 </html>

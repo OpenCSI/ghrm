@@ -39,7 +39,7 @@
             <th style="background-color: white;"/>
         <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
         <g:each in="${1..7}" var="i">
-          <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/> ${weekInfos[i]['year']}</th>
+          <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/></th>
         </g:each>
         </tr>
         </thead>
@@ -57,7 +57,7 @@
       </table>
     </div>
     <div class="buttons">
-      <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'report.submit', default: 'Create')}" /></span>
+      <span class="button"><center><g:submitButton name="create" class="save" value="${message(code: 'report.submit', default: 'Create')}" /></center></span>
     </div>
   </g:form>
 </body>

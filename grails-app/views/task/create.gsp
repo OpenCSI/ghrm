@@ -35,7 +35,9 @@
       <g:textField name="description" value="${taskInstance?.description}"/></td>
       </tr>
     </table>
+    <center>
     <g:submitButton name="create" value="${message(code: 'task.submit', default: 'Create')}"/>
+    </center>
   </g:form>
 </body>
 </html>

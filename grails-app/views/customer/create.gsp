@@ -27,7 +27,7 @@
       </tbody>
     </table>
     <div class="buttons">
-      <span class="button"><g:submitButton name="create" class="save" value="${message(code: 'customer.submit', default: 'Create')}" /></span>
+      <span class="button"><center><g:submitButton name="create" class="save" value="${message(code: 'customer.submit', default: 'Create')}" /></center></span>
     </div>
   </g:form>
 </body>

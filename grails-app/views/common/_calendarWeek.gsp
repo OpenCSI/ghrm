@@ -24,8 +24,9 @@
       <tr>
      <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
      <g:each in="${1..7}" var="i">
-      <th>${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
-      ${weekInfos[i]['year']}</th>
+      <th>
+        ${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
+      </th>
      </g:each>
      </tr>
     </thead>
@@ -38,7 +39,7 @@
         <g:each status="i" var="entry" in="${calendarData[dayOfWeek]}">
           <g:set var="tooltip" value="${entry['tooltipdata']}" />
           <div class="calendarData" onmouseover="tooltip.show('${tooltip}')" onmouseout="tooltip.hide()">
-${entry['htmldata']}
+            ${entry['htmldata']}
           </div>
           <modalbox:createLink controller="report" action="confirm" id="${entry.id}" title="${message(code:'confirm.title', default: 'Attention')}" width="250"><g:message code="report.submit.delete"/></modalbox:createLink>
         </g:each>
