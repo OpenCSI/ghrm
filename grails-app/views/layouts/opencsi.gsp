@@ -62,8 +62,17 @@
             </auth:isAdmin>
           </ul>
           <ul class="nav secondary-nav">
+            <shiro:user>
+              <li class="dropdown">
+                 <a class="dropdown-toggle" href="#">${com.opencsi.ghrm.services.UserService.getAuthenticatedUserNameStatic()}</a>
+                 <ul class="dropdown-menu">
+                  <li><a href="${createLink(controller:"me", action:"password")}">Mot de passe</a></li>
+                  <li><a href="${createLink(controller:"me", action:"modify")}">Coordonnées</a></li>
+                 </ul>
+               </li>
             <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>
           </ul>
+          </shiro:user>
         </div>
       </div><!-- /topbar-inner -->
     </div><!-- /topbar -->
@@ -73,7 +82,6 @@
     <div class="sidebar">
       <div class="well">
         <shiro:user>
-          <g:message code="global.you.are"/><b>${com.opencsi.ghrm.services.UserService.getAuthenticatedUserNameStatic()}</b>.
           <h5><center><g:message code="global.project.actif"/></center></h5>
           <g:each in="${projectList}">
             <g:if test="${it.status == 0}">
