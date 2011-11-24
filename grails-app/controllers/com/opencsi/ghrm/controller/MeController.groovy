@@ -2,6 +2,7 @@ package com.opencsi.ghrm.controller
 
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.security.ShiroUser
+import com.opencsi.ghrm.domain.User
 import com.opencsi.ghrm.services.UserService
 
 import org.apache.shiro.crypto.hash.Sha256Hash
@@ -38,7 +39,16 @@ class MeController {
     }
 
     def modify = {
-
-        [projectList: Project.list()]
+        def userInstance = User.findByUid(userService.getAuthenticatedUserName())
+        if (params.modify)
+        {
+            userInstance.firstname = params.firstname
+            userInstance.lastname  = params.lastname
+            userInstance.email     = params.email
+            userInstance.save(flush:true)
+            flash.message = "${message(code:'user.modify')}"
+        }
+        [firstname : userInstance.firstname,email : userInstance.email,
+            lastname : userInstance.lastname,projectList: Project.list()]
     }
 }

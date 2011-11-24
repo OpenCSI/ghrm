@@ -11,7 +11,7 @@
     <meta name="layout" content="opencsi" />
   </head>
   <body>
-    <h2>Modifier le mot de passe</h2>
+    <h2>${message(code: 'user.modify.password.title')}</h2>
     <g:form action="password">
     <table>
       <tr>

@@ -14,6 +14,7 @@
           <g:sortableColumn property="name" title="${message(code: 'global.name')}" />
           <g:sortableColumn property="label" title="${message(code: 'global.label')}" />
           <g:sortableColumn property="customer.name" title="${message(code: 'global.customer')}" />
+          <g:sortableColumn property="label" title="${message(code: 'global.description')}" />
           <th><g:message code="default.actions"/></th>
           </tr>
           </thead>
@@ -23,8 +24,11 @@
               <td>${fieldValue(bean: projectInstance, field: "name")}</td>
               <td>${fieldValue(bean: projectInstance, field: "label")}</td>
               <td>${fieldValue(bean: projectInstance, field: "customer.name")}</td>
-              <td class="action" style="text-align: justify;"><g:link action="show" id="${projectInstance.id}"><g:message code="project.show.href"/></g:link>
-              <g:link action="report" id="${projectInstance.id}"><g:message code="project.calendar.href"/></g:link></td>
+              <td>${fieldValue(bean: projectInstance, field: "description")}</td>
+              <td class="action" style="text-align: justify;"><g:link action="modify" id="${projectInstance.id}"><g:message code="project.modify.href"/></g:link>
+                <g:link action="show" id="${projectInstance.id}"><g:message code="project.show.href"/></g:link>
+                <g:link action="report" id="${projectInstance.id}"><g:message code="project.calendar.href"/></g:link>
+              </td>
             </tr>
           </g:each>
           </tbody>

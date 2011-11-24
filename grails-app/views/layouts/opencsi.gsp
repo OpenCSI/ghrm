@@ -66,8 +66,8 @@
               <li class="dropdown">
                  <a class="dropdown-toggle" href="#">${com.opencsi.ghrm.services.UserService.getAuthenticatedUserNameStatic()}</a>
                  <ul class="dropdown-menu">
-                  <li><a href="${createLink(controller:"me", action:"password")}">Mot de passe</a></li>
-                  <li><a href="${createLink(controller:"me", action:"modify")}">Coordonnées</a></li>
+                  <li><a href="${createLink(controller:"me", action:"password")}"><g:message code="user.password"/></a></li>
+                  <li><a href="${createLink(controller:"me", action:"modify")}"><g:message code="user.owndata"/></a></li>
                  </ul>
                </li>
             <li><a href="${createLink(action:'signOut', controller:'auth')}"><g:message code="global.logout"/></a></li>

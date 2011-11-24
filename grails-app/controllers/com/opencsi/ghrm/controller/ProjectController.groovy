@@ -67,6 +67,29 @@ class ProjectController {
          }
         [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Project.list()]
     }
+
+    def modify = {
+        def projectInstance
+        try{
+            projectInstance = Project.get(params.id)
+            ///////////////////////////////////////////
+            if (params.modify)
+            {
+                projectInstance.name = params.name
+                projectInstance.label = params.label
+                projectInstance.description = params.description
+                projectInstance.save(flush:true)
+                flash.message = "${message(code:'project.modify')}"
+                redirect(action:'list')
+            }
+        }catch(Exception e)
+        {
+            flash.message = "${message(code:'global.error.open')}"
+            redirect(action:'list')
+        }
+        [id: params.id,name: projectInstance.name,label: projectInstance.label,
+            description: projectInstance.description, projectList: Project.list()]
+    }
         
     def report = {
         def reports,id,selectedYear,selectedMonth
