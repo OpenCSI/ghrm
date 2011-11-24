@@ -1,19 +1,27 @@
 package com.opencsi.ghrm.controller
+
 import com.opencsi.ghrm.domain.Task
 import com.opencsi.ghrm.domain.Project
+import com.opencsi.ghrm.domain.User
+
+import com.opencsi.ghrm.services.TaskInstanceService
+import com.opencsi.ghrm.services.UserService
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class TaskController {
     // Export service provided by Export plugin
     def exportService
+    TaskInstanceService taskInstanceService
 
     def show = {
-        [task: Task.findById(params.id),projectList: Project.list()]
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [task: Task.findById(params.id),projectList: Tasks.project]
     }
 
     def create = {
-        [projectList: Project.list()]
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [projectList: Tasks.project]
     }
 
     def save = {
@@ -40,7 +48,9 @@ class TaskController {
             Map labels = ['createat' : 'Created at','label' : 'Label', 'name' : 'Name','description': 'Description']
             exportService.export(params.format, response.outputStream,Task.list(params), fields, labels,[:],[:])
          }
-        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count(),projectList: Project.list()]
+
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count(),projectList: Tasks.project]
     }
 
     def modify = {
@@ -63,8 +73,10 @@ class TaskController {
             flash.message = "${message(code : 'task.modify')}"
             redirect(action:'list')
         }
+
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [id: params.id, name: taskInstance.name, label: taskInstance.label,
-            description: taskInstance.description,projectList: Project.list()]
+            description: taskInstance.description,projectList: Tasks.project]
     }
 
 }

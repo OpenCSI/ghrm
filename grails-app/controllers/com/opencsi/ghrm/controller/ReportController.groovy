@@ -1,6 +1,8 @@
 package com.opencsi.ghrm.controller
+
 import com.opencsi.ghrm.services.*
 import com.opencsi.ghrm.domain.*
+
 import org.joda.time.DateTime
 
 class ReportController {
@@ -38,8 +40,9 @@ class ReportController {
             taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
         }
 
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,
-            projectList: Project.list(), create:true]
+            projectList: Tasks.project, create:true]
     }
 
     def week = {
@@ -76,8 +79,10 @@ class ReportController {
                     'id' : report.id
                 ])
         }
+
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,
-            projectList: Project.list(), create:false]
+            projectList: Tasks.project, create:false]
     }
 
     def month = {
@@ -112,6 +117,7 @@ class ReportController {
         }
         
         def projectInfo = ''//"<ul><li><A href=''></a></li></ul>"
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
 
         [projectId: id,
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
@@ -121,7 +127,7 @@ class ReportController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'report',
-            projectList: Project.list()
+            projectList: Tasks.project
         ]
     }
 

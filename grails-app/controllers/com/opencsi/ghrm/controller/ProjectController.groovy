@@ -1,10 +1,15 @@
 package com.opencsi.ghrm.controller
+
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.TaskInstance
 import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.domain.Customer
+import com.opencsi.ghrm.domain.User
+
 import com.opencsi.ghrm.services.*
+
 import org.joda.time.DateTime
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class ProjectController {
@@ -12,6 +17,7 @@ class ProjectController {
     ReportService reportService
     CalendarService calendarService
     TaskService taskService
+    TaskInstanceService taskInstanceService
     // Export service provided by Export plugin
     def exportService
 
@@ -50,22 +56,24 @@ class ProjectController {
         }
         def tasks = TaskInstance.findAllByProject(project)
 
-        [project: project, projectTasks: tasks,projectList: Project.list()]
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [project: project, projectTasks: tasks,projectList: Tasks.project]
     }
     
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         // Export :
-         if(params?.format && params.format != "html")
-         {
-            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
-            response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
-            List fields = ['name','createat','customer.name','description','code','label']
-            Map labels = ['name' : 'Name','createat' : 'Create At', 'Customer.name' : 'Customer',
-                            'description': 'Description','label': 'Label']
-            exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
-         }
-        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Project.list()]
+        if(params?.format && params.format != "html")
+        {
+           response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
+           response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
+           List fields = ['name','createat','customer.name','description','code','label']
+           Map labels = ['name' : 'Name','createat' : 'Create At', 'Customer.name' : 'Customer',
+                           'description': 'Description','label': 'Label']
+           exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
+        }
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Tasks.project]
     }
 
     def modify = {
@@ -87,8 +95,9 @@ class ProjectController {
             flash.message = "${message(code:'global.error.open')}"
             redirect(action:'list')
         }
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [id: params.id,name: projectInstance.name,label: projectInstance.label,
-            description: projectInstance.description, projectList: Project.list()]
+            description: projectInstance.description, projectList: Tasks.project]
     }
         
     def report = {
@@ -124,6 +133,7 @@ class ProjectController {
         }
 
         def projectInfo = ''//"<ul><li><A href=''></a></li></ul>"
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
@@ -133,7 +143,7 @@ class ProjectController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'project',
-            projectList: Project.list(),
+            projectList: Tasks.project,
             nameProject : Project.get(id).name
         ]
     }

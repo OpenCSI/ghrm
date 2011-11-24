@@ -1,14 +1,18 @@
 package com.opencsi.ghrm.controller
 
 import com.opencsi.ghrm.domain.Project
-import com.opencsi.security.ShiroUser
 import com.opencsi.ghrm.domain.User
+
 import com.opencsi.ghrm.services.UserService
+import com.opencsi.ghrm.services.TaskInstanceService
+
+import com.opencsi.security.ShiroUser
 
 import org.apache.shiro.crypto.hash.Sha256Hash
 
 class MeController {
     def UserService userService
+    TaskInstanceService taskInstanceService
 
     def index = { }
 
@@ -35,7 +39,8 @@ class MeController {
             else
                 flash.message = "${message(code : 'user.modify.error.password.old')}"
         }
-        [projectList: Project.list()]
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [projectList: Tasks.project]
     }
 
     def modify = {
@@ -48,7 +53,8 @@ class MeController {
             userInstance.save(flush:true)
             flash.message = "${message(code:'user.modify')}"
         }
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [firstname : userInstance.firstname,email : userInstance.email,
-            lastname : userInstance.lastname,projectList: Project.list()]
+            lastname : userInstance.lastname,projectList: Tasks.project]
     }
 }

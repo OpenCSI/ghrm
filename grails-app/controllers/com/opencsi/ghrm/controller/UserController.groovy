@@ -6,6 +6,7 @@ import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.User
 
 import com.opencsi.ghrm.services.UserService
+import com.opencsi.ghrm.services.TaskInstanceService
 
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
@@ -16,10 +17,12 @@ import org.codehaus.groovy.grails.commons.ConfigurationHolder
 class UserController {
     // Export service provided by Export plugin
     def exportService
+    TaskInstanceService taskInstanceService
     
     def create = {
        // flash.message = ""
-       [projectList: Project.list()]
+       def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+       [projectList: Tasks.project]
     }
 
     def list = {
@@ -33,7 +36,8 @@ class UserController {
             Map labels = ['id' : 'ID','name' : 'Name', 'email' : 'Email','uid': 'UID']
             exportService.export(params.format, response.outputStream,User.list(params),fields,labels, [:], [:])
          }
-        [userInstanceList: User.list(params), userInstanceTotal: User.count(),projectList: Project.list()]
+         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [userInstanceList: User.list(params), userInstanceTotal: User.count(),projectList: Tasks.project]
     }
 
     def save = {
@@ -139,9 +143,10 @@ class UserController {
             flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
         }
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [uid : userInstance.uid, firstname : userInstance.firstname,
             ,email : userInstance.email,lastname : userInstance.lastname,
-            id : params.id,projectList: Project.list(),roles : userShiroInstance]
+            id : params.id,projectList: Tasks.project,roles : userShiroInstance]
     }
 
     def deleteRule = {

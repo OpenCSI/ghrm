@@ -1,8 +1,14 @@
 package com.opencsi.ghrm.controller
+
 import com.opencsi.ghrm.domain.Customer
 import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.TaskInstance
 import com.opencsi.ghrm.domain.Task
+import com.opencsi.ghrm.domain.User
+
+import com.opencsi.ghrm.services.TaskInstanceService
+import com.opencsi.ghrm.services.UserService
+
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
 class CustomerController {
@@ -10,13 +16,15 @@ class CustomerController {
 
     // Export service provided by Export plugin
     def exportService
+    TaskInstanceService taskInstanceService
 
     def index = {
         redirect(action: "list", params: params)
     }
     
     def create = {
-        [projectList: Project.list()]
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [projectList: Tasks.project]
     }
 
     def save = {
@@ -41,7 +49,9 @@ class CustomerController {
             Map labels = ['name' : 'Name','city' : 'City', 'street' : 'Street','postalCode': 'Postal Code']
             exportService.export(params.format, response.outputStream,Customer.list(params), fields, labels,[:],[:])
          }
-        [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count(),projectList: Project.list()]
+
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        [customerInstanceList: Customer.list(params), customerInstanceTotal: Customer.count(),projectList: Tasks.project]
     }
 
     def modify = {
@@ -65,8 +75,10 @@ class CustomerController {
             flash.message = "${message(code : 'customer.modify')}"
             redirect(action:'list')
         }
+
+        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [id: params.id, name: customerInstance.name, city: customerInstance.city,
-            postal_code: customerInstance.postalCode, street: customerInstance.street,projectList: Project.list()]
+            postal_code: customerInstance.postalCode, street: customerInstance.street,projectList: Tasks.project]
     }
 
     def confirm ={
