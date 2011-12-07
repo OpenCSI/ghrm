@@ -16,7 +16,6 @@ import javax.mail.BodyPart
 import java.io.InputStream
 import java.io.FileWriter
 import java.io.FileOutputStream
-//import com.sun.mail.util.BASE64DecoderStream
 
 import org.joda.time.DateTime
 

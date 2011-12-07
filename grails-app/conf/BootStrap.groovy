@@ -1,7 +1,7 @@
 import com.opencsi.ghrm.domain.*
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
-import org.apache.shiro.crypto.hash.*
+import org.apache.shiro.crypto.hash.Sha256Hash
 import org.joda.time.DateTime
 import grails.util.Environment
 
@@ -23,45 +23,66 @@ class BootStrap {
             println("[GHRM Init] : The HRRecruitment Job is started")
         }
         // Init scenario:
-        def adminRole = new ShiroRole(name: 'admin')
-        adminRole.addToPermissions("*:*")
-        adminRole.save(failOnError: true)
+        //if( (appConfig.dataSource.dbCreate == "create") || (appConfig.dataSource.dbCreate == "create-drop") )
+        //{
+            if (!ShiroRole.findByName('admin'))
+            {
+                def adminRole = new ShiroRole(name: 'admin')
+                adminRole.addToPermissions("*:*")
+                adminRole.save()
+            }
 
-        def projectLeader = new ShiroRole(name: 'projectleader')
-        projectLeader.addToPermissions("customer:*")
-        projectLeader.addToPermissions("project:*")
-        projectLeader.addToPermissions("task:*")
-        projectLeader.addToPermissions("report:*")
-        projectLeader.addToPermissions("taskInstance:*")
-        projectLeader.addToPermissions("me:*")
-        projectLeader.save(failOnError:true)
+            if (!ShiroRole.findByName('projectleader'))
+            {
+                def projectLeader = new ShiroRole(name: 'projectleader')
+                projectLeader.addToPermissions("customer:*")
+                projectLeader.addToPermissions("project:*")
+                projectLeader.addToPermissions("task:*")
+                projectLeader.addToPermissions("report:*")
+                projectLeader.addToPermissions("taskInstance:*")
+                projectLeader.addToPermissions("me:*")
+                projectLeader.save()
+            }
 
-        def employee = new ShiroRole(name: 'employee')
-        employee.addToPermissions("report:*")
-        employee.addToPermissions("me:*")
-        employee.save(failOnError:true)
+            if (!ShiroRole.findByName('employee'))
+            {
+                def employee = new ShiroRole(name: 'employee')
+                employee.addToPermissions("report:*")
+                employee.addToPermissions("me:*")
+                employee.save()
+            }
 
-        def HR = new ShiroRole(name : 'HR')
-        HR.addToPermissions("HR:*")
-        HR.addToPermissions("me:*")
-        HR.save(failOnError:true)
+            if (!ShiroRole.findByName('HR'))
+            {
+                def HR = new ShiroRole(name : 'HR')
+                HR.addToPermissions("HR:*")
+                HR.addToPermissions("me:*")
+                HR.save()
+            }
 
+            if (!User.findByUid('admin'))
+            {
+                new User(uid:"admin", firstname:"Admin", lastname:"Administrator", email:"admin@opencsi.com").save(failOnError:true)
+                def admin = new ShiroUser(username: 'admin', passwordHash: new Sha256Hash("secret").toHex())
+                admin.addToRoles(ShiroRole.findByName('admin'))
+                admin.addToRoles(ShiroRole.findByName('projectleader'))
+                admin.addToRoles(ShiroRole.findByName('employee'))
+                admin.addToRoles(ShiroRole.findByName('HR'))
+                admin.save()
+            }
 
-        new User(uid:"admin", firstname:"Admin", lastname:"Administrator", email:"admin@opencsi.com").save(failOnError:true)
-        def admin = new ShiroUser(username: 'admin', passwordHash: new Sha256Hash("secret").toHex())
-        admin.addToRoles(ShiroRole.findByName('admin'))
-        admin.addToRoles(ShiroRole.findByName('projectleader'))
-        admin.addToRoles(ShiroRole.findByName('employee'))
-        admin.addToRoles(ShiroRole.findByName('HR'))
-        admin.save(failOnError:true)
-
-        // HR:
-        new StatutRecruitment(name :"New").save(failOnError:true)
-        new StatutRecruitment(name :"In progress").save(failOnError:true)
-        new StatutRecruitment(name :"Interview").save(failOnError:true)
-        new StatutRecruitment(name :"Refused").save(failOnError:true)
-        new StatutRecruitment(name :"Accepted").save(failOnError:true)
-
+            // HR:
+            if (!StatutRecruitment.findByName('New'))
+                new StatutRecruitment(name :"New").save()
+            if (!StatutRecruitment.findByName('In progress'))
+                new StatutRecruitment(name :"In progress").save()
+            if (!StatutRecruitment.findByName('Interview'))
+                new StatutRecruitment(name :"Interview").save()
+            if (!StatutRecruitment.findByName('Refused'))
+                new StatutRecruitment(name :"Refused").save()
+            if (!StatutRecruitment.findByName('Accepted'))
+                new StatutRecruitment(name :"Accepted").save()
+       // }
         if (Environment.current.name != 'production') {
             new User(uid:"manager", firstname:"John", lastname:"Doe", email:"doe@opencsi.com").save(failOnError:true)
             new User(uid:"brian", firstname: "Brian", lastname:"Jones", email:"brian@opencsi.com").save(failOnError:true)
