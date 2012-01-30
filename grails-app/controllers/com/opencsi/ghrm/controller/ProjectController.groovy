@@ -128,7 +128,7 @@ class ProjectController {
             def color = (calendarData[reportDay]['htmldata']).size() % 4
             calendarData[reportDay].push([
                     'htmldata':'<div class="color' + color + '" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
-                    'tooltipdata': "${message(code:'global.user')}: " + report.taskInstance.user.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
+                    'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.user')}: " + report.taskInstance.user.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
             ])
         }
 
