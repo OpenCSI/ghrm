@@ -37,7 +37,7 @@ class ReportController {
         def taskSelectOptions = []
 
         taskLists.each { taskInstance ->
-            taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.label + ':' + taskInstance.task.label)
+            taskSelectOptions.push(id: taskInstance.id, label: taskInstance.project.customer.name + ':' +taskInstance.project.label + ':' + taskInstance.task.label)
         }
 
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
