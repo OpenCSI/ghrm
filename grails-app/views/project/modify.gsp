@@ -33,6 +33,12 @@
       <textarea name="description" rows="5" cols="35">${description}</textarea>
       </tr>
 
+      <tr>
+        <th><g:message code="global.status"/></th>
+        <td class="value ${hasErrors(bean: taskInstance, field: 'status', 'errors')}">
+        <g:checkBox name="status" value="0" checked="true"/></td>
+      </tr>
+      
     </table>
     <center>
       <g:submitButton name="modify" value="${message(code: 'default.button.modify.label', default: 'modify')}"/>

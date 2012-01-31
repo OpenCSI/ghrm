@@ -134,22 +134,28 @@ class ReportController {
     def save = {
         if (params.taskInstance != null)
         {
-            def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
-            params.days.each { day, value ->
-                try{
-                    if(value.toFloat() > 0.0) {
-                        new TaskReport(
-                            taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
-                            date: firstDay.plusDays(day.toInteger()).toDate(),
-                            days: value.toFloat()
-                        ).save(failOnError: true)
-                        flash.message = "${message(code:'report.save.succes')}"
+            // Test if the project is closed or not:
+            def project = TaskInstance.get(params.taskInstance.toInteger()).project
+            if (project.status == Project.STATUS_OPEN)
+            {
+                def firstDay = new DateTime(params.firstDate.Year.toInteger(), params.firstDate.Month.toInteger(), params.firstDate.Day.toInteger(), 0, 0, 0, 0)
+                params.days.each { day, value ->
+                    try{
+                        if(value.toFloat() > 0.0) {
+                            new TaskReport(
+                                taskInstance: TaskInstance.get(params.taskInstance.toInteger()),
+                                date: firstDay.plusDays(day.toInteger()).toDate(),
+                                days: value.toFloat()
+                            ).save(failOnError: true)
+                            flash.message = "${message(code:'report.save.succes')}"
+                        }
+                    }catch(Exception e)
+                    {
+                        flash.message = "${message(code:'report.save.error')}"           
                     }
-                }catch(Exception e)
-                {
-                    flash.message = "${message(code:'report.save.error')}"           
                 }
-            }
+            }else
+                flash.message = "${message(code : 'report.create.error.closed')}"
         }else
             flash.message = "${message(code : 'report.create.error')}"
         redirect(controller:'report', action:'week')

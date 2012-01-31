@@ -86,6 +86,22 @@ class ProjectController {
                 projectInstance.name = params.name
                 projectInstance.label = params.label
                 projectInstance.description = params.description
+                if (params.status == null)
+                {
+                    projectInstance.status = 1
+                    def taskInstance = TaskInstance.findByProject(projectInstance)
+                    taskInstance.each{
+                        it.status = 1
+                    }
+                }
+                else
+                {
+                    projectInstance.status = 0
+                    def taskInstance = TaskInstance.findByProject(projectInstance)
+                    taskInstance.each{
+                        it.status = 0
+                    }
+                }
                 projectInstance.save(flush:true)
                 flash.message = "${message(code:'project.modify')}"
                 redirect(action:'list')
