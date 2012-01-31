@@ -36,7 +36,7 @@
       <tr>
         <th><g:message code="global.status"/></th>
         <td class="value ${hasErrors(bean: taskInstance, field: 'status', 'errors')}">
-        <g:checkBox name="status" value="0" checked="true"/></td>
+        <g:checkBox name="status" value="0" checked="${state}"/></td>
       </tr>
       
     </table>

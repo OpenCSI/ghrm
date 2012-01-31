@@ -112,8 +112,9 @@ class ProjectController {
             redirect(action:'list')
         }
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def state = projectInstance.status == 0 ? "true" : "false"
         [id: params.id,name: projectInstance.name,label: projectInstance.label,
-            description: projectInstance.description, projectList: Tasks.project]
+            description: projectInstance.description, projectList: Tasks.project,state:state]
     }
         
     def report = {
