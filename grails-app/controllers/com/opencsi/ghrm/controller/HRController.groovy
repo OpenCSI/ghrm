@@ -58,7 +58,7 @@ class HRController {
             def message = MessageRecruitment.findAllByRecruitment(recruitment)
 
             def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-            [recruitment: recruitment, message: message, statut: StatutRecruitment.list(),projectList: Tasks.project]
+            [recruitment: recruitment, message: message, status: StatutRecruitment.list(),projectList: Tasks.project]
         }
         catch(Exception e)
         {

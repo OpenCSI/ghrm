@@ -34,8 +34,8 @@
         <th><g:message code="recruitment.more.statut.change.title"/></th>
         <tr><td>
           <select name="statut">
-            <g:each in="${statut}" var="statut">
-              <option>${fieldValue(bean: statut, field: "name")}</option>
+            <g:each in="${status}" var="stat">
+              <option>${stat.name}</option>
             </g:each>
           </select>
           <input type="submit" value="<g:message code="recruitment.more.modify" />"/>
