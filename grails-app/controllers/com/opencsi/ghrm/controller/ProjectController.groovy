@@ -21,10 +21,10 @@ class ProjectController {
     // Export service provided by Export plugin
     def exportService
 
-    private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+    /*private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
-            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
-            ,g.message(code:'month.12')]
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
+            g.message(code:'month.12')]*/
 
     def create = {
         [projectList: Project.list()]
@@ -61,6 +61,7 @@ class ProjectController {
     }
     
     def list = {
+		println(g.message(code:'month.1'))
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         // Export :
         if(params?.format && params.format != "html")
@@ -151,7 +152,11 @@ class ProjectController {
 
         def projectInfo = ''//"<ul><li><A href=''></a></li></ul>"
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        
+        def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
+            g.message(code:'month.12')]
+            
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
             calendarData: calendarData,
@@ -183,6 +188,11 @@ class ProjectController {
         // Extract in PDF File:
          if(params?.format && params.format != "html")
          {
+			def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
+            g.message(code:'month.12')]
+            
             response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
             response.setHeader("Content-disposition", "attachment; filename=Calendar-${nameMonth[selectedMonth-1]}-${selectedYear}.${params.extension}")
             List fields=['date','days','taskInstance.user.name','taskInstance.project.name',

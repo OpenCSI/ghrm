@@ -12,13 +12,13 @@ class ReportController {
     ReportService reportService
     TaskInstanceService taskInstanceService
 
-    private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+   /* private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
             ,g.message(code:'month.12')]
     private def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
-                    g.message(code:"day.7")]
+                    g.message(code:"day.7")]*/
 
     def create = {
         def selectedYear,selectedMonth,selectedDay,weekInfos
@@ -41,6 +41,9 @@ class ReportController {
         }
 
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
         [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,
             projectList: Tasks.project, create:true]
     }
@@ -81,6 +84,9 @@ class ReportController {
         }
 
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
         [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,
             projectList: Tasks.project, create:false]
     }
@@ -118,7 +124,11 @@ class ReportController {
         
         def projectInfo = ''//"<ul><li><A href=''></a></li></ul>"
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-
+		def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
+            g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
+            g.message(code:'month.12')]
+            
         [projectId: id,
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
             calendarData: calendarData,
