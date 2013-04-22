@@ -61,7 +61,6 @@ class ProjectController {
     }
     
     def list = {
-		println(g.message(code:'month.1'))
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
         // Export :
         if(params?.format && params.format != "html")

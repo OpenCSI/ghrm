@@ -38,7 +38,7 @@
               <option>${fieldValue(bean: statut, field: "name")}</option>
             </g:each>
           </select>
-          <input type="submit" value="${message(code:'recruitment.more.modify')}"/>
+          <input type="submit" value="<g:message code="recruitment.more.modify" />"/>
         </td></tr>
       </table>
     </g:form>
@@ -50,7 +50,7 @@
         <td>
           <g:message code="recruitment.more.message.title"/><div class="center"><input type="text" name="title" value="Re:'${recruitment.title}'"/></div><br>
           <g:message code="recruitment.more.message.content"/><div class="center"><textarea name="content" rows="5" cols="35"></textarea></div><br>
-          <div class="center"><input type="submit" value="${message(code:'recruitment.more.answer.send')}"/></div>
+          <div class="center"><input type="submit" value="<g:message code="recruitment.more.answer.send"/>"/></div>
         </td>
       </tr>
     </table>
