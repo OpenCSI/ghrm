@@ -7,6 +7,7 @@ import com.opencsi.ghrm.domain.User
 
 import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.services.TaskInstanceService
+import com.opencsi.ghrm.services.ProjectVirtualUserService
 
 import com.opencsi.security.ShiroUser
 import com.opencsi.security.ShiroRole
@@ -20,9 +21,7 @@ class UserController {
     TaskInstanceService taskInstanceService
     
     def create = {
-       // flash.message = ""
-       def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-       [projectList: Tasks.project]
+       [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
     }
 
     def list = {
@@ -36,8 +35,9 @@ class UserController {
             Map labels = ['id' : 'ID','name' : 'Name', 'email' : 'Email','uid': 'UID']
             exportService.export(params.format, response.outputStream,User.list(params),fields,labels, [:], [:])
          }
-         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [userInstanceList: User.list(params), userInstanceTotal: User.count(),projectList: Tasks.project]
+         def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+         
+        [userInstanceList: User.list(params), userInstanceTotal: User.count(),projectList: listProject]
     }
 
     def save = {
@@ -143,10 +143,11 @@ class UserController {
             flash.message = "${message(code:'user.modify')}"
             redirect(action:'list')
         }
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [uid : userInstance.uid, firstname : userInstance.firstname,
             ,email : userInstance.email,lastname : userInstance.lastname,
-            id : params.id,projectList: Tasks.project,roles : userShiroInstance]
+            id : params.id,projectList: listProject,roles : userShiroInstance]
     }
 
     def deleteRule = {

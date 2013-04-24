@@ -44,8 +44,10 @@ class ReportController {
         def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
                     g.message(code:"day.7")]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,
-            projectList: Tasks.project, create:true]
+            projectList: listProject, create:true]
     }
 
     def week = {
@@ -87,8 +89,10 @@ class ReportController {
         def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
                     g.message(code:"day.7")]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,
-            projectList: Tasks.project, create:false]
+            projectList: listProject, create:false]
     }
 
     def month = {
@@ -128,7 +132,8 @@ class ReportController {
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
             g.message(code:'month.12')]
-            
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [projectId: id,
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
             calendarData: calendarData,
@@ -137,7 +142,7 @@ class ReportController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'report',
-            projectList: Tasks.project
+            projectList: listProject
         ]
     }
 

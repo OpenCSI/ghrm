@@ -9,6 +9,7 @@ import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.services.MailService
 import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.services.TaskInstanceService
+import com.opencsi.ghrm.services.ProjectVirtualUserService
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 import org.joda.time.DateTime
@@ -44,10 +45,11 @@ class HRController {
          def recruitmentAccepted = Recruitment.findAllByStatut(StatutRecruitment.get(5),params)
          def recruitmentRefused = Recruitment.findAllByStatut(StatutRecruitment.get(4),params)
 
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [recruitmentInstanceNewList: recruitmentNew,recruitmentInstanceProgressList: recruitmentProgress,
          recruitmentInstanceInterviewList : recruitmentInterview, recruitmentInstanceAcceptedList : recruitmentAccepted,
-         recruitmentInstanceRefusedList: recruitmentRefused,projectList: Tasks.project]
+         recruitmentInstanceRefusedList: recruitmentRefused,projectList: listProject]
     }
 
     def more = {
@@ -57,8 +59,9 @@ class HRController {
             def recruitment = Recruitment.get(params.id)
             def message = MessageRecruitment.findAllByRecruitment(recruitment)
 
-            def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-            [recruitment: recruitment, message: message, status: StatutRecruitment.list(),projectList: Tasks.project]
+            def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+            
+            [recruitment: recruitment, message: message, status: StatutRecruitment.list(),projectList: listProject]
         }
         catch(Exception e)
         {

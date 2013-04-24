@@ -74,7 +74,9 @@ class ProjectController {
            exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
         }
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Tasks.project]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
+        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: listProject]
     }
 
     def modify = {
@@ -115,8 +117,10 @@ class ProjectController {
         }
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         def state = projectInstance.status == 0 ? "true" : "false"
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [id: params.id,name: projectInstance.name,label: projectInstance.label,
-            description: projectInstance.description, projectList: Tasks.project,state:state,color: projectInstance.color]
+            description: projectInstance.description, projectList: listProject,state:state,color: projectInstance.color]
     }
         
     def report = {
@@ -157,6 +161,7 @@ class ProjectController {
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
             g.message(code:'month.12')]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(uUserService.getAuthenticatedUserNameStatic()))
             
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
@@ -166,7 +171,7 @@ class ProjectController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'project',
-            projectList: Tasks.project,
+            projectList: listProject,
             nameProject : Project.get(id).name
         ]
     }
