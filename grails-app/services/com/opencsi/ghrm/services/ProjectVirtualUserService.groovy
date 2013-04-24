@@ -1,5 +1,6 @@
 package com.opencsi.ghrm.services
 
+import com.opencsi.ghrm.domain.Project
 import com.opencsi.ghrm.domain.User
 import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.domain.TaskInstance
@@ -13,12 +14,27 @@ class ProjectVirtualUserService {
         java.util.ArrayList<ProjectVirtualUser> list = []
         Float progress = 0.0
         tasksInstance.each{ tInstance ->
-            def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
-            tasksReport.each{ tReport ->
-                progress += tReport.days
+            if (!user.showIDLE)
+            {
+                if (tInstance.project.status != Project.STATUS_CLOSE)
+                {
+                    def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
+                    tasksReport.each{ tReport ->
+                        progress += tReport.days
+                    }
+                    list.add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,customer: tInstance.project.customer.name,
+                     progress: progress,max: tInstance.days,actif: tInstance.project.status,label: tInstance.project.label))   
+                }
             }
-            list.add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,customer: tInstance.project.customer.name,
-                     progress: progress,max: tInstance.days,actif: tInstance.project.status,label: tInstance.project.label))
+            else
+            {
+                def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
+                tasksReport.each{ tReport ->
+                    progress += tReport.days
+                }
+                list.add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,customer: tInstance.project.customer.name,
+                         progress: progress,max: tInstance.days,actif: tInstance.project.status,label: tInstance.project.label))
+            }
         }
         return list
     }
