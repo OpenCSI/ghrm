@@ -23,7 +23,7 @@
     <div class="topbar" data-dropdown="dropdown">
       <div class="topbar-inner">
         <div class="container">
-          <h3><a href="#">Human Resources</a></h3>
+          <h3><a href="${createLink(controller: 'report', action: 'month')}">Human Resources</a></h3>
           <ul class="nav">
             <auth:isEmployee>
               <li><a href="${createLink(controller: 'report', action: 'create')}"><span class="menu_button alert-message success" >+</span></a></li>
@@ -95,6 +95,21 @@
               <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a> (${it.label})</li>
             </g:if>
           </g:each>
+          
+          <h5><center><g:message code="global.project.inactif"/></center></h5>
+          <g:if test="${!projectList}">
+            <g:message code="project.inactif.none"/>
+          </g:if>
+          <g:each in="${projectList}">
+            <g:if test="${it.status == 1}">
+              <g:if test="${it.customer.name != name}">
+                <g:set var="name" value="${it.customer.name}"/>
+                ${it.customer.name}
+              </g:if>
+              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a> (${it.label})</li>
+            </g:if>
+          </g:each>
+          
         </shiro:user>
       </div>
     </div>

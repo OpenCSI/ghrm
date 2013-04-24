@@ -50,11 +50,15 @@ class MeController {
             userInstance.firstname = params.firstname
             userInstance.lastname  = params.lastname
             userInstance.email     = params.email
+            if (params?.showIDLE == "on")
+				userInstance.showIDLE  = true
+			else
+				userInstance.showIDLE = false
             userInstance.save(flush:true)
             flash.message = "${message(code:'user.modify')}"
         }
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         [firstname : userInstance.firstname,email : userInstance.email,
-            lastname : userInstance.lastname,projectList: Tasks.project]
+            lastname : userInstance.lastname,projectList: Tasks.project, showIDLE: userInstance.showIDLE]
     }
 }

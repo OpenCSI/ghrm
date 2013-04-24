@@ -39,6 +39,12 @@
         <g:checkBox name="status" value="0" checked="${state}"/></td>
       </tr>
       
+       <tr>
+        <th><g:message code="global.color"/></th>
+        <td class="value ${hasErrors(bean: taskInstance, field: 'color', 'errors')}">
+        <g:textField name="color" value="${color}"/></td>
+      </tr>
+      
     </table>
     <center>
       <g:submitButton name="modify" value="${message(code: 'default.button.modify.label', default: 'modify')}"/>

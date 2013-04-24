@@ -9,6 +9,7 @@ class Project {
     String description
     String code
     String label
+    String color
     Integer status = STATUS_OPEN
 
     static belongsTo = User

@@ -123,9 +123,9 @@ class BootStrap {
 				new Customer(name:"A small french company", street:"42 rue dtc", city:"Paris", postalCode: "75000").save(failOnError:true)
 
 			if(!Project.findByLabel("1000"))
-				new Project(name:"Project 1", customer: Customer.get(1),code: "C00101",description: "Assistance technique OpenAM",label: "1000",updateat: new Date(),createat: new Date()).save(failOnError:true)
+				new Project(name:"Project 1", customer: Customer.get(1),code: "C00101",description: "Assistance technique OpenAM",label: "1000",updateat: new Date(),createat: new Date(),color: "#ffc726").save(failOnError:true)
             if(!Project.findByLabel("1001"))
-				new Project(name:"Project 2", customer: Customer.get(2),code: "C00201",description: "Conseil securite",label: "1001",updateat: new Date(),createat: new Date()).save(failOnError:true)
+				new Project(name:"Project 2", customer: Customer.get(2),code: "C00201",description: "Conseil securite",label: "1001",updateat: new Date(),createat: new Date(),color: "#ff7300").save(failOnError:true)
 
 			if(!Task.findByLabel("AT"))
 				new Task(name:"Assistance technique", label:"AT").save(failOnError:true)

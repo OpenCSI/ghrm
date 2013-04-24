@@ -31,6 +31,12 @@
       <td class="value ${hasErrors(bean: userInstance, field: 'email', 'errors')}">
       <g:textField name="email" value="${email}"/></td>
       </tr>
+      
+      <tr>
+        <th><g:message code="user.showIDLE"/></th>
+      <td class="value ${hasErrors(bean: userInstance, field: 'showIDLE', 'errors')}">
+      <g:checkBox name="showIDLE" checked="${showIDLE}"/></td>
+      </tr>
     </table>
     <center>
       <g:submitButton name="modify" value="${message(code: 'user.modify.href', default: 'Modify')}"/>

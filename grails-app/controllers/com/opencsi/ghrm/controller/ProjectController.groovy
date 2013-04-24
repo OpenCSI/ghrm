@@ -37,6 +37,7 @@ class ProjectController {
         project.status = Project.STATUS_OPEN
         project.description = params.description
         project.customer = Customer.get(params.customer.toInteger())
+        project.color = params.color
 
         if(project.save(onFailError: true, flush:true)) {
             redirect(action: 'list')
@@ -86,6 +87,7 @@ class ProjectController {
                 projectInstance.name = params.name
                 projectInstance.label = params.label
                 projectInstance.description = params.description
+                projectInstance.color = params.color
                 if (params.status == null)
                 {
                     projectInstance.status = 1
@@ -114,7 +116,7 @@ class ProjectController {
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         def state = projectInstance.status == 0 ? "true" : "false"
         [id: params.id,name: projectInstance.name,label: projectInstance.label,
-            description: projectInstance.description, projectList: Tasks.project,state:state]
+            description: projectInstance.description, projectList: Tasks.project,state:state,color: projectInstance.color]
     }
         
     def report = {

@@ -44,6 +44,11 @@
       <td class="value ${hasErrors(bean: projectInstance, field: 'description', 'errors')}">
       <g:textField name="description" value="${projectInstance?.description}" /></td>
       </tr>
+      <tr>
+        <th><g:message code="global.color"/></th>
+        <td class="value ${hasErrors(bean: taskInstance, field: 'color', 'errors')}">
+        <g:textField name="color" value="${projectInstance?.color}"/></td>
+      </tr>
     </table>
     <center>
     <g:submitButton name="create" value="${message(code: 'project.submit', default: 'Create')}"/>

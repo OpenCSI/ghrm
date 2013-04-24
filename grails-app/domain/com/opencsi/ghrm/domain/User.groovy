@@ -7,6 +7,7 @@ class User {
     String firstname
     String lastname
     String email
+    Boolean showIDLE = true
     //    String name
     //    String initials
 
