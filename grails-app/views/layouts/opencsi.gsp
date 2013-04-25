@@ -32,6 +32,8 @@
               <ul class="dropdown-menu">
               <li><a href="${createLink(controller: 'report', action: 'month')}"><g:message code="global.month.current"/></a></li>
               <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
+              <li class="divider"></li>
+              <li><a href="${createLink(controller: 'report', action: 'export')}"><g:message code="global.report.export"/></a></li>
               </ul>
               </li>
             </auth:isEmployee>

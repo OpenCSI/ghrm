@@ -44,7 +44,7 @@ class MeController {
         [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
     }
 
-    def modify = {
+    def modify = {       
         def userInstance = User.findByUid(userService.getAuthenticatedUserName())
         if (params.modify)
         {

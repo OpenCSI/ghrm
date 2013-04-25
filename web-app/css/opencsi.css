@@ -11,6 +11,10 @@ div#footer {
     margin-right: 1em;
 }
 
+.tableExport td,th{
+    text-align: center;
+}
+
 span.menu_button {
 	padding: 5px;
 }
