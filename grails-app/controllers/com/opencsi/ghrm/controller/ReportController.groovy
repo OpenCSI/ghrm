@@ -207,8 +207,13 @@ class ReportController {
         for(int i=1;i<13;i++){
             nameMonth.push(id: i-1,name: g.message(code:'month.' + i))
         }
+        Calendar c = Calendar.getInstance()
+        def numberWeeks = c.getActualMaximum(Calendar.WEEK_OF_YEAR)
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         
-        [client: new HashSet(clients),fYear: firstYear,lYear: lastYear,nameMonth: nameMonth,params: params]
+        [client: new HashSet(clients),fYear: firstYear,lYear: lastYear,
+         numberWeeks: numberWeeks,nameMonth: nameMonth,params: params,
+         projectList: listProject]
     }
     
     def exportPDF = {
@@ -220,23 +225,43 @@ class ReportController {
             def user = User.findByUid(UserService.getAuthenticatedUserNameStatic())
             CName = client.name
             def tasksReport
+            Calendar calBegin = Calendar.getInstance()
+            Calendar calEnd = Calendar.getInstance()
             if (params?.date == "week"){
-                
+                int year = Integer.valueOf(params.yearMonth)
+                int week = Integer.valueOf(params.weekWeek)
+                calBegin.setFirstDayOfWeek(Calendar.MONDAY)
+                calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                calBegin.set(Calendar.YEAR,year)
+                calBegin.set(Calendar.WEEK_OF_YEAR,week)
+                calBegin.set(Calendar.HOUR_OF_DAY, 0)
+                calBegin.set(Calendar.MINUTE, 0)
+                calBegin.set(Calendar.SECOND, 0)
+                ////////////////////////////////////////////////////////
+                calEnd.setFirstDayOfWeek(Calendar.SUNDAY)
+                calEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                calEnd.set(Calendar.YEAR,year)
+                calEnd.set(Calendar.WEEK_OF_YEAR,week)
+                calEnd.add(Calendar.DATE,7)
+                calEnd.set(Calendar.HOUR_OF_DAY, 23)
+                calEnd.set(Calendar.MINUTE, 59)
+                calEnd.set(Calendar.SECOND, 59)
+                ////////////////////////////////////////////////////////                
             }
             else if (params?.date == "month"){
-                Calendar calBegin = Calendar.getInstance()
-                Calendar calEnd = Calendar.getInstance();
                 int year = Integer.valueOf(params.yearMonth)
                 int month = Integer.valueOf(params.monthMonth)
                 calBegin.set(year,month,1,0,0,0)
                 /////////////////////////////////////////////////////////
                 calEnd.set(year,month,calEnd.getMaximum(Calendar.DAY_OF_MONTH),0,0,0)
                 /////////////////////////////////////////////////////////
-                tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
             }else{
                 flash.message = "${message(code:'report.export.error.typeDate')}"
                 redirect(action: "export")
             }
+            println(calBegin.getTime())
+            println(calEnd.getTime())
+            tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
             
             projectsList.each{ PList ->
                 ProjectPDFVirtual pPDF = new ProjectPDFVirtual()
