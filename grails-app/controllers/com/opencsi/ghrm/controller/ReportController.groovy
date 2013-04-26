@@ -219,6 +219,7 @@ class ReportController {
     def exportPDF = {
         String CName
         def ProjectsList = []
+        def strDate = "" // Text date period
         if(params?.clientInstance){
             def client = Customer.get(params.clientInstance)
             def projectsList = Project.findAllByCustomer(client)
@@ -230,6 +231,7 @@ class ReportController {
             if (params?.date == "week"){
                 int year = Integer.valueOf(params.yearMonth)
                 int week = Integer.valueOf(params.weekWeek)
+                ////////////////////////////////////////////////////////
                 calBegin.setFirstDayOfWeek(Calendar.MONDAY)
                 calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
                 calBegin.set(Calendar.YEAR,year)
@@ -246,12 +248,17 @@ class ReportController {
                 calEnd.set(Calendar.HOUR_OF_DAY, 23)
                 calEnd.set(Calendar.MINUTE, 59)
                 calEnd.set(Calendar.SECOND, 59)
-                ////////////////////////////////////////////////////////                
+                ////////////////////////////////////////////////////////   
+                strDate = g.message(code:"global.date.from") + " " 
+                strDate += calBegin.getTime().getMonth() + "/" + calBegin.getTime().getDate() + "/" + (calBegin.getTime().getYear() + 1900)
+                strDate += " " + g.message(code:"global.date.to") + " "
+                strDate += calEnd.getTime().getMonth() + "/" + calEnd.getTime().getDate() + "/" + (calEnd.getTime().getYear() + 1900)
             }
             else if (params?.date == "month"){
                 int year = Integer.valueOf(params.yearMonth)
                 int month = Integer.valueOf(params.monthMonth)
                 calBegin.set(year,month,1,0,0,0)
+                strDate = g.message(code:'month.' + (month+1)) + " " + year
                 /////////////////////////////////////////////////////////
                 calEnd.set(year,month,calEnd.getMaximum(Calendar.DAY_OF_MONTH),0,0,0)
                 /////////////////////////////////////////////////////////
@@ -259,8 +266,6 @@ class ReportController {
                 flash.message = "${message(code:'report.export.error.typeDate')}"
                 redirect(action: "export")
             }
-            println(calBegin.getTime())
-            println(calEnd.getTime())
             tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
             
             projectsList.each{ PList ->
@@ -287,8 +292,8 @@ class ReportController {
             flash.message = "${message(code:'report.export.error.client')}"
             redirect(action: "export")
         }
-        
-        def args = [template:"exportPDF", model:[client:CName,list:ProjectsList]]
+
+        def args = [template:"exportPDF", model:[client:CName,list:ProjectsList,date:strDate]]
         pdfRenderingService.render(args+[controller:this],response)
     }
 }

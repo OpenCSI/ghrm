@@ -5,16 +5,18 @@
     <title>PDF</title>
   </head>
   <body>
-    <h1>${client}</h1>
+  <center><h1>${client}</h1></center>
+  <center>${date}</center>
   <g:each in="${list}">
-    <b>${it.projectName}</b>:<br/><br/>
     <table>
-    <g:each in="${it.data}" var="value">
-      <tr><td>${value.getKey().getMonth()}/${value.getKey().getDate()}/${value.getKey().getYear() + 1900}:</td><td>${value.getValue()}</td></tr>
-      <tr><td></td></tr>
-    </g:each>
+      <tr><td><b>${it.projectName}</b>:</td></tr>
+      <tr><td><ul>
+      <g:each in="${it.data}" var="value">
+        <li>${value.getKey().getMonth()}/${value.getKey().getDate()}/${value.getKey().getYear() + 1900}: ${value.getValue()}</li>
+      </g:each>
+      </ul></td></tr>
+      <tr><td><b>Total:</b> ${it.total} / ${it.max}.</td></tr>
     </table>
-    <b>Total:</b> ${it.total} / ${it.max}.<br/> <br/><br/>
   </g:each>
   </body>
 </html>

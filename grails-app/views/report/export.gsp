@@ -21,7 +21,7 @@
           </td></tr>
           <tr><td>
             <g:radio name="date" value="week"/><g:message code="report.export.week"/><br>
-            <g:message code="report.export.week"/>:<g:select name="weekWeek" from="${0..numberWeeks}"/>
+            <g:message code="report.export.week"/>:<g:select name="weekWeek" from="${1..numberWeeks}"/>
             <g:message code="report.export.year"/>:<g:select name="yearWeek" from="${fYear..lYear}"/>
           </td></tr>
       </table>
