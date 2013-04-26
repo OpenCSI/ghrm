@@ -218,8 +218,10 @@ class ReportController {
     
     def exportPDF = {
         String CName
-        def ProjectsList = []
+        def list = []
         def strDate = "" // Text date period
+        def weekInfos
+        def calendarData = [:]
         if(params?.clientInstance){
             def client = Customer.get(params.clientInstance)
             def projectsList = Project.findAllByCustomer(client)
@@ -229,30 +231,32 @@ class ReportController {
             Calendar calBegin = Calendar.getInstance()
             Calendar calEnd = Calendar.getInstance()
             if (params?.date == "week"){
-                int year = Integer.valueOf(params.yearMonth)
+                int year = Integer.valueOf(params.yearWeek)
                 int week = Integer.valueOf(params.weekWeek)
                 ////////////////////////////////////////////////////////
                 calBegin.setFirstDayOfWeek(Calendar.MONDAY)
                 calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
-                calBegin.set(Calendar.YEAR,year)
                 calBegin.set(Calendar.WEEK_OF_YEAR,week)
+                calBegin.set(Calendar.YEAR,year)
                 calBegin.set(Calendar.HOUR_OF_DAY, 0)
                 calBegin.set(Calendar.MINUTE, 0)
                 calBegin.set(Calendar.SECOND, 0)
                 ////////////////////////////////////////////////////////
                 calEnd.setFirstDayOfWeek(Calendar.SUNDAY)
                 calEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
-                calEnd.set(Calendar.YEAR,year)
                 calEnd.set(Calendar.WEEK_OF_YEAR,week)
+                calEnd.set(Calendar.YEAR,year)
                 calEnd.add(Calendar.DATE,7)
                 calEnd.set(Calendar.HOUR_OF_DAY, 23)
                 calEnd.set(Calendar.MINUTE, 59)
                 calEnd.set(Calendar.SECOND, 59)
-                ////////////////////////////////////////////////////////   
+                ////////////////////////////////////////////////////////  
                 strDate = g.message(code:"global.date.from") + " " 
-                strDate += calBegin.getTime().getMonth() + "/" + calBegin.getTime().getDate() + "/" + (calBegin.getTime().getYear() + 1900)
+                strDate += (calBegin.getTime().getMonth()+1) + "/" + calBegin.getTime().getDate() + "/" + (calBegin.getTime().getYear() + 1900)
                 strDate += " " + g.message(code:"global.date.to") + " "
-                strDate += calEnd.getTime().getMonth() + "/" + calEnd.getTime().getDate() + "/" + (calEnd.getTime().getYear() + 1900)
+                strDate += (calEnd.getTime().getMonth()+1) + "/" + calEnd.getTime().getDate() + "/" + (calEnd.getTime().getYear() + 1900)
+                ///////////////////////////////////////////////////////
+                weekInfos = calendarService.getWeekInfos(calBegin.getTime().getYear()+1900, calBegin.getTime().getMonth()+1,calBegin.getTime().getDate())
             }
             else if (params?.date == "month"){
                 int year = Integer.valueOf(params.yearMonth)
@@ -262,41 +266,46 @@ class ReportController {
                 /////////////////////////////////////////////////////////
                 calEnd.set(year,month,calEnd.getMaximum(Calendar.DAY_OF_MONTH),0,0,0)
                 /////////////////////////////////////////////////////////
+                weekInfos = calendarService.getMonthInfos(year, month)
             }else{
                 flash.message = "${message(code:'report.export.error.typeDate')}"
                 redirect(action: "export")
             }
             tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
-            
+
             projectsList.each{ PList ->
                 ProjectPDFVirtual pPDF = new ProjectPDFVirtual()
-                float total=0
-                tasksReport.each{ TReport ->
-                    if (TReport.taskInstance.project == PList && TReport.taskInstance.user == user){
-                        pPDF.addTask(TReport.date,TReport.days)
-                        total += TReport.days
-                     }
-                     if (TReport.taskInstance.user == user){
-                         pPDF.isShow()
-                     }
+                tasksReport.each{ report->
+                    if (report.taskInstance.project == PList && report.taskInstance.user == user){
+                        def dayOfWeek = (new DateTime(report.date)).dayOfWeek().get()
+                        pPDF.addTask(dayOfWeek,report.days)
+                    }
                 }
-                if (pPDF.isToShow()){
-                    pPDF.setTotal(total)
-                    pPDF.setPName(PList.name)
-                    pPDF.setMax(TaskInstance.findByUserAndProject(user,PList).days)
-                    ProjectsList.add(pPDF)
-                }
+                ////////////////////////////////
+                for(int i=1;i<calEnd.getTime().getDate()-calBegin.getTime().getDate()+2;i++)
+                    if(!pPDF.data[i])
+                        pPDF.data[i] = []
+                pPDF.setPName(PList.name)
+                list.push(pPDF)
             }
-            
         }else{
             flash.message = "${message(code:'report.export.error.client')}"
             redirect(action: "export")
         }
-        if (ProjectsList.isEmpty()){
+        if (list.isEmpty()){
             flash.message = "${message(code:'report.export.error.noProject')}"
             redirect(action: "export")
         }
-        def args = [template:"exportPDF", model:[client:CName,list:ProjectsList,date:strDate]]
+        
+        def args
+        if(params.date == "week"){
+            def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
+                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
+                    g.message(code:"day.7")]
+            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:weekInfos,day: daysWeek]]
+        }else if (params.date == "month"){
+            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,weekInfos:weekInfos,day: []]]
+        }
         pdfRenderingService.render(args+[controller:this],response)
     }
 }
