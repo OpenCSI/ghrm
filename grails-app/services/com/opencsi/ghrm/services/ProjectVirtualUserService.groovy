@@ -12,8 +12,8 @@ class ProjectVirtualUserService {
     static def getByUser(User user){
         def tasksInstance = TaskInstance.findAllByUser(user)
         java.util.ArrayList<ProjectVirtualUser> list = []
-        Float progress = 0.0
         tasksInstance.each{ tInstance ->
+            Float progress = 0.0
             if (!user.showIDLE)
             {
                 if (tInstance.project.status != Project.STATUS_CLOSE)
