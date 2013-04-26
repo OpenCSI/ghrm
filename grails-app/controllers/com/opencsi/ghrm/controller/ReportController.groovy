@@ -292,7 +292,10 @@ class ReportController {
             flash.message = "${message(code:'report.export.error.client')}"
             redirect(action: "export")
         }
-
+        if (ProjectsList.isEmpty()){
+            flash.message = "${message(code:'report.export.error.noProject')}"
+            redirect(action: "export")
+        }
         def args = [template:"exportPDF", model:[client:CName,list:ProjectsList,date:strDate]]
         pdfRenderingService.render(args+[controller:this],response)
     }
