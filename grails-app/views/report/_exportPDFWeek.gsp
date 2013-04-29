@@ -35,11 +35,11 @@
     <table class="reportTable">
       <thead>
         <tr>
-          <th style="width: 10%">Client</th>
+          <th style="width: 10%">Project</th>
        <g:set var="nameOfDays" value="${new CalendarService().getNameOfDays()}" />
        <g:each in="${1..7}" var="i">
         <th>
-          ${day[i-1]} <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
+          <g:message code="day.${i}"/> <br/> ${weekInfos[i]['day']} <g:message code="month.${weekInfos[i]['month']}"/>
         </th>
        </g:each>
        </tr>

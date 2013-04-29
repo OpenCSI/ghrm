@@ -220,14 +220,14 @@ class ReportController {
         String CName
         def list = []
         def strDate = "" // Text date period
-        def weekInfos
+        def Infos
         def calendarData = [:]
+        boolean noValue = true
         if(params?.clientInstance){
             def client = Customer.get(params.clientInstance)
             def projectsList = Project.findAllByCustomer(client)
             def user = User.findByUid(UserService.getAuthenticatedUserNameStatic())
             CName = client.name
-            def tasksReport
             Calendar calBegin = Calendar.getInstance()
             Calendar calEnd = Calendar.getInstance()
             if (params?.date == "week"){
@@ -235,7 +235,7 @@ class ReportController {
                 int week = Integer.valueOf(params.weekWeek)
                 ////////////////////////////////////////////////////////
                 calBegin.setFirstDayOfWeek(Calendar.MONDAY)
-                calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY);
+                calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
                 calBegin.set(Calendar.WEEK_OF_YEAR,week)
                 calBegin.set(Calendar.YEAR,year)
                 calBegin.set(Calendar.HOUR_OF_DAY, 0)
@@ -243,7 +243,7 @@ class ReportController {
                 calBegin.set(Calendar.SECOND, 0)
                 ////////////////////////////////////////////////////////
                 calEnd.setFirstDayOfWeek(Calendar.SUNDAY)
-                calEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY);
+                calEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
                 calEnd.set(Calendar.WEEK_OF_YEAR,week)
                 calEnd.set(Calendar.YEAR,year)
                 calEnd.add(Calendar.DATE,7)
@@ -256,7 +256,7 @@ class ReportController {
                 strDate += " " + g.message(code:"global.date.to") + " "
                 strDate += (calEnd.getTime().getMonth()+1) + "/" + calEnd.getTime().getDate() + "/" + (calEnd.getTime().getYear() + 1900)
                 ///////////////////////////////////////////////////////
-                weekInfos = calendarService.getWeekInfos(calBegin.getTime().getYear()+1900, calBegin.getTime().getMonth()+1,calBegin.getTime().getDate())
+                Infos = calendarService.getWeekInfos(calBegin.getTime().getYear()+1900, calBegin.getTime().getMonth()+1,calBegin.getTime().getDate())
             }
             else if (params?.date == "month"){
                 int year = Integer.valueOf(params.yearMonth)
@@ -264,21 +264,22 @@ class ReportController {
                 calBegin.set(year,month,1,0,0,0)
                 strDate = g.message(code:'month.' + (month+1)) + " " + year
                 /////////////////////////////////////////////////////////
-                calEnd.set(year,month,calEnd.getMaximum(Calendar.DAY_OF_MONTH),0,0,0)
+                calEnd.set(year,month,calBegin.getActualMaximum(Calendar.DAY_OF_MONTH),0,0,0)
                 /////////////////////////////////////////////////////////
-                weekInfos = calendarService.getMonthInfos(year, month)
+                Infos = calendarService.getMonthInfos(year, month+1)
             }else{
                 flash.message = "${message(code:'report.export.error.typeDate')}"
                 redirect(action: "export")
             }
-            tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
+            def tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
 
             projectsList.each{ PList ->
                 ProjectPDFVirtual pPDF = new ProjectPDFVirtual()
                 tasksReport.each{ report->
                     if (report.taskInstance.project == PList && report.taskInstance.user == user){
-                        def dayOfWeek = (new DateTime(report.date)).dayOfWeek().get()
-                        pPDF.addTask(dayOfWeek,report.days)
+                        def numDay = (params.date == "week")?(new DateTime(report.date)).dayOfWeek().get():(new DateTime(report.date)).dayOfMonth().get()-1
+                        pPDF.addTask(numDay,report.days)
+                        noValue = false
                     }
                 }
                 ////////////////////////////////
@@ -286,25 +287,23 @@ class ReportController {
                     if(!pPDF.data[i])
                         pPDF.data[i] = []
                 pPDF.setPName(PList.name)
+                pPDF.setColor(PList.color)
+                println(pPDF.data)
                 list.push(pPDF)
             }
         }else{
             flash.message = "${message(code:'report.export.error.client')}"
             redirect(action: "export")
         }
-        if (list.isEmpty()){
+        if (list.isEmpty() || noValue){
             flash.message = "${message(code:'report.export.error.noProject')}"
             redirect(action: "export")
         }
-        
         def args
         if(params.date == "week"){
-            def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
-                    g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
-                    g.message(code:"day.7")]
-            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:weekInfos,day: daysWeek]]
+            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:Infos]]
         }else if (params.date == "month"){
-            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,weekInfos:weekInfos,day: []]]
+            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,monthInfos:Infos]]
         }
         pdfRenderingService.render(args+[controller:this],response)
     }
