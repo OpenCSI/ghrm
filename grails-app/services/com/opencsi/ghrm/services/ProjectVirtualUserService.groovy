@@ -5,7 +5,6 @@ import com.opencsi.ghrm.domain.User
 import com.opencsi.ghrm.domain.TaskReport
 import com.opencsi.ghrm.domain.TaskInstance
 
-import com.opencsi.ghrm.domain.CustomerVirtualUser
 import com.opencsi.ghrm.domain.ProjectVirtualUser
 
 class ProjectVirtualUserService {
