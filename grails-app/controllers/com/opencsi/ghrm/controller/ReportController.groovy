@@ -79,7 +79,7 @@ class ReportController {
             
             def color = calendarData[dayOfWeek].size % 4
             calendarData[dayOfWeek].push([
-                'htmldata': '<div style="background-color:'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +'" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                'htmldata': '<div style="background-color:#'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +'" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                 'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name,
                     'id' : report.id
                 ])
@@ -121,7 +121,7 @@ class ReportController {
             }
             def color = (calendarData[reportDay]['htmldata']).size() % 4
             calendarData[reportDay].push([
-                    'htmldata':'<div style="background-color:'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +';" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                    'htmldata':'<div style="background-color:#'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +';" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                     'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
             ])
         }
