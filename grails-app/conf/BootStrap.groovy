@@ -25,15 +25,15 @@ class BootStrap {
         // Init scenario:
         //if( (appConfig.dataSource.dbCreate == "create") || (appConfig.dataSource.dbCreate == "create-drop") )
         //{
-            if (!ShiroRole.findByName('admin'))
-            {
+          //  if (!ShiroRole.findByName('admin'))
+          //  {
                 def adminRole = new ShiroRole(name: 'admin')
                 adminRole.addToPermissions("*:*")
                 adminRole.save()
-            }
+          // }
 
-            if (!ShiroRole.findByName('projectleader'))
-            {
+           // if (!ShiroRole.findByName('projectleader'))
+            //{
                 def projectLeader = new ShiroRole(name: 'projectleader')
                 projectLeader.addToPermissions("customer:*")
                 projectLeader.addToPermissions("project:*")
@@ -42,23 +42,23 @@ class BootStrap {
                 projectLeader.addToPermissions("taskInstance:*")
                 projectLeader.addToPermissions("me:*")
                 projectLeader.save()
-            }
+         //   }
 
-            if (!ShiroRole.findByName('employee'))
-            {
+            //if (!ShiroRole.findByName('employee'))
+       //     {
                 def employee = new ShiroRole(name: 'employee')
                 employee.addToPermissions("report:*")
                 employee.addToPermissions("me:*")
                 employee.save()
-            }
+        //    }
 
-            if (!ShiroRole.findByName('HR'))
-            {
+            //if (!ShiroRole.findByName('HR'))
+        //    {
                 def HR = new ShiroRole(name : 'HR')
                 HR.addToPermissions("HR:*")
                 HR.addToPermissions("me:*")
                 HR.save()
-            }
+         //   }
 
             if (!User.findByUid('admin'))
             {
