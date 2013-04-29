@@ -75,7 +75,10 @@ class HRController {
             def today = new DateTime()
             // get the current recruitment (id):
             def recruitment = Recruitment.get(params.id)
-            MailService mail = new MailService()
+            ///////////////////////////
+            def config = grailsApplication.config
+            if (config.mail.notification.equals("true"))
+                MailService mail = new MailService()
             // witch type of post method has been sent:
             if (params.statut)
             {
@@ -84,13 +87,18 @@ class HRController {
                 recruitment.updateat = today.toDate()
                 recruitment.save()
                 // send a email to the user:
-                def content = "Dear " + recruitment.who + "\n\nYour statut has been modify to : " + params.statut + "."
-                flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment - Statut",content) + "<br>Statut changed!"
+                if (config.mail.notification.equals("true")){
+                    def content = "Dear " + recruitment.who + "\n\nYour statut has been modify to : " + params.statut + "."
+                    flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment - Statut",content) + "<br>Statut changed!"
+                }
+                else
+                    flash.message = "Statut changed '"+ params.statut +"' for " + recruitment.who
             }
             else if( (params.title) && (params.content) )
             {
                 // Send a email to the user:
-                flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment : " + params.title,params.content + "\n\n" + User.findByUid(userService.getAuthenticatedUserName()).name)
+                if (config.mail.notification.equals("true"))
+                    flash.message = mail.sendMail(recruitment.who,"[GHRM] : Recruitment : " + params.title,params.content + "\n\n" + User.findByUid(userService.getAuthenticatedUserName()).name)
                 if (!flash.message =~ /Error/)
                 {
                     new MessageRecruitment(title: params.title,
