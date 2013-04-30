@@ -14,6 +14,9 @@ class Customer {
         street(blank:true, nullable:true)
         postalCode(blank:true, nullable:true)
         city(blank:true, nullable:true)
-        picture(maxSize: 50000000)
+    }
+    
+    static mapping = {
+        picture sqlType: "blob"
     }
 }
