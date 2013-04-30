@@ -17,6 +17,8 @@ class UrlMappings {
                 "/report/week/$year?/$month?/$day?"(controller: 'report', action: 'week')
                 "/report/create/$year?/$month?/$day?"(controller: 'report', action: 'create')
                 "/report/month/$year?/$month?"(controller: 'report', action: 'month')
+                "/report/export/"(controller: 'report', action: 'export')
+                "/report/exportPDF/"(controller: 'report', action: 'exportPDF')
                 "/project/reportPDF/$id?/$year?/$month?/$format?/$extension?"(controller:'project',action: 'reportPDF')
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
 		"/"(controller: 'report', action: 'week')

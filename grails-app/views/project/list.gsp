@@ -5,7 +5,13 @@
     <meta name="layout" content="opencsi" />
   </head>
   <body>
-    <h2><g:message code="global.project.list" /></h2>
+    <h2><g:message code="global.project.list" />
+      <g:if test="${actif == false}">
+        <span class="hrefActif"><g:link action="list/actif"><g:message code="project.show.actif"/></g:link></span>
+      </g:if>
+      <g:else>
+        <span class="hrefActif"><g:link action="list"><g:message code="project.show.inactif"/></g:link></span>
+      </g:else></h2>
     <div class="body">
       <div class="list">
         <table>
@@ -21,7 +27,12 @@
           <tbody>
           <g:each in="${projectInstanceList}" status="i" var="projectInstance">
             <tr class="${(i % 2) == 0 ? 'odd' : 'even'}">
-              <td>${fieldValue(bean: projectInstance, field: "name")}</td>
+              <g:if test="${projectInstance.status == Project.STATUS_OPEN}">
+                <td>${fieldValue(bean: projectInstance, field: "name")}</td>
+              </g:if>
+              <g:else>
+                <td style="color:#CECECE">${fieldValue(bean: projectInstance, field: "name")} </td>
+              </g:else>
               <td>${fieldValue(bean: projectInstance, field: "label")}</td>
               <td>${fieldValue(bean: projectInstance, field: "customer.name")}</td>
               <td>${fieldValue(bean: projectInstance, field: "description")}</td>

@@ -32,6 +32,8 @@
               <ul class="dropdown-menu">
               <li><a href="${createLink(controller: 'report', action: 'month')}"><g:message code="global.month.current"/></a></li>
               <li><a href="${createLink(controller: 'report', action: 'week')}"><g:message code="global.week.current"/></a></li>
+              <li class="divider"></li>
+              <li><a href="${createLink(controller: 'report', action: 'export')}"><g:message code="global.report.export"/></a></li>
               </ul>
               </li>
             </auth:isEmployee>
@@ -87,12 +89,12 @@
             <g:message code="project.actif.none"/>
           </g:if>
           <g:each in="${projectList}">
-            <g:if test="${it.status == 0}">
-              <g:if test="${it.customer.name != name}">
-                <g:set var="name" value="${it.customer.name}"/>
-                ${it.customer.name}
+            <g:if test="${it.actif == 0}">
+              <g:if test="${it.project!= name}">
+                <g:set var="name" value="${it.project}"/>
+                ${it.customer}
               </g:if>
-              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a> (${it.label})</li>
+              <li><a href="${createLink(controller:"project",action:"report",id:it.ID)}">${it.project}</a> (${it.label}) : [${it.progress}/${it.max}]</li>
             </g:if>
           </g:each>
           
@@ -101,12 +103,12 @@
             <g:message code="project.inactif.none"/>
           </g:if>
           <g:each in="${projectList}">
-            <g:if test="${it.status == 1}">
-              <g:if test="${it.customer.name != name}">
-                <g:set var="name" value="${it.customer.name}"/>
-                ${it.customer.name}
+            <g:if test="${it.actif == 1}">
+              <g:if test="${it.project!= name}">
+                <g:set var="name" value="${it.project}"/>
+                ${it.customer}
               </g:if>
-              <li><a href="${createLink(controller:"project",action:"report",id:it.id)}">${it.name}</a> (${it.label})</li>
+              <li><a href="${createLink(controller:"project",action:"report",id:it.ID)}">${it.project}</a> (${it.label}) : [${it.progress}/${it.max}]</li>
             </g:if>
           </g:each>
           

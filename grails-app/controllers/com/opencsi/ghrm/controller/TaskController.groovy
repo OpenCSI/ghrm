@@ -6,6 +6,7 @@ import com.opencsi.ghrm.domain.User
 
 import com.opencsi.ghrm.services.TaskInstanceService
 import com.opencsi.ghrm.services.UserService
+import com.opencsi.ghrm.services.ProjectVirtualUserService
 
 import org.codehaus.groovy.grails.commons.ConfigurationHolder
 
@@ -15,13 +16,11 @@ class TaskController {
     TaskInstanceService taskInstanceService
 
     def show = {
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [task: Task.findById(params.id),projectList: Tasks.project]
+        [task: Task.findById(params.id),projectList: ProjectVirtualUserService.getByUser(User.findByUid(uUserService.getAuthenticatedUserNameStatic()))]
     }
 
     def create = {
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [projectList: Tasks.project]
+        [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
     }
 
     def save = {
@@ -49,8 +48,9 @@ class TaskController {
             exportService.export(params.format, response.outputStream,Task.list(params), fields, labels,[:],[:])
          }
 
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count(),projectList: Tasks.project]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
+        [taskInstanceList: Task.list(params), taskInstanceTotal: Task.count(),projectList: listProject]
     }
 
     def modify = {
@@ -74,9 +74,10 @@ class TaskController {
             redirect(action:'list')
         }
 
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [id: params.id, name: taskInstance.name, label: taskInstance.label,
-            description: taskInstance.description,projectList: Tasks.project]
+            description: taskInstance.description,projectList: listProject]
     }
 
 }

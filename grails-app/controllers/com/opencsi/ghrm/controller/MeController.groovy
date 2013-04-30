@@ -5,6 +5,7 @@ import com.opencsi.ghrm.domain.User
 
 import com.opencsi.ghrm.services.UserService
 import com.opencsi.ghrm.services.TaskInstanceService
+import com.opencsi.ghrm.services.ProjectVirtualUserService
 
 import com.opencsi.security.ShiroUser
 
@@ -39,11 +40,11 @@ class MeController {
             else
                 flash.message = "${message(code : 'user.modify.error.password.old')}"
         }
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [projectList: Tasks.project]
+
+        [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
     }
 
-    def modify = {
+    def modify = {       
         def userInstance = User.findByUid(userService.getAuthenticatedUserName())
         if (params.modify)
         {
@@ -57,8 +58,9 @@ class MeController {
             userInstance.save(flush:true)
             flash.message = "${message(code:'user.modify')}"
         }
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [firstname : userInstance.firstname,email : userInstance.email,
-            lastname : userInstance.lastname,projectList: Tasks.project, showIDLE: userInstance.showIDLE]
+            lastname : userInstance.lastname,projectList: listProject, showIDLE: userInstance.showIDLE]
     }
 }

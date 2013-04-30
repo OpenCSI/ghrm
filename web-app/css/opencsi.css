@@ -4,6 +4,17 @@ div#footer {
 	text-align: center;
 }
 
+.hrefActif {
+    font-size: 12;
+    font-weight: normal;
+    float:right;
+    margin-right: 1em;
+}
+
+.tableExport td,th{
+    text-align: center;
+}
+
 span.menu_button {
 	padding: 5px;
 }

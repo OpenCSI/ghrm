@@ -56,15 +56,23 @@ class ProjectController {
             redirect(action:'list')
         }
         def tasks = TaskInstance.findAllByProject(project)
-
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [project: project, projectTasks: tasks,projectList: Tasks.project]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
+        [project: project, projectTasks: tasks,projectList: listProject]
     }
     
     def list = {
         params.max = Math.min(params.max ? params.int('max') : 10, 100)
+        def projectInstanceList = []
+        def actif = false
+        if(params?.format && params.format == "actif"){
+            projectInstanceList = Project.findAllByStatus(Project.STATUS_OPEN,params)
+            actif = true
+        }
+        else if (!params?.format)
+            projectInstanceList = Project.list(params)
         // Export :
-        if(params?.format && params.format != "html")
+        else if(params?.format && params.format != "html")
         {
            response.contentType = ConfigurationHolder.config.grails.mime.types[params.format]
            response.setHeader("Content-disposition", "attachment; filename=task.list.${params.extension}")
@@ -73,8 +81,9 @@ class ProjectController {
                            'description': 'Description','label': 'Label']
            exportService.export(params.format, response.outputStream,Project.list(params), fields, labels,[:],[:])
         }
-        def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
-        [projectInstanceList: Project.list(params), ProjectInstanceTotal: Project.count(),projectList: Tasks.project]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
+        [projectInstanceList: projectInstanceList, ProjectInstanceTotal: Project.count(),projectList: listProject,actif:actif]
     }
 
     def modify = {
@@ -115,8 +124,10 @@ class ProjectController {
         }
         def Tasks = taskInstanceService.findAllOpenByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         def state = projectInstance.status == 0 ? "true" : "false"
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [id: params.id,name: projectInstance.name,label: projectInstance.label,
-            description: projectInstance.description, projectList: Tasks.project,state:state,color: projectInstance.color]
+            description: projectInstance.description, projectList: listProject,state:state,color: projectInstance.color]
     }
         
     def report = {
@@ -157,6 +168,7 @@ class ProjectController {
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
             g.message(code:'month.12')]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
             
         [projectId: id, 
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
@@ -166,7 +178,7 @@ class ProjectController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'project',
-            projectList: Tasks.project,
+            projectList: listProject,
             nameProject : Project.get(id).name
         ]
     }

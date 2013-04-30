@@ -4,6 +4,7 @@ import com.opencsi.ghrm.services.*
 import com.opencsi.ghrm.domain.*
 
 import org.joda.time.DateTime
+import java.util.Calendar
 
 class ReportController {
 
@@ -11,7 +12,8 @@ class ReportController {
     UserService userService
     ReportService reportService
     TaskInstanceService taskInstanceService
-
+    def pdfRenderingService 
+    
    /* private def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11')
@@ -44,8 +46,10 @@ class ReportController {
         def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
                     g.message(code:"day.7")]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [taskSelectOptions: taskSelectOptions, weekInfos: weekInfos,day: daysWeek,
-            projectList: Tasks.project, create:true]
+            projectList: listProject, create:true]
     }
 
     def week = {
@@ -87,8 +91,10 @@ class ReportController {
         def daysWeek = [g.message(code:"day.1"),g.message(code:"day.2"),g.message(code:"day.3"),
                     g.message(code:"day.4"),g.message(code:"day.5"),g.message(code:"day.6"),
                     g.message(code:"day.7")]
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [calendarData: calendarData, weekInfos: weekInfos,day: daysWeek,
-            projectList: Tasks.project, create:false]
+            projectList: listProject, create:false]
     }
 
     def month = {
@@ -128,7 +134,8 @@ class ReportController {
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
             g.message(code:'month.12')]
-            
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
         [projectId: id,
             monthInfos: calendarService.getMonthInfos(selectedYear, selectedMonth),
             calendarData: calendarData,
@@ -137,7 +144,7 @@ class ReportController {
             currentYear: selectedYear,
             currentMonth: selectedMonth,
             value : 'report',
-            projectList: Tasks.project
+            projectList: listProject
         ]
     }
 
@@ -184,5 +191,120 @@ class ReportController {
         }else
             flash.message = "${message(code:'report.delete.error')}"
         redirect(action: "week")
+    }
+    
+    def export = {
+        def TasksInstanceList = TaskInstance.findAllByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def clients = []
+        TasksInstanceList.each { TInstance ->
+            clients.push(id: TInstance.project.customer.id, label: TInstance.project.customer.name)
+        }
+        
+        def tasksReport = TaskReport.findAll()
+        Integer firstYear = (tasksReport[0].date.getYear() + 1900)
+        Integer lastYear  = (tasksReport[tasksReport.size()-1].date.getYear() + 1900)
+        def nameMonth = []
+        for(int i=1;i<13;i++){
+            nameMonth.push(id: i-1,name: g.message(code:'month.' + i))
+        }
+        Calendar c = Calendar.getInstance()
+        def numberWeeks = c.getActualMaximum(Calendar.WEEK_OF_YEAR)
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        
+        [client: new HashSet(clients),fYear: firstYear,lYear: lastYear,
+         numberWeeks: numberWeeks,nameMonth: nameMonth,params: params,
+         projectList: listProject]
+    }
+    
+    def exportPDF = {
+        String CName
+        def list = []
+        def strDate = "" // Text date period
+        def Infos
+        def calendarData = [:]
+        boolean noValue = true
+        if(params?.clientInstance){
+            def client = Customer.get(params.clientInstance)
+            def projectsList = Project.findAllByCustomer(client)
+            def user = User.findByUid(UserService.getAuthenticatedUserNameStatic())
+            CName = client.name
+            Calendar calBegin = Calendar.getInstance()
+            Calendar calEnd = Calendar.getInstance()
+            if (params?.date == "week"){
+                int year = Integer.valueOf(params.yearWeek)
+                int week = Integer.valueOf(params.weekWeek)
+                ////////////////////////////////////////////////////////
+                calBegin.setFirstDayOfWeek(Calendar.MONDAY)
+                calBegin.set(Calendar.DAY_OF_WEEK, Calendar.MONDAY)
+                calBegin.set(Calendar.WEEK_OF_YEAR,week)
+                calBegin.set(Calendar.YEAR,year)
+                calBegin.set(Calendar.HOUR_OF_DAY, 0)
+                calBegin.set(Calendar.MINUTE, 0)
+                calBegin.set(Calendar.SECOND, 0)
+                ////////////////////////////////////////////////////////
+                calEnd.setFirstDayOfWeek(Calendar.SUNDAY)
+                calEnd.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
+                calEnd.set(Calendar.WEEK_OF_YEAR,week)
+                calEnd.set(Calendar.YEAR,year)
+                calEnd.add(Calendar.DATE,7)
+                calEnd.set(Calendar.HOUR_OF_DAY, 23)
+                calEnd.set(Calendar.MINUTE, 59)
+                calEnd.set(Calendar.SECOND, 59)
+                ////////////////////////////////////////////////////////  
+                strDate = g.message(code:"global.date.from") + " " 
+                strDate += (calBegin.getTime().getMonth()+1) + "/" + calBegin.getTime().getDate() + "/" + (calBegin.getTime().getYear() + 1900)
+                strDate += " " + g.message(code:"global.date.to") + " "
+                strDate += (calEnd.getTime().getMonth()+1) + "/" + calEnd.getTime().getDate() + "/" + (calEnd.getTime().getYear() + 1900)
+                ///////////////////////////////////////////////////////
+                Infos = calendarService.getWeekInfos(calBegin.getTime().getYear()+1900, calBegin.getTime().getMonth()+1,calBegin.getTime().getDate())
+            }
+            else if (params?.date == "month"){
+                int year = Integer.valueOf(params.yearMonth)
+                int month = Integer.valueOf(params.monthMonth)
+                calBegin.set(year,month,1,0,0,0)
+                strDate = g.message(code:'month.' + (month+1)) + " " + year
+                /////////////////////////////////////////////////////////
+                calEnd.set(year,month,calBegin.getActualMaximum(Calendar.DAY_OF_MONTH),0,0,0)
+                /////////////////////////////////////////////////////////
+                Infos = calendarService.getMonthInfos(year, month+1)
+            }else{
+                flash.message = "${message(code:'report.export.error.typeDate')}"
+                redirect(action: "export")
+            }
+            def tasksReport = TaskReport.findAllByDateBetween(calBegin.getTime(),calEnd.getTime())
+
+            projectsList.each{ PList ->
+                ProjectPDFVirtual pPDF = new ProjectPDFVirtual()
+                tasksReport.each{ report->
+                    if (report.taskInstance.project == PList && report.taskInstance.user == user){
+                        def numDay = (params.date == "week")?(new DateTime(report.date)).dayOfWeek().get():(new DateTime(report.date)).dayOfMonth().get()-1
+                        pPDF.addTask(numDay,report.days)
+                        noValue = false
+                    }
+                }
+                ////////////////////////////////
+                for(int i=1;i<calEnd.getTime().getDate()-calBegin.getTime().getDate()+2;i++)
+                    if(!pPDF.data[i])
+                        pPDF.data[i] = []
+                pPDF.setPName(PList.name)
+                pPDF.setColor(PList.color)
+                println(pPDF.data)
+                list.push(pPDF)
+            }
+        }else{
+            flash.message = "${message(code:'report.export.error.client')}"
+            redirect(action: "export")
+        }
+        if (list.isEmpty() || noValue){
+            flash.message = "${message(code:'report.export.error.noProject')}"
+            redirect(action: "export")
+        }
+        def args
+        if(params.date == "week"){
+            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:Infos]]
+        }else if (params.date == "month"){
+            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,monthInfos:Infos]]
+        }
+        pdfRenderingService.render(args+[controller:this],response)
     }
 }
