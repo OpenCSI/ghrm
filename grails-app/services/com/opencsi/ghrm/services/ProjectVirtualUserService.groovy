@@ -11,30 +11,27 @@ class ProjectVirtualUserService {
     
     static def getByUser(User user){
         def tasksInstance = TaskInstance.findAllByUser(user)
-        java.util.ArrayList<ProjectVirtualUser> list = []
-        Float progress = 0.0
+        def list = [:]
+        list["actif"] = [:]
+        list["passif"] = [:]
         tasksInstance.each{ tInstance ->
-            if (!user.showIDLE)
-            {
-                if (tInstance.project.status != Project.STATUS_CLOSE)
-                {
+            Float progress = 0.0
                     def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
                     tasksReport.each{ tReport ->
                         progress += tReport.days
                     }
-                    list.add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,customer: tInstance.project.customer.name,
-                     progress: progress,max: tInstance.days,actif: tInstance.project.status,label: tInstance.project.label))   
-                }
-            }
-            else
-            {
-                def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
-                tasksReport.each{ tReport ->
-                    progress += tReport.days
-                }
-                list.add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,customer: tInstance.project.customer.name,
-                         progress: progress,max: tInstance.days,actif: tInstance.project.status,label: tInstance.project.label))
-            }
+                    if (tInstance.project.status != Project.STATUS_CLOSE){
+                        if (!list["actif"].containsKey(tInstance.project.customer.name))
+                            list["actif"][tInstance.project.customer.name] = []
+                        list["actif"][tInstance.project.customer.name].add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,
+                         progress: progress,max: tInstance.days,label: tInstance.project.label))
+                    }
+                    else if(user.showIDLE){
+                        if (!list["passif"].containsKey(tInstance.project.customer.name))
+                            list["passif"][tInstance.project.customer.name] = []
+                        list["passif"][tInstance.project.customer.name].add(new ProjectVirtualUser(project: tInstance.project.name,ID: tInstance.project.id,
+                         progress: progress,max: tInstance.days,label: tInstance.project.label))
+                    }
         }
         return list
     }

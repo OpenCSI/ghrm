@@ -1,8 +1,3 @@
-<!--
-  To change this template, choose Tools | Templates
-  and open the template in the editor.
--->
-
 <%@ page contentType="text/html;charset=UTF-8" %>
 
 <html>
@@ -42,7 +37,7 @@
        <tr>
         <th><g:message code="global.color"/></th>
         <td class="value ${hasErrors(bean: taskInstance, field: 'color', 'errors')}">
-        <g:textField name="color" value="${color}"/></td>
+        <g:textField name="color" class="color" value="${color}"/></td>
       </tr>
       
     </table>
@@ -50,5 +45,7 @@
       <g:submitButton name="modify" value="${message(code: 'default.button.modify.label', default: 'modify')}"/>
     </center>
     </g:form>
+  
+    <script type="text/javascript" src="${resource(dir:'js/jscolor',file:'jscolor.js')}"></script>
   </body>
 </html>

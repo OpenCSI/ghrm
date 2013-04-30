@@ -47,12 +47,14 @@
       <tr>
         <th><g:message code="global.color"/></th>
         <td class="value ${hasErrors(bean: taskInstance, field: 'color', 'errors')}">
-        <g:textField name="color" value="${projectInstance?.color}"/></td>
+        <g:textField name="color" class="color" value="${projectInstance?.color}"/></td>
       </tr>
     </table>
     <center>
     <g:submitButton name="create" value="${message(code: 'project.submit', default: 'Create')}"/>
     </center>
   </g:form>
+  
+  <script type="text/javascript" src="${resource(dir:'js/jscolor',file:'jscolor.js')}"></script>
 </body>
 </html>

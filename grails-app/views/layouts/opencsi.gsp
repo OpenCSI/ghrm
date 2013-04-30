@@ -85,31 +85,25 @@
       <div class="well">
         <shiro:user>
           <h5><center><g:message code="global.project.actif"/></center></h5>
-          <g:if test="${!projectList}">
+          <g:if test="${!projectList["actif"]}">
             <g:message code="project.actif.none"/>
           </g:if>
-          <g:each in="${projectList}">
-            <g:if test="${it.actif == 0}">
-              <g:if test="${it.project!= name}">
-                <g:set var="name" value="${it.project}"/>
-                ${it.customer}
-              </g:if>
-              <li><a href="${createLink(controller:"project",action:"report",id:it.ID)}">${it.project}</a> (${it.label}) : [${it.progress}/${it.max}]</li>
-            </g:if>
+          <g:each in="${projectList["actif"]}">
+            <b>${it.getKey()}</b>:<br/>
+            <g:each in="${it.getValue()}" var="t">
+              <li><a href="${createLink(controller:"project",action:"report",id:t.ID)}">${t.project}</a> : [${t.progress}/${t.max}]</li>
+            </g:each>
           </g:each>
           
           <h5><center><g:message code="global.project.inactif"/></center></h5>
-          <g:if test="${!projectList}">
+          <g:if test="${!projectList["passif"]}">
             <g:message code="project.inactif.none"/>
           </g:if>
-          <g:each in="${projectList}">
-            <g:if test="${it.actif == 1}">
-              <g:if test="${it.project!= name}">
-                <g:set var="name" value="${it.project}"/>
-                ${it.customer}
-              </g:if>
-              <li><a href="${createLink(controller:"project",action:"report",id:it.ID)}">${it.project}</a> (${it.label}) : [${it.progress}/${it.max}]</li>
-            </g:if>
+          <g:each in="${projectList["passif"]}">
+            <b>${it.getKey()}</b>:<br/>
+            <g:each in="${it.getValue()}" var="t">
+              <li><a href="${createLink(controller:"project",action:"report",id:t.ID)}">${t.project}</a> : [${t.progress}/${t.max}]</li>
+            </g:each>
           </g:each>
           
         </shiro:user>

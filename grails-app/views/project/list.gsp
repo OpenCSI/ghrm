@@ -46,7 +46,12 @@
         </table>
       </div>
       <div class="paginateButtons">
-        <g:paginate total="${ProjectInstanceTotal}" />
+        <g:if test="${actif == true}">
+          <g:paginate total="${ProjectInstanceTotal}" params="${[format:"actif"]}"/>
+        </g:if>
+        <g:else>
+          <g:paginate total="${ProjectInstanceTotal}"/>
+        </g:else>
       </div>
       <auth:isProjectLeader>
         <div class="middle">

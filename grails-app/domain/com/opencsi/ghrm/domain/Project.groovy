@@ -9,7 +9,7 @@ class Project {
     String description
     String code
     String label
-    String color = "#FFFFFF"
+    String color = "FFFFFF"
     Integer status = STATUS_OPEN
 
     static belongsTo = User

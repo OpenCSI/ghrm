@@ -40,8 +40,9 @@ class MeController {
             else
                 flash.message = "${message(code : 'user.modify.error.password.old')}"
         }
+        def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
 
-        [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
+        [projectList: listProject]
     }
 
     def modify = {       

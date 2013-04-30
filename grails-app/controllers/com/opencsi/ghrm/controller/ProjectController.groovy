@@ -27,7 +27,7 @@ class ProjectController {
             g.message(code:'month.12')]*/
 
     def create = {
-        [projectList: Project.list()]
+        [projectList: ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))]
     }
     
     def save = {
