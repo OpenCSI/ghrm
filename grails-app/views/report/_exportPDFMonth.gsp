@@ -33,6 +33,11 @@
         float: right;
         font-weight:bold;
       }
+      
+      .picture {
+        position:fixed;
+        top: 0px;
+      }
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
     <title>PDF Month</title>
@@ -40,6 +45,9 @@
   <body>
     <center><h1>${client}</h1></center>
     <center>${date}</center>
+    <g:if test="${picture}">
+      <span class="picture"><img src="data:${typePicture};base64,${picture}" alt="${name}"/></span>
+    </g:if>
     <g:set var="totalNumberOfDays" value="${0}" />
     <g:set var="totalNumberOfWeeks" value="${0}" />
   

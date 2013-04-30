@@ -1,5 +1,9 @@
 package com.opencsi.ghrm.controller
 
+import com.opencsi.ghrm.services.ProjectVirtualUserService
+import com.opencsi.ghrm.services.UserService
+import com.opencsi.ghrm.domain.User
+
 class ErrorController {
 
     def index = {

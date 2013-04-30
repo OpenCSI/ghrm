@@ -6,7 +6,7 @@
 
   <body>
     <h1><g:message code="customer.modify.title"/></h1>
-  <g:form action="modify">
+  <g:form action="modify" enctype="multipart/form-data">
     <input type="hidden" name="id" value="${id}" />
     <table>
       <thead>
@@ -34,6 +34,13 @@
           <td>
             <input type="text" name="postal_code" value="${postal_code}" />
           </td>
+        </tr>
+        <tr>
+          <td>Upload Picture:</td>
+          <td><input type="file" name="picture" /></td>
+        </tr>
+        <tr>
+          <td colspan="2"><center><img src="data:${typePicture};base64,${picture}" alt="${name}"/></center></td>
         </tr>
       </tbody>
     </table>

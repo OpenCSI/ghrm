@@ -56,6 +56,7 @@ class CustomerController {
 
     def modify = {
         def customerInstance
+        boolean ok = true
         try{
             customerInstance = Customer.get(params.id)
         }catch(Exception e)
@@ -70,15 +71,30 @@ class CustomerController {
             customerInstance.city = params.city
             customerInstance.postalCode = params.postal_code
             customerInstance.street = params.street
+            if(!params.picture.empty){
+                if (params.picture.getContentType() =~ /image/){
+                    customerInstance.picture = params.picture.getBytes()
+                    customerInstance.typePicture = params.picture.getContentType()
+                }
+                else
+                {
+                    flash.message = "${message(code:'customer.save.error.picture')}"
+                    ok = false
+                }
+            }
             // save them:
-            customerInstance.save()
-            flash.message = "${message(code : 'customer.modify')}"
-            redirect(action:'list')
+            if (ok){
+                customerInstance.save()
+                flash.message = "${message(code : 'customer.modify')}"
+                redirect(action:'list')
+            }
         }
         def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
         
         [id: params.id, name: customerInstance.name, city: customerInstance.city,
-            postal_code: customerInstance.postalCode, street: customerInstance.street,projectList: listProject]
+            postal_code: customerInstance.postalCode, street: customerInstance.street,
+            picture: customerInstance.picture.encodeBase64(), typePicture: customerInstance.typePicture
+            , projectList: listProject]
     }
 
     def confirm ={

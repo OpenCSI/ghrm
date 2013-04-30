@@ -217,7 +217,7 @@ class ReportController {
     }
     
     def exportPDF = {
-        String CName
+        String CName,picture,typePicture
         def list = []
         def strDate = "" // Text date period
         def Infos
@@ -225,6 +225,8 @@ class ReportController {
         boolean noValue = true
         if(params?.clientInstance){
             def client = Customer.get(params.clientInstance)
+            picture = client.picture.encodeBase64()
+            typePicture = client.typePicture
             def projectsList = Project.findAllByCustomer(client)
             def user = User.findByUid(UserService.getAuthenticatedUserNameStatic())
             CName = client.name
@@ -300,9 +302,9 @@ class ReportController {
         }
         def args
         if(params.date == "week"){
-            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:Infos]]
+            args = [template:"exportPDFWeek", model:[client:CName,list: list,date:strDate,weekInfos:Infos,picture:picture, typePicture: typePicture]]
         }else if (params.date == "month"){
-            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,monthInfos:Infos]]
+            args = [template:"exportPDFMonth", model:[client:CName,list: list,date:strDate,monthInfos:Infos,picture:picture, typePicture: typePicture]]
         }
         pdfRenderingService.render(args+[controller:this],response)
     }
