@@ -24,6 +24,10 @@
           width: 40px;
           text-align: center;
       }
+      .signature {
+        float: right;
+        font-weight:bold;
+      }
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
     <title>PDF Week</title>
@@ -59,6 +63,8 @@
         </g:each>
       </tbody>
     </table>
+    <br/><br/><br/>
+    <div class="signature"><g:message code="report.export.signature"/></div>
     
   </body>
 </html>

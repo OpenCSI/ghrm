@@ -288,7 +288,6 @@ class ReportController {
                         pPDF.data[i] = []
                 pPDF.setPName(PList.name)
                 pPDF.setColor(PList.color)
-                println(pPDF.data)
                 list.push(pPDF)
             }
         }else{

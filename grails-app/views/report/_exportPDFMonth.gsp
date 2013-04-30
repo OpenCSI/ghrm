@@ -2,7 +2,7 @@
 
 <html>
   <head>
-    <style>
+    <style type="text/css">
       table.reportTable {
         border-collapse:collapse;
         width: 100%;
@@ -27,6 +27,11 @@
           background: #fdf6e3;
           text-align: center;
           font-style: italic;
+      }
+      
+      .signature {
+        float: right;
+        font-weight:bold;
       }
     </style>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"></meta>
@@ -84,5 +89,7 @@
         <tr><th style="background-color: ${it.color}"></th><td>${it.projectName}</td></tr>
       </g:each>
     </table>
+    <br/><br/><br/>
+    <div class="signature"><g:message code="report.export.signature"/></div>
   </body>
 </html>
