@@ -84,6 +84,7 @@
     <div class="sidebar">
       <div class="well">
         <shiro:user>
+          <g:if test="${projectList}">
           <h5><center><g:message code="global.project.actif"/></center></h5>
           <g:if test="${!projectList["actif"]}">
             <g:message code="project.actif.none"/>
@@ -105,7 +106,7 @@
               <li><a href="${createLink(controller:"project",action:"report",id:t.ID)}">${t.project}</a> : [${t.progress}/${t.max}]</li>
             </g:each>
           </g:each>
-          
+          </g:if>
         </shiro:user>
       </div>
     </div>

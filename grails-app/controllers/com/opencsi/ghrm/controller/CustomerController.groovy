@@ -93,8 +93,8 @@ class CustomerController {
         
         [id: params.id, name: customerInstance.name, city: customerInstance.city,
             postal_code: customerInstance.postalCode, street: customerInstance.street,
-            picture: customerInstance.picture.encodeBase64(), typePicture: customerInstance.typePicture
-            , projectList: listProject]
+            picture: customerInstance.picture.encodeBase64(), typePicture: customerInstance.typePicture,
+            projectList: listProject]
     }
 
     def confirm ={

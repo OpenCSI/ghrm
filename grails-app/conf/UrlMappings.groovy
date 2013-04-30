@@ -22,7 +22,7 @@ class UrlMappings {
                 "/project/reportPDF/$id?/$year?/$month?/$format?/$extension?"(controller:'project',action: 'reportPDF')
                 "/taskinstance/create/$projectid/$userid/$taskid/$hours"
 		"/"(controller: 'report', action: 'week')
-		"500"(controller:'error',action:'error404')
-                "404"(controller:'error',action:'error404')
+		/*"500"(controller:'error',action:'error404')
+                "404"(controller:'error',action:'error404')*/
 	}
 }
