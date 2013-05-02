@@ -3,6 +3,10 @@
 <html>
   <head>
     <style type="text/css">
+      @page {
+        size: landscape;
+      }
+      
       table.reportTable {
         border-collapse:collapse;
         width: 100%;
