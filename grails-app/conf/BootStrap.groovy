@@ -82,7 +82,7 @@ class BootStrap {
             if (!StatutRecruitment.findByName('Accepted'))
                 new StatutRecruitment(name :"Accepted").save()
        // }
-        if (Environment.current.name != 'production') {
+       /* if (Environment.current.name != 'production') {
             if (!User.findByUid('cedric'))
 			{
 				new User(uid:'cedric', firstname:'Cédric', lastname:'Joron', email:'un-autre-mail@opencsi.com').save(failOnError:true)
@@ -163,7 +163,7 @@ class BootStrap {
             new Recruitment(who:"test@employee.me",title:"Post for Developer",comment:"hello, i am posting my candidature for the developer proposition.",
                 file:"CV_test.pdf",statut:StatutRecruitment.get(5),
                 user: User.get(1),createat : today.toDate(),updateat : today.toDate()).save(failOnError:true)
-        }
+        }*/
     }
     
     def destroy = {

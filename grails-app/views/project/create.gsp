@@ -47,7 +47,15 @@
       <tr>
         <th><g:message code="global.color"/></th>
         <td class="value ${hasErrors(bean: taskInstance, field: 'color', 'errors')}">
-        <g:textField name="color" class="color" value="${projectInstance?.color}"/></td>
+          <div class="control-group">
+             <div class="controls">
+              <div class="input-prepend">
+                 <span class="add-on"><img src="${resource(dir:'images',file:'adjust.png')}"/></span>
+                  <g:textField name="color" class="span2 color" style="height:28px" value="${projectInstance?.color}"/>
+              </div>
+             </div>
+          </div>
+        </td>
       </tr>
     </table>
     <center>
