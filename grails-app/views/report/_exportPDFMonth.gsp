@@ -73,7 +73,7 @@
         <div class="numberOfDay">${currentDay + 1}</div>
       <g:each in="${list}" var="l">
         <g:if test="${l.data[currentDay] != []}">
-          <div class="report" style="background-color: ${l.color}">${l.data[currentDay]}</div>
+          <div class="report" style="background-color: #${l.color}">${l.data[currentDay]}</div>
         </g:if>
       </g:each>
       </td>
@@ -94,7 +94,7 @@
     <table>
       <tr><th>Legend:</th></tr>
       <g:each in="${list}">
-        <tr><th style="background-color: ${it.color}"></th><td>${it.projectName}</td></tr>
+        <tr><th style="background-color: #${it.color}"></th><td>${it.projectName}</td></tr>
       </g:each>
     </table>
     <br/><br/><br/>
