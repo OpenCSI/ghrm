@@ -155,9 +155,10 @@ class ProjectController {
             if (!calendarData.containsKey(reportDay)) {
                 calendarData[reportDay] = []
             }
-            def color = (calendarData[reportDay]['htmldata']).size() % 4
+            def color = reportService.setColorProject(reports,report)
+            println(color)
             calendarData[reportDay].push([
-                    'htmldata':'<div class="color' + color + '" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                    'htmldata':'<div style="background-color:#' + color + ';width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                     'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.user')}: " + report.taskInstance.user.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
             ])
         }

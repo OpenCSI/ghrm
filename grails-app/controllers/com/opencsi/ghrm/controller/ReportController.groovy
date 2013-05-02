@@ -71,9 +71,9 @@ class ReportController {
                 calendarData[dayOfWeek] = []
             }
             
-            def color = calendarData[dayOfWeek].size % 4
+            def color = reportService.setColorProject(reports,report)
             calendarData[dayOfWeek].push([
-                'htmldata': '<div style="background-color:#'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +'" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                'htmldata': '<div style="background-color:#'+ color +';border: 1px solid '+ color +'" style="width:'+ 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                 'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name,
                     'id' : report.id
                 ])
@@ -113,9 +113,9 @@ class ReportController {
             if (!calendarData.containsKey(reportDay)) {
                 calendarData[reportDay] = []
             }
-            def color = (calendarData[reportDay]['htmldata']).size() % 4
+            def color = reportService.setColorProject(reports,report)
             calendarData[reportDay].push([
-                    'htmldata':'<div style="background-color:#'+ report.taskInstance.project.color +';border: 1px solid '+ report.taskInstance.project.color +';" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
+                    'htmldata':'<div style="background-color:#'+ color +';border: 1px solid '+ color +';" style="width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                     'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.project')}: " + report.taskInstance.project.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
             ])
         }
@@ -209,6 +209,7 @@ class ReportController {
     }
     
     def exportPDF = {
+        reportService = new ReportService()
         String CName,picture,typePicture
         def list = []
         def strDate = "" // Text date period
@@ -273,6 +274,7 @@ class ReportController {
                     if (report.taskInstance.project == PList && report.taskInstance.user == user){
                         def numDay = (params.date == "week")?(new DateTime(report.date)).dayOfWeek().get():(new DateTime(report.date)).dayOfMonth().get()-1
                         pPDF.addTask(numDay,report.days)
+                        pPDF.setColor(reportService.setColorProject(tasksReport,report))
                         noValue = false
                     }
                 }
@@ -281,7 +283,6 @@ class ReportController {
                     if(!pPDF.data[i])
                         pPDF.data[i] = []
                 pPDF.setPName(PList.name)
-                pPDF.setColor(PList.color)
                 list.push(pPDF)
             }
         }else{

@@ -7,6 +7,15 @@ class ReportService {
     def CalendarService calendarService
     private static final log = LogFactory.getLog(this)
     static transactional = true
+    private final String []color = ["FF0000","00FF00","0000FF","F0F000","F00F00","F000F0",
+                                    "F0000F","0FF000","0F0F00","0F00F0"]
+    
+    String setColorProject(ArrayList<TaskReport> projectsList,TaskReport currentProject) {
+        if (currentProject.taskInstance.project.color != "FFFFFF")
+            return currentProject.taskInstance.project.color
+        else
+            return color[(int)(currentProject.taskInstance.project.id) % 10]
+    }
 
     def ReportService() {
         calendarService = new CalendarService()
