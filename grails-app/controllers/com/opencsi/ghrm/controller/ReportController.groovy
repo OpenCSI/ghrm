@@ -200,12 +200,15 @@ class ReportController {
             nameMonth.push(id: i-1,name: g.message(code:'month.' + i))
         }
         Calendar c = Calendar.getInstance()
-        def numberWeeks = c.getActualMaximum(Calendar.WEEK_OF_YEAR)
+        def numberWeeks = 53 // Max value
         def listProject = ProjectVirtualUserService.getByUser(User.findByUid(UserService.getAuthenticatedUserNameStatic()))
+        def currentYear = c.getTime().getYear() + 1900
+        def currentMonth = c.getTime().getMonth()
+        def currentWeek = c.get(Calendar.WEEK_OF_YEAR)
         
         [client: new HashSet(clients),fYear: firstYear,lYear: lastYear,
          numberWeeks: numberWeeks,nameMonth: nameMonth,params: params,
-         projectList: listProject]
+         projectList: listProject,currentYear:currentYear,currentMonth:currentMonth,currentWeek:currentWeek]
     }
     
     def exportPDF = {
@@ -279,11 +282,17 @@ class ReportController {
                     }
                 }
                 ////////////////////////////////
+                boolean haveIt = false
                 for(int i=1;i<calEnd.getTime().getDate()-calBegin.getTime().getDate()+2;i++)
                     if(!pPDF.data[i])
                         pPDF.data[i] = []
-                pPDF.setPName(PList.name)
-                list.push(pPDF)
+                    else
+                        haveIt = true
+                // now add them, if exists to the list:
+                if(haveIt){
+                    pPDF.setPName(PList.name)
+                    list.push(pPDF)
+                }
             }
         }else{
             flash.message = "${message(code:'report.export.error.client')}"

@@ -16,13 +16,13 @@
           <tr><td><g:message code="report.export.selectDate"/></td></tr>
           <tr><td>
             <g:radio name="date" value="month" checked="true"/><g:message code="report.export.month"/><br>
-            <g:message code="report.export.month"/>:<g:select name="monthMonth" from="${nameMonth}" optionKey="id" optionValue="name"/>
-            <g:message code="report.export.year"/>:<g:select name="yearMonth" from="${fYear..lYear}"/>
+            <g:message code="report.export.month"/>:<g:select name="monthMonth" from="${nameMonth}" optionKey="id" optionValue="name" value="${currentMonth}"/>
+            <g:message code="report.export.year"/>:<g:select name="yearMonth" from="${fYear..lYear}" value="${currentYear}"/>
           </td></tr>
           <tr><td>
             <g:radio name="date" value="week"/><g:message code="report.export.week"/><br>
-            <g:message code="report.export.week"/>:<g:select name="weekWeek" from="${1..numberWeeks}"/>
-            <g:message code="report.export.year"/>:<g:select name="yearWeek" from="${fYear..lYear}"/>
+            <g:message code="report.export.week"/>:<g:select name="weekWeek" from="${1..numberWeeks}" value="${currentWeek}"/>
+            <g:message code="report.export.year"/>:<g:select name="yearWeek" from="${fYear..lYear}" value="${currentYear}"/>
           </td></tr>
       </table>
         

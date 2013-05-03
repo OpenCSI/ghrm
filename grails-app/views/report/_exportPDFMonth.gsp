@@ -28,7 +28,8 @@
       }
       
       .numberOfDay {
-          background: #fdf6e3;
+          background-color: #F4F4F4;
+          border-bottom: 1px solid #E0E0E0;
           text-align: center;
           font-style: italic;
       }
