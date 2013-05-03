@@ -96,16 +96,18 @@
             </g:each>
           </g:each>
           
-          <h5><center><g:message code="global.project.inactif"/></center></h5>
-          <g:if test="${!projectList["passif"]}">
-            <g:message code="project.inactif.none"/>
-          </g:if>
-          <g:each in="${projectList["passif"]}">
-            <b>${it.getKey()}</b>:<br/>
-            <g:each in="${it.getValue()}" var="t">
-              <li><a href="${createLink(controller:"project",action:"report",id:t.ID)}">${t.project}</a> : [${t.progress}/${t.max}]</li>
+          <g:if test="${projectList["passif"] != false}">
+            <h5><center><g:message code="global.project.inactif"/></center></h5>
+            <g:if test="${!projectList["passif"]}">
+              <g:message code="project.inactif.none"/>
+            </g:if>
+            <g:each in="${projectList["passif"]}">
+              <b>${it.getKey()}</b>:<br/>
+              <g:each in="${it.getValue()}" var="t">
+                <li><a href="${createLink(controller:"project",action:"report",id:t.ID)}">${t.project}</a> : [${t.progress}/${t.max}]</li>
+              </g:each>
             </g:each>
-          </g:each>
+            </g:if>
           </g:if>
         </shiro:user>
       </div>

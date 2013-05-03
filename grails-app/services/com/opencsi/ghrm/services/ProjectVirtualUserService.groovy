@@ -14,6 +14,8 @@ class ProjectVirtualUserService {
         def list = [:]
         list["actif"] = [:]
         list["passif"] = [:]
+        if (!user.showIDLE)
+            list["passif"] = false
         tasksInstance.each{ tInstance ->
             Float progress = 0.0
                     def tasksReport = TaskReport.findAllByTaskInstance(tInstance)
