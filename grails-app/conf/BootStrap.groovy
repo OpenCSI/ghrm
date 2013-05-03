@@ -27,36 +27,44 @@ class BootStrap {
         //{
             //  if (!ShiroRole.findByName('admin'))
            // {
-                def adminRole = new ShiroRole(name: 'admin')
-                adminRole.addToPermissions("*:*")
-                adminRole.save(flush:true)
+           def adminRole
+           if (!(adminRole = ShiroRole.findByName('admin')))
+                adminRole = new ShiroRole(name: 'admin')
+           adminRole.addToPermissions("*:*")
+           adminRole.save(flush:true)
           // }
 
             //if (!ShiroRole.findByName('projectleader'))
            // {
-                def projectLeader = new ShiroRole(name: 'projectleader')
-                projectLeader.addToPermissions("customer:*")
-                projectLeader.addToPermissions("project:*")
-                projectLeader.addToPermissions("task:*")
-                projectLeader.addToPermissions("report:*")
-                projectLeader.addToPermissions("taskInstance:*")
-                projectLeader.addToPermissions("me:*")
-                projectLeader.save(flush:true)
+            def projectLeader
+            if (!(projectLeader = ShiroRole.findByName('projectLeader')))
+                projectLeader = new ShiroRole(name: 'projectleader')
+            projectLeader.addToPermissions("customer:*")
+            projectLeader.addToPermissions("project:*")
+            projectLeader.addToPermissions("task:*")
+            projectLeader.addToPermissions("report:*")
+            projectLeader.addToPermissions("taskInstance:*")
+            projectLeader.addToPermissions("me:*")
+            projectLeader.save(flush:true)
             //}
 
            // if (!ShiroRole.findByName('employee'))
             //{
-                def employee = new ShiroRole(name: 'employee')
-                employee.addToPermissions("report:*")
-                employee.addToPermissions("me:*")
-                employee.save(flush:true)
+            def employee
+            if (!(employee = ShiroRole.findByName('employee')))
+                employee = new ShiroRole(name: 'employee')
+            employee.addToPermissions("report:*")
+            employee.addToPermissions("me:*")
+            employee.save(flush:true)
             //}
 
            // if (!ShiroRole.findByName('HR'))
            // {
-                def HR = new ShiroRole(name : 'HR')
-                HR.addToPermissions("HR:*")
-                HR.save(flush:true)
+            def HR
+            if (!(HR = ShiroRole.findByName('HR')))
+                HR = new ShiroRole(name : 'HR')
+            HR.addToPermissions("HR:*")
+            HR.save(flush:true)
             //}
 
             if (!User.findByUid('admin'))
