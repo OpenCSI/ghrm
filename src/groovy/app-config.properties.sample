@@ -1,7 +1,7 @@
 # JDBC Connection:
 dataSource.dbCreate = update
 dataSource.driverClassName = com.mysql.jdbc.Driver
-dataSource.url = jdbc:mysql://localhost/ghrm
+dataSource.url = jdbc:mysql://localhost/ghrm?autoreconnect=true
 dataSource.username = ghrm
 dataSource.password = ghrm
 

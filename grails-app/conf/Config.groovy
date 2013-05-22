@@ -26,6 +26,8 @@ grails.mime.types = [ html: ['text/html','application/xhtml+xml'],
 
 // URL Mapping Cache Max Size, defaults to 5000
 //grails.urlmapping.cache.maxsize = 1000
+grails.plugin.databasemigration.updateOnStart = true
+grails.plugin.databasemigration.updateOnStartFileNames = ['changelog.groovy']
 
 // The default codec used to encode data with ${}
 grails.views.default.codec = "none" // none, html, base64

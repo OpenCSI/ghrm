@@ -24,8 +24,8 @@ class User {
         lastname(nullable: false, blank: false)
     }
 
-    public setName(String name) { }
-    public setInitials(String initials) { }
+   // public setName(String name) { }
+   // public setInitials(String initials) { }
         
     public String getName() {
         return firstname.capitalize() + " " + lastname.capitalize()
