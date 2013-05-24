@@ -156,7 +156,6 @@ class ProjectController {
                 calendarData[reportDay] = []
             }
             def color = reportService.setColorProject(reports,report)
-            println(color)
             calendarData[reportDay].push([
                     'htmldata':'<div style="background-color:#' + color + ';width:' + 99 + '%" >' + '<span class="entry" style="width:100%">' + report.taskInstance.user.initials + ': ' + report.days + '</span></div>',
                     'tooltipdata': report.taskInstance.project.customer.name + "<br>${message(code:'global.user')}: " + report.taskInstance.user.name + "<br/>${message(code:'global.task')}: " + report.taskInstance.task.name
@@ -202,7 +201,7 @@ class ProjectController {
         // Extract in PDF File:
          if(params?.format && params.format != "html")
          {
-			def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
+            def nameMonth = [g.message(code:'month.1'),g.message(code:'month.2'),g.message(code:'month.3'),
             g.message(code:'month.4'),g.message(code:'month.5'),g.message(code:'month.6'),g.message(code:'month.7'),
             g.message(code:'month.8'),g.message(code:'month.9'),g.message(code:'month.10'),g.message(code:'month.11'),
             g.message(code:'month.12')]

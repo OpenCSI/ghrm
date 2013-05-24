@@ -33,5 +33,6 @@ grails.project.dependency.resolution = {
 		runtime ":hibernate:$grailsVersion"
 		build ":tomcat:$grailsVersion"
                 runtime ':database-migration:1.3.3'
+                compile ":shiro:1.1.4"
 	}
 }

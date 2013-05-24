@@ -5,6 +5,12 @@ dataSource.url = jdbc:mysql://localhost/ghrm?autoreconnect=true
 dataSource.username = ghrm
 dataSource.password = ghrm
 
+# SSO Service:
+security.shiro.cas.enable = true
+security.shiro.cas.serverUrl = http://localhost:8080/openam-server-10.2.0-SNAPSHOT_20130523/UI/Login
+security.shiro.cas.serviceUrl = http:/localhost:8888/ghrm
+security.shiro.cas.failureUrl = /error.gsp
+
 # LDAP connection :
 ldap.authentication = off
 ldap.server.url = ldap://localhost:1389/
