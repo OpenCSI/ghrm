@@ -10,9 +10,18 @@ import org.apache.shiro.realm.ldap.*
 class AuthController {
     def shiroSecurityManager
 
-    def index = { redirect(action: "login", params: params) }
+    def index = {
+        redirect(action: "login", params: params)
+    }
 
     def login = {
+        if(request?.getHeader("REMOTE_USER")){
+            ShiroSsoRealm.SSO(true)
+            def m = [username : request.getHeader("REMOTE_USER")]
+            m['password'] = ""
+            redirect(action: "signIn", params: m)
+        }else
+            ShiroSsoRealm.SSO(false)
         return [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ]
     }
 
@@ -34,7 +43,7 @@ class AuthController {
             targetUri = savedRequest.requestURI - request.contextPath
             if (savedRequest.queryString) targetUri = targetUri + '?' + savedRequest.queryString
         }
-
+        
         try{
             // Perform the actual login. An AuthenticationException
             // will be thrown if the username is unrecognised or the
