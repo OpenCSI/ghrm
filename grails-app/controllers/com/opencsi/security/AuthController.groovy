@@ -15,13 +15,16 @@ class AuthController {
     }
 
     def login = {
-        if(request?.getHeader("REMOTE_USER")){
+        if(request?.getRemoteUser()) {
             ShiroSsoRealm.SSO(true)
-            def m = [username : request.getHeader("REMOTE_USER")]
-            m['password'] = ""
+            def m = [username : request.getRemoteUser()]
+            log.info "REMOTE_USER found ${m['username']}"
+            m['password'] = "secret"
             redirect(action: "signIn", params: m)
-        }else
+        }else {
+            log.info "No REMOTE_USER found"
             ShiroSsoRealm.SSO(false)
+	}
         return [ username: params.username, rememberMe: (params.rememberMe != null), targetUri: params.targetUri ]
     }
 

@@ -16,6 +16,7 @@ class ShiroSsoRealm{
     }
     
     def authenticate(authToken){
+	println "Trying to authenticate user: ${username}"
         if(!_bSSO)
             throw new AccountException("No SSO request.")
         
